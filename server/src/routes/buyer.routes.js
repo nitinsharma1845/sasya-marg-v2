@@ -12,7 +12,8 @@ import {
     getPreHarvestedListings,
     getProductListings,
     buyerDashbord,
-    getSingleProductListings
+    getSingleProductListings,
+    updateBuyerProfile
 } from "../controllers/buyer.controller.js"
 
 import {
@@ -21,7 +22,8 @@ import {
     loginBuyerWithOtpSchema,
     forgotBuyerPasswordSchema,
     changeBuyerPasswordSchema,
-    updateBuyerAddressSchema
+    updateBuyerAddressSchema,
+    updateBuyerProfileSchema
 } from "../validator/buyer.validator.js"
 
 import { validate } from "../middleware/validate.middleware.js"
@@ -74,6 +76,8 @@ buyerRouter.put(
     validate(changeBuyerPasswordSchema),
     changePassword
 )
+
+buyerRouter.put("/update-profile", validate(updateBuyerProfileSchema), updateBuyerProfile)
 
 
 buyerRouter.patch(

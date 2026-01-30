@@ -1,6 +1,6 @@
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
-import { loginBuyerUsingOtpService, loginBuyerUsingPasswordService, registerBuyerService, forgotBuyerPasswordService, changeBuyerPasswordService, currentUserService, updateBuyerAddressService, buyerDashboardSevice, getSingleProductService } from '../services/buyer.service.js'
+import { loginBuyerUsingOtpService, loginBuyerUsingPasswordService, registerBuyerService, forgotBuyerPasswordService, changeBuyerPasswordService, currentUserService, updateBuyerAddressService, buyerDashboardSevice, getSingleProductService, changeBuyerProfileService } from '../services/buyer.service.js'
 import { getPreHarvestListingService } from '../services/preHarvestListing.service.js'
 import { getProductListingService } from '../services/product.service.js'
 
@@ -74,6 +74,15 @@ export const updateBuyerAddress = asyncHandler(async (req, res) => {
     const buyer = await updateBuyerAddressService({ buyerId, address })
 
     return res.status(200).json(new ApiResponse(200, buyer, "Address updated"))
+})
+
+export const updateBuyerProfile = asyncHandler(async (req, res) => {
+    const buyerId = req.user._id
+    const { fullname, email } = req.body
+
+    const buyer = await changeBuyerProfileService({ buyerId, fullname, email })
+
+    return res.status(201).json(new ApiResponse(201, buyer, "Profile updated Successfully"))
 })
 
 export const logoutBuyer = asyncHandler(async (req, res) => {

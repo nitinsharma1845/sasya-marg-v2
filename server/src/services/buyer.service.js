@@ -135,17 +135,29 @@ export const changeBuyerPasswordService = async ({ oldPassword, newPassword, _id
 
 }
 
+export const changeBuyerProfileService = async ({ buyerId, fullname, email }) => {
+    const buyer = await Buyer.findById(buyerId).select("-password")
+
+    if (!buyer) throw new ApiError(404, "User not found")
+
+    buyer.fullname = fullname
+    buyer.email = email
+    await buyer.save()
+
+    return buyer
+}
+
 export const currentUserService = async ({ buyerId }) => {
     return await Buyer.findById(buyerId).select('-password')
 }
 
 export const updateBuyerAddressService = async ({ buyerId, address }) => {
     const allowedAddress = {
-        label: address.label,
-        addressLine: address.addressLine,
-        city: address.city,
-        state: address.state,
-        pincode: address.pincode
+        label: address?.label || null,
+        addressLine: address?.addressLine || null,
+        city: address?.city || null,
+        state: address?.state || null,
+        pincode: address?.pincode || null
     }
 
     const buyer = await Buyer.findByIdAndUpdate(

@@ -66,3 +66,10 @@ export const updateBuyerAddressSchema = z.object({
     })
   })
 })
+
+export const updateBuyerProfileSchema = z.object({
+  body: z.object({
+    fullname: z.string().optional(),
+    email: z.email().optional()
+  })
+})

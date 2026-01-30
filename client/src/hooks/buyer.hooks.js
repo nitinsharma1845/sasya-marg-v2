@@ -1,6 +1,7 @@
-import { buyerLoginWithOtp, buyerLoginWithPassword, buyerSignup, forgotBuyerPassword } from "@/api/buyer.api"
+import { buyerLoginWithOtp, buyerLoginWithPassword, buyerSignup, forgotBuyerPassword, getBuyerProfile, updateBuyerAddress, updateBuyerProfile } from "@/api/buyer.api"
+import { queryClient } from "@/lib/queryClient"
 import { useAuthStore } from "@/store/useAuthStore"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
@@ -73,3 +74,38 @@ export const useForgotBuyerPassword = () => {
         }
     })
 }
+
+
+export const useGetBuyerProfile = () => {
+    return useQuery({
+        queryKey: ['profile'],
+        queryFn: getBuyerProfile
+    })
+}
+
+export const useUpdateBuyerProfile = () => {
+    return useMutation({
+        mutationFn: updateBuyerProfile,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries(["profile"])
+            toast.success(data?.message || "Profile updated")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to update Profile");
+        },
+    })
+}
+
+export const useUpdateBuyerAddress = () => {
+    return useMutation({
+        mutationFn: updateBuyerAddress,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries(["profile"])
+            toast.success(data?.message || "Address Updated")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to update Profile");
+        },
+    })
+}
+

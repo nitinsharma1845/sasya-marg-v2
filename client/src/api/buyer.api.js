@@ -20,3 +20,17 @@ export const forgotBuyerPassword = async (payload) => {
     const { data } = await api.put("/buyer/auth/forgot-password", payload)
     return data
 }
+
+export const getBuyerProfile = async () => {
+    const { data } = await api.get("/buyer/me")
+    return data
+}
+export const updateBuyerProfile = async (payload) => {
+    const { data } = await api.put("/buyer/update-profile", payload)
+    return data
+}
+
+export const updateBuyerAddress = async (payload) => {
+    const { data } = await api.patch("/buyer/address", { address: payload })
+    return data
+}

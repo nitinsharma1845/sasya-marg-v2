@@ -8,6 +8,7 @@ import ReturnPolicy from '@/pages/legal/ReturnPolicy'
 import ResolutionCenter from '@/pages/buyerResolution/ResolutionCenter'
 import ProductBrowsePage from '@/pages/ProductBrowse/ProductBrowsePage'
 import SingleProductPage from '@/pages/ProductBrowse/SingleProductPage'
+import BuyerProfilePage from '@/pages/BuyerProfile/BuyerProfilePage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -71,6 +72,8 @@ const BlockedUser = lazy(() => import('@/pages/BlockedUser'))
 const WishlistPage = lazy(() => import('@/pages/wishlist/WishlistPage'))
 
 const router = createBrowserRouter([
+  //Public Routes
+
   {
     element: (
       <ProtectedRoute allowGuest={true}>
@@ -164,6 +167,7 @@ const router = createBrowserRouter([
 
   // Main Routes
 
+  //Farmere's routes
   {
     path: '/farmer',
     element: (
@@ -193,6 +197,8 @@ const router = createBrowserRouter([
     ]
   },
 
+  //Buyer's Routes
+
   {
     path: '/buyer',
     element: (
@@ -203,7 +209,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: <Profile /> },
+      { index: true, element: <BuyerProfilePage /> },
       { path: 'product/harvested', element: <ProductBrowsePage /> },
       { path: 'product/harvested/:productId', element: <SingleProductPage /> },
       { path: 'product/pre-harvested', element: 'Pre harvested Product' },
