@@ -130,9 +130,6 @@ const ProductToolbar = () => {
     )
   }
 
-  console.log('states :::', state)
-  console.log('stateCode ::', stateCode)
-  console.log('Districts ::', districts)
 
   return (
     <div className='flex flex-col gap-4 bg-card p-4 rounded-xl border border-border shadow-sm w-full'>

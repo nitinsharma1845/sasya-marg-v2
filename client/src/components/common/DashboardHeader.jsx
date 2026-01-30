@@ -91,7 +91,7 @@ const DashboardHeader = () => {
 
               {role === 'farmer' &&
                 farmerLinks.map(link => (
-                  <Link to={link.href}>
+                  <Link to={link.href} key={link.name}>
                     <DropdownMenuItem className='focus:bg-secondary cursor-pointer focus:text-secondary-foreground'>
                       <Store className='mr-2 h-4 w-4' />
                       <span>{link.name}</span>
@@ -101,7 +101,7 @@ const DashboardHeader = () => {
 
               {role === 'buyer' &&
                 buyerlinks.map(link => (
-                  <Link to={link.href}>
+                  <Link to={link.href} key={link.name}>
                     <DropdownMenuItem className='focus:bg-secondary cursor-pointer focus:text-secondary-foreground'>
                       <span>{link.name}</span>
                     </DropdownMenuItem>

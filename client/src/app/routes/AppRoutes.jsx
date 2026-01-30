@@ -7,6 +7,7 @@ import BuyerForgotPassword from '@/pages/buyerPasswordChange/BuyerForgotPassword
 import ReturnPolicy from '@/pages/legal/ReturnPolicy'
 import ResolutionCenter from '@/pages/buyerResolution/ResolutionCenter'
 import ProductBrowsePage from '@/pages/ProductBrowse/ProductBrowsePage'
+import SingleProductPage from '@/pages/ProductBrowse/SingleProductPage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -204,6 +205,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Profile /> },
       { path: 'product/harvested', element: <ProductBrowsePage /> },
+      { path: 'product/harvested/:productId', element: <SingleProductPage /> },
       { path: 'product/pre-harvested', element: 'Pre harvested Product' },
       {
         path: 'product/harvested/:productId',

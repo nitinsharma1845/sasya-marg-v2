@@ -1,6 +1,6 @@
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
-import { loginBuyerUsingOtpService, loginBuyerUsingPasswordService, registerBuyerService, forgotBuyerPasswordService, changeBuyerPasswordService, currentUserService, updateBuyerAddressService, buyerDashboardSevice } from '../services/buyer.service.js'
+import { loginBuyerUsingOtpService, loginBuyerUsingPasswordService, registerBuyerService, forgotBuyerPasswordService, changeBuyerPasswordService, currentUserService, updateBuyerAddressService, buyerDashboardSevice, getSingleProductService } from '../services/buyer.service.js'
 import { getPreHarvestListingService } from '../services/preHarvestListing.service.js'
 import { getProductListingService } from '../services/product.service.js'
 
@@ -101,6 +101,15 @@ export const getProductListings = asyncHandler(async (req, res) => {
     const { listings, pagination } = await getProductListingService(req.query)
 
     return res.status(200).json(new ApiResponse(200, { listings, pagination }, "Listing Feteched Successfully"))
+})
+
+export const getSingleProductListings = asyncHandler(async (req, res) => {
+
+    const { listingId } = req.params
+
+    const product = await getSingleProductService({ listingId })
+
+    return res.status(200).json(new ApiResponse(200, product, "Listing Feteched Successfully"))
 })
 
 export const buyerDashbord = asyncHandler(async (req, res) => {

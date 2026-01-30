@@ -2,8 +2,11 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { getOptimizedImg } from '@/lib/imageHelper'
 import { Heart, MapPin } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate()
+
   return (
     <div className='group rounded-xl border bg-card overflow-hidden shadow-sm hover:shadow-lg transition-all'>
       <div className='relative h-52 bg-muted overflow-hidden'>
@@ -67,7 +70,13 @@ const ProductCard = ({ product }) => {
             </p>
           </div>
 
-          <Button size='sm'>View Details</Button>
+          <Button
+            size='sm'
+            onClick={() => navigate(`${product._id}`)}
+            className={'cursor-pointer'}
+          >
+            View Details
+          </Button>
         </div>
       </div>
     </div>

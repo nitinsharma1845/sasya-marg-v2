@@ -5,6 +5,7 @@ import { generateToken } from '../utils/generateToken.js'
 import { verifyPassword } from '../utils/verifyPassword.js'
 import { Farmer } from "../models/farmer.model.js"
 import { WishList } from '../models/wishList.model.js'
+import { Product } from "../models/product.model.js"
 
 export const registerBuyerService = async ({ fullname, phone, otp, password, email }) => {
     const existing = await Buyer.findOne({ phone })
@@ -192,4 +193,31 @@ export const buyerDashboardSevice = async (buyerId) => {
         },
         recentWishlist: wishList.filter(w => w.item !== null),
     };
+}
+
+export const getSingleProductService = async ({ listingId }) => {
+    const product = await Product.findById(listingId).populate([
+        {
+            path: "farmland",
+            select: "name size location",
+            populate: {
+                path: "location",
+                select: "locality district state"
+            }
+        },
+        {
+            path: "farmer",
+            select: "fullname phone isContactVisible isActive email"
+        }
+    ]).lean()
+
+    if (!product) throw new ApiError(404, "Product not found")
+
+
+
+    if (product.farmer.isContactVisible !== true) {
+        delete product.farmer.phone
+    }
+
+    return product
 }

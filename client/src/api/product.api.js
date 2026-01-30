@@ -6,3 +6,8 @@ export const getHarvestedProducts = async (searchParams) => {
   })
   return data
 }
+
+export const getSingleHarvestedProduct = async (productId) => {
+  const { data } = await api.get(`/buyer/listing/${productId}`)
+  return data
+}

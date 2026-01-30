@@ -11,7 +11,8 @@ import {
     logoutBuyer,
     getPreHarvestedListings,
     getProductListings,
-    buyerDashbord
+    buyerDashbord,
+    getSingleProductListings
 } from "../controllers/buyer.controller.js"
 
 import {
@@ -27,7 +28,7 @@ import { validate } from "../middleware/validate.middleware.js"
 import { authLayer } from "../middleware/auth.middleware.js"
 import { authorize } from "../middleware/role.middleware.js"
 import { getPreHarvestListingQuerySchema } from "../validator/preHarvestListing.validator.js"
-import { getProductListingSchema } from "../validator/product.validator.js"
+import { getProductByIdSchema, getProductListingSchema } from "../validator/product.validator.js"
 
 export const buyerRouter = Router()
 
@@ -87,3 +88,4 @@ buyerRouter.get("/dashboard", buyerDashbord)
 
 buyerRouter.get("/listing/pre-harvest", validate(getPreHarvestListingQuerySchema), getPreHarvestedListings)
 buyerRouter.get("/listing", validate(getProductListingSchema), getProductListings)
+buyerRouter.get("/listing/:listingId", validate(getProductByIdSchema), getSingleProductListings)
