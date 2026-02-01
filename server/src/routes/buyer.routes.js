@@ -13,7 +13,8 @@ import {
     getProductListings,
     buyerDashbord,
     getSingleProductListings,
-    updateBuyerProfile
+    updateBuyerProfile,
+    getSinglePreHarvestProductListing
 } from "../controllers/buyer.controller.js"
 
 import {
@@ -91,5 +92,6 @@ buyerRouter.get("/dashboard", buyerDashbord)
 
 
 buyerRouter.get("/listing/pre-harvest", validate(getPreHarvestListingQuerySchema), getPreHarvestedListings)
+buyerRouter.get("/listing/pre-harvest/:listingId", validate(getProductByIdSchema), getSinglePreHarvestProductListing)
 buyerRouter.get("/listing", validate(getProductListingSchema), getProductListings)
 buyerRouter.get("/listing/:listingId", validate(getProductByIdSchema), getSingleProductListings)

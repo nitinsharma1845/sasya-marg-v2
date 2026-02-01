@@ -9,6 +9,8 @@ import ResolutionCenter from '@/pages/buyerResolution/ResolutionCenter'
 import ProductBrowsePage from '@/pages/ProductBrowse/ProductBrowsePage'
 import SingleProductPage from '@/pages/ProductBrowse/SingleProductPage'
 import BuyerProfilePage from '@/pages/BuyerProfile/BuyerProfilePage'
+import BrowsePreharvestProductPage from '@/pages/browsePreharvestProduct/BrowsePreharvestProductPage'
+import PreHarvestProductPage from '@/pages/browsePreharvestProduct/components/SingleProductPage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -212,14 +214,17 @@ const router = createBrowserRouter([
       { index: true, element: <BuyerProfilePage /> },
       { path: 'product/harvested', element: <ProductBrowsePage /> },
       { path: 'product/harvested/:productId', element: <SingleProductPage /> },
-      { path: 'product/pre-harvested', element: 'Pre harvested Product' },
+      {
+        path: 'product/pre-harvested',
+        element: <BrowsePreharvestProductPage />
+      },
       {
         path: 'product/harvested/:productId',
         element: 'harvested Product with ID'
       },
       {
         path: 'product/pre-harvested/:productId',
-        element: 'Pre harvested Product with ID'
+        element: <PreHarvestProductPage />
       },
       { path: 'wishlist', element: <WishlistPage /> },
       { path: 'disputes', element: <ResolutionCenter /> }

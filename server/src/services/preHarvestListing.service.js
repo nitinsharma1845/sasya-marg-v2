@@ -65,13 +65,13 @@ export const getPreHarvestListingService = async (query) => {
         qualityGrade,
         minPrice,
         maxPrice,
-        sort
+        sort,
+        category
     } = query
 
 
     const filter = {
-        moderation: 'pending',
-        status: 'Open'
+        moderation: 'approved',
     }
 
 
@@ -135,18 +135,28 @@ export const getPreHarvestListingService = async (query) => {
         sortOption = { "expectedPrice.value": -1 }
     }
 
+    if (category) {
+        filter.category = category
+    }
+
     const skip = (Number(page) - 1) * Number(limit)
 
     const [listings, total] = await Promise.all([
-        PreHarvestListing.find(filter).populate({
-            path: "farmland",
-            select: "name size location",
-            populate: {
-                path: 'location',
-                select: "city state district "
+        PreHarvestListing.find(filter).populate([
+            {
+                path: "farmland",
+                select: "name size location",
+                populate: {
+                    path: 'location',
+                    select: "city state district "
+                }
+            },
+            {
+                path: "farmer",
+                select: "fullname isActive",
+                match: { isActive: true }
             }
-        }).populate('farmer', 'fullname phone')
-            .sort(sortOption)
+        ]).sort(sortOption)
             .skip(skip)
             .limit(limit),
 
@@ -293,5 +303,27 @@ export const updatePreHarvestListingService = async (listingId, farmerId, payloa
     listing.moderation = 'pending'
     await listing.save()
 
+    return listing
+}
+
+export const getSinglePreHarvestProductForBuyer = async (listingId) => {
+    const listing = await PreHarvestListing.findById(listingId).populate([
+        {
+            path: "farmland",
+            select: "size name location -_id farmingType soilType",
+            populate: {
+                path: "location",
+                select: "locality state district"
+            }
+        },
+        {
+            path: "farmer",
+            select: "fullname phone isContactVisible email"
+        }
+    ])
+
+    if (listing.farmer.isContactVisible === false) {
+        listing.farmer.phone = false
+    }
     return listing
 }

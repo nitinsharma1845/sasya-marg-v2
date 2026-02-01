@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heart } from 'lucide-react'
+import { Store } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link, useSearchParams } from 'react-router-dom'
 
@@ -19,7 +19,7 @@ const EmptyProducts = () => {
   return (
     <div className='flex flex-col items-center justify-center py-24 text-center space-y-6'>
       <div className='bg-muted p-6 rounded-full'>
-        <Heart className='w-12 h-12 text-muted-foreground' />
+        <Store className='w-12 h-12 text-muted-foreground' />
       </div>
       <div className='max-w-md space-y-2'>
         <h3 className='text-2xl font-bold text-foreground'>

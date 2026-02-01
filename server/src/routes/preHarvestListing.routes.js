@@ -16,7 +16,7 @@ preHarvestListingRoute.post("/", authLayer, authorize("farmer"), activeFarmer, u
     , validate(createPreHarvestListingSchema), createPreHarvestList)
 
 
-preHarvestListingRoute.get('/', validate(getPreHarvestListingQuerySchema), activeFarmer, getPreHarvestedListings)
+preHarvestListingRoute.get('/', validate(getPreHarvestListingQuerySchema), getPreHarvestedListings)
 
 preHarvestListingRoute.get("/my", authLayer, authorize("farmer"), activeFarmer, validate(getMyPreHarvestListingQuerySchema), getMyPreHarvestedListings)
 
