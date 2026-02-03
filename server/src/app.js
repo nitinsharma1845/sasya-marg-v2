@@ -19,6 +19,7 @@ import { productRouter } from './routes/product.route.js';
 import { wishListRouter } from './routes/wishList.routes.js';
 import { schemeRouter } from './routes/governmentScheme.routes.js';
 import { authRouter } from './routes/auth.routes.js';
+import { reportRouter } from './routes/productReport.route.js';
 
 
 
@@ -71,6 +72,7 @@ app.use('/api/v2/suggestion/history', historyRoutes)
 app.use('/api/v2/product/', productRouter)
 app.use('/api/v2/product/pre-harvest', preHarvestListingRoute)
 app.use('/api/v2/query', queryRoutes)
+app.use('/api/v2/product-report', reportRouter)
 
 
 //Admin Routes
