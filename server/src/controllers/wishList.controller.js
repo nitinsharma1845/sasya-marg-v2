@@ -19,9 +19,9 @@ export const addWishlistItem = asyncHandler(async (req, res) => {
 
 export const removeWishlistItem = asyncHandler(async (req, res) => {
   const buyerId = req.user._id;
-  const { wishlistId } = req.params;
+  const { listingId } = req.params;
 
-  await removeFromWishList({ wishlistId, buyerId });
+  await removeFromWishList({ listingId, buyerId });
 
   return res
     .status(200)

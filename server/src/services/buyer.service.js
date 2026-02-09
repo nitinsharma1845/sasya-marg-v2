@@ -6,6 +6,7 @@ import { verifyPassword } from '../utils/verifyPassword.js'
 import { Farmer } from "../models/farmer.model.js"
 import { WishList } from '../models/wishList.model.js'
 import { Product } from "../models/product.model.js"
+import mongoose from 'mongoose'
 
 export const registerBuyerService = async ({ fullname, phone, otp, password, email }) => {
     const existing = await Buyer.findOne({ phone })
@@ -207,25 +208,76 @@ export const buyerDashboardSevice = async (buyerId) => {
     };
 }
 
-export const getSingleProductService = async ({ listingId }) => {
-    const product = await Product.findById(listingId).populate([
+export const getSingleProductService = async ({ listingId, buyerId }) => {
+
+    const _listingId = new mongoose.Types.ObjectId(listingId);
+    const _buyerId = new mongoose.Types.ObjectId(buyerId);
+    const pipeline = [
         {
-            path: "farmland",
-            select: "name size location",
-            populate: {
-                path: "location",
-                select: "locality district state"
+            $match: { _id: _listingId }
+        },
+        {
+            $lookup: {
+                from: "farmers",
+                localField: "farmer",
+                foreignField: "_id",
+                as: "farmer"
             }
         },
         {
-            path: "farmer",
-            select: "fullname phone isContactVisible isActive email"
+            $unwind: {
+                path: "$farmer",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: "farmlands",
+                localField: "farmland",
+                foreignField: "_id",
+                as: "farmland"
+            }
+        },
+        {
+            $unwind: {
+                path: "$farmland",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: "wishlists",
+                let: { listingId: "$_id" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    { $eq: ["$item", "$$listingId"] },
+                                    { $eq: ["$buyer", _buyerId] }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                as: "wishlist"
+            }
+        },
+        {
+            $addFields: {
+                isWishlisted: { $gt: [{ $size: "$wishlist" }, 0] }
+            }
+        },
+        {
+            $project: {
+                wishlist: 0
+            }
         }
-    ]).lean()
+    ]
+
+    const [product] = await Product.aggregate(pipeline)
 
     if (!product) throw new ApiError(404, "Product not found")
-
-
 
     if (product.farmer.isContactVisible !== true) {
         delete product.farmer.phone

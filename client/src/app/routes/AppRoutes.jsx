@@ -71,7 +71,7 @@ const BuyerLogin = lazy(() => import('@/pages/buyerLogin/BuyerLogin'))
 
 const ComingSoon = lazy(() => import('@/pages/CommingSoon'))
 const BlockedUser = lazy(() => import('@/pages/BlockedUser'))
-// const WishlistPage = lazy(() => import('@/pages/wishlist/WishlistPage'))
+const WishlistPage = lazy(() => import('@/pages/wishlist/WishlistPage'))
 
 const router = createBrowserRouter([
   //Public Routes
@@ -226,7 +226,7 @@ const router = createBrowserRouter([
         path: 'product/pre-harvested/:productId',
         element: <PreHarvestProductPage />
       },
-      // { path: 'wishlist', element: <WishlistPage /> },
+      { path: 'wishlist', element: <WishlistPage /> },
       { path: 'disputes', element: <ResolutionCenter /> }
     ]
   },

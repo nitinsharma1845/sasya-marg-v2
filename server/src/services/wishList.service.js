@@ -42,9 +42,9 @@ export const addToWishList = async ({ itemId, buyerId, itemType }) => {
     }
 };
 
-export const removeFromWishList = async ({ wishlistId, buyerId }) => {
+export const removeFromWishList = async ({ listingId, buyerId }) => {
     const item = await WishList.findOneAndDelete({
-        _id: wishlistId,
+        item: listingId,
         buyer: buyerId
     });
 

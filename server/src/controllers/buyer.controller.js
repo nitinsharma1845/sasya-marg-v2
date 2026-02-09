@@ -115,8 +115,9 @@ export const getProductListings = asyncHandler(async (req, res) => {
 export const getSingleProductListings = asyncHandler(async (req, res) => {
 
     const { listingId } = req.params
+    const buyerId = req.user._id
 
-    const product = await getSingleProductService({ listingId })
+    const product = await getSingleProductService({ listingId, buyerId })
 
     return res.status(200).json(new ApiResponse(200, product, "Listing Feteched Successfully"))
 })
@@ -124,8 +125,9 @@ export const getSingleProductListings = asyncHandler(async (req, res) => {
 export const getSinglePreHarvestProductListing = asyncHandler(async (req, res) => {
 
     const { listingId } = req.params
+    const buyerId = req.user._id
 
-    const product = await getSinglePreHarvestProductForBuyer(listingId)
+    const product = await getSinglePreHarvestProductForBuyer(listingId, buyerId)
 
     return res.status(200).json(new ApiResponse(200, product, "Listing Feteched Successfully"))
 })

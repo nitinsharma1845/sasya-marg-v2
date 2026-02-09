@@ -9,7 +9,7 @@ export const addWishlistSchema = z.object({
 
 export const removeWishlistSchema = z.object({
     params: z.object({
-        wishlistId: z.string().min(1, "Wishlist id is required")
+        listingId: z.string().min(1, "Wishlist id is required")
     })
 });
 

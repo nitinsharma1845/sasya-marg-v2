@@ -8,5 +8,5 @@ import { addWishlistItem, getMyWishlist, removeWishlistItem } from '../controlle
 export const wishListRouter = Router()
 
 wishListRouter.post("/", authLayer, authorize("buyer"), validate(addWishlistSchema), addWishlistItem)
-wishListRouter.delete("/:wishlistId", authLayer, authorize("buyer"), validate(removeWishlistSchema), removeWishlistItem)
+wishListRouter.delete("/:listingId", authLayer, authorize("buyer"), validate(removeWishlistSchema), removeWishlistItem)
 wishListRouter.get("/", authLayer, authorize("buyer"), validate(getWishlistSchema), getMyWishlist)

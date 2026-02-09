@@ -4,6 +4,7 @@ import { FarmLand } from '../models/farmLand.model.js'
 import { uploadToCloudinary, deleteUploadedFile } from '../utils/upload.cloudinary.js'
 import { Location } from '../models/location.model.js'
 import { validatePreHarvestDates } from '../utils/validatePreHravestDates.js'
+import mongoose from 'mongoose'
 
 
 export const createPreHarvestListingService = async ({ farmerId, payload, files }) => {
@@ -306,24 +307,81 @@ export const updatePreHarvestListingService = async (listingId, farmerId, payloa
     return listing
 }
 
-export const getSinglePreHarvestProductForBuyer = async (listingId) => {
-    const listing = await PreHarvestListing.findById(listingId).populate([
+export const getSinglePreHarvestProductForBuyer = async (listingId, buyerId) => {
+    const _listingId = new mongoose.Types.ObjectId(listingId);
+    const _buyerId = new mongoose.Types.ObjectId(buyerId);
+    const pipeline = [
         {
-            path: "farmland",
-            select: "size name location -_id farmingType soilType",
-            populate: {
-                path: "location",
-                select: "locality state district"
+            $match: { _id: _listingId }
+        },
+        {
+            $lookup: {
+                from: "farmers",
+                localField: "farmer",
+                foreignField: "_id",
+                as: "farmer"
             }
         },
         {
-            path: "farmer",
-            select: "fullname phone isContactVisible email createdAt"
+            $unwind: {
+                path: "$farmer",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: "farmlands",
+                localField: "farmland",
+                foreignField: "_id",
+                as: "farmland"
+            }
+        },
+        {
+            $unwind: {
+                path: "$farmland",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $lookup: {
+                from: "wishlists",
+                let: { listingId: "$_id" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    { $eq: ["$item", "$$listingId"] },
+                                    { $eq: ["$buyer", _buyerId] }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                as: "wishlist"
+            }
+        },
+        {
+            $addFields: {
+                isWishlisted: { $gt: [{ $size: "$wishlist" }, 0] }
+            }
+        },
+        {
+            $project: {
+                wishlist: 0
+            }
         }
-    ])
+    ]
 
-    if (listing.farmer.isContactVisible === false) {
+    const [listing] = await PreHarvestListing.aggregate(pipeline)
+
+    if (!listing) {
+        throw new ApiError(404, "Listing not found")
+    }
+
+    if (listing.farmer?.isContactVisible === false) {
         listing.farmer.phone = false
     }
+
     return listing
 }
