@@ -318,7 +318,7 @@ export const getSinglePreHarvestProductForBuyer = async (listingId) => {
         },
         {
             path: "farmer",
-            select: "fullname phone isContactVisible email"
+            select: "fullname phone isContactVisible email createdAt"
         }
     ])
 

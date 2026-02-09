@@ -52,6 +52,7 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { cn } from '@/lib/utils'
+import { format } from 'date-fns'
 
 const PreHarvestProductPage = () => {
   const { productId } = useParams()
@@ -387,7 +388,7 @@ const PreHarvestProductPage = () => {
                           </TooltipProvider>
                       </div>
                       <p className='text-xs text-muted-foreground'>
-                        Member since 2024
+                        Member since {format(product.farmer?.createdAt , "yyyy")}
                       </p>
                     </div>
                   </div>
