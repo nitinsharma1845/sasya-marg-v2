@@ -39,7 +39,7 @@ const DashboardHeader = () => {
   const buyerlinks = [
     { name: 'Harvested product', href: '/buyer/product/harvested' },
     { name: 'Pre-Harvested product', href: '/buyer/product/pre-harvested' },
-    { name: 'Help & Support', href: '/buyer/product/disputes' },
+    { name: 'Help & Support', href: '/buyer/disputes' },
     { name: 'Wishlist', href: '/buyer/wishlist' }
   ]
 

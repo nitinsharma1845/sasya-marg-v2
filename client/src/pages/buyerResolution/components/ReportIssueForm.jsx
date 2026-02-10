@@ -102,7 +102,7 @@ const ReportIssueForm = () => {
 
         <Button
         variant='destructive'
-        className={"cursor-pointer"}
+        className={"cursor-pointer w-full sm:w-xs"}
           disabled={isSubmitting || isPending}
         >
           {isSubmitting || isPending ? (

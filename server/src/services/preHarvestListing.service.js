@@ -317,8 +317,27 @@ export const getSinglePreHarvestProductForBuyer = async (listingId, buyerId) => 
         {
             $lookup: {
                 from: "farmers",
-                localField: "farmer",
-                foreignField: "_id",
+                let: { farmerId: "$farmer" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $eq: ["$_id", "$$farmerId"]
+                            }
+                        }
+                    },
+                    {
+                        $project: {
+                            fullname: 1,
+                            phone: 1,
+                            isContactVisible: 1,
+                            isActive: 1,
+                            email: 1,
+                            createdAt : 1
+
+                        }
+                    }
+                ],
                 as: "farmer"
             }
         },
@@ -331,8 +350,34 @@ export const getSinglePreHarvestProductForBuyer = async (listingId, buyerId) => 
         {
             $lookup: {
                 from: "farmlands",
-                localField: "farmland",
-                foreignField: "_id",
+                let: { farmlandId: "$farmland" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $eq: ["$_id", "$$farmlandId"]
+                            }
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "locations",
+                            foreignField: "_id",
+                            localField: "location",
+                            as: "location"
+                        }
+                    },
+                    {
+                        $unwind: "$location"
+                    },
+                    {
+                        $project: {
+                            owner: 0,
+                            _id: 0,
+
+                        }
+                    }
+                ],
                 as: "farmland"
             }
         },

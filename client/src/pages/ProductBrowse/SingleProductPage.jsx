@@ -16,7 +16,8 @@ import {
   AlertTriangle,
   Lock,
   DotIcon,
-  Heart
+  Heart,
+  Loader2
 } from 'lucide-react'
 import { useGetSingleProduct } from '@/hooks/product.hooks'
 import AppLoader from '@/components/common/AppLoader'
@@ -44,9 +45,12 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { cn } from '@/lib/utils'
+import { useAddToWishlist, useDeleteFromWishlist } from '@/hooks/wishlist.hooks'
 
 const SingleProductPage = () => {
   const { productId } = useParams()
+  const addToWishlist = useAddToWishlist()
+  const removeFromWishlist = useDeleteFromWishlist()
   const { data, isLoading } = useGetSingleProduct(productId)
   const [isContactRevealed, setIsContactRevealed] = useState(false)
   const [activeImage, setActiveImage] = useState('')
@@ -58,13 +62,48 @@ const SingleProductPage = () => {
     if (product?.images?.length > 0) {
       setActiveImage(product.images[0].url)
     }
+
+    if (product?.isWishlisted) {
+      setIsWishlisted(product?.isWishlisted)
+    }
   }, [product])
 
+  if (isLoading) return <AppLoader />
+
   const toggleWishlist = () => {
-    setIsWishlisted(!isWishlisted)
+    setIsWishlisted(prev => !prev)
+    const listingId = product?._id
+
+    if (isWishlisted) {
+      removeFromWishlist.mutate(listingId, {
+        onError: () => {
+          setIsWishlisted(prev => !prev)
+        },
+        onSuccess: res => {
+          if (res?.data?.isWishlisted) {
+            setIsWishlisted(res?.data?.isWishlisted)
+          }
+        }
+      })
+    } else {
+      addToWishlist.mutate(
+        { itemId: listingId, itemType: 'harvested' },
+        {
+          onError: () => {
+            setIsWishlisted(prev => !prev)
+          },
+          onSuccess: res => {
+            if (res?.data?.isWishlisted) {
+              setIsWishlisted(res?.data?.isWishlisted)
+            }
+          }
+        }
+      )
+    }
   }
 
-  if (isLoading) return <AppLoader />
+
+
 
   if (!product) {
     return (
@@ -229,18 +268,23 @@ const SingleProductPage = () => {
                         size='icon'
                         onClick={toggleWishlist}
                         className={cn(
-                          'h-10 w-10 shrink-0 border-border transition-all duration-300',
+                          'h-10 w-10 shrink-0 border-border transition-all duration-300 rounded-full',
                           isWishlisted
                             ? 'border-red-200 bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 hover:border-red-300'
                             : 'text-muted-foreground hover:text-red-500 hover:bg-red-50 hover:border-red-200'
                         )}
                       >
-                        <Heart
-                          className={cn(
-                            'h-5 w-5 transition-all duration-300',
-                            isWishlisted && 'fill-current scale-110'
-                          )}
-                        />
+                        {addToWishlist.isPending ||
+                        removeFromWishlist.isPending ? (
+                          <Loader2 className='h-5 w-5 animate-spin' />
+                        ) : (
+                          <Heart
+                            className={cn(
+                              'h-5 w-5 transition-all duration-300',
+                              isWishlisted && 'fill-current scale-110'
+                            )}
+                          />
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>

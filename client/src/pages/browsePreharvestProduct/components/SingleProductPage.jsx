@@ -131,6 +131,7 @@ const PreHarvestProductPage = () => {
     }
   }
 
+    console.log("product" , product)
 
   if (!product) {
     return (
@@ -363,8 +364,7 @@ const PreHarvestProductPage = () => {
                         removeFromWishlist.isPending ? (
                           <Loader2
                             className={cn(
-                              'h-5 w-5 transition-all duration-300 animate-spin',
-                              isWishlisted && 'fill-current scale-110'
+                              'h-5 w-5 transition-all duration-300 animate-spin'
                             )}
                           />
                         ) : (
