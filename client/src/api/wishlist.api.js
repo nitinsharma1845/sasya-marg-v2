@@ -1,7 +1,7 @@
 import { api } from "../lib/axios"
 
-export const getMyWishlist = async (params) => {
-    const { data } = await api.get("/buyer/wishlist", { params })
+export const getMyWishlist = async () => {
+    const { data } = await api.get("/buyer/wishlist")
     return data
 }
 

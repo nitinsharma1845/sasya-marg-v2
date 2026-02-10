@@ -34,3 +34,8 @@ export const updateBuyerAddress = async (payload) => {
     const { data } = await api.patch("/buyer/address", { address: payload })
     return data
 }
+
+export const getDashboard = async ()=>{
+    const {data} = await api.get('/buyer/dashboard')
+    return data
+}

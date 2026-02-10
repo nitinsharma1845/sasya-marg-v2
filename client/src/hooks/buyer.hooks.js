@@ -1,4 +1,4 @@
-import { buyerLoginWithOtp, buyerLoginWithPassword, buyerSignup, forgotBuyerPassword, getBuyerProfile, updateBuyerAddress, updateBuyerProfile } from "@/api/buyer.api"
+import { buyerLoginWithOtp, buyerLoginWithPassword, buyerSignup, forgotBuyerPassword, getBuyerProfile, getDashboard, updateBuyerAddress, updateBuyerProfile } from "@/api/buyer.api"
 import { queryClient } from "@/lib/queryClient"
 import { useAuthStore } from "@/store/useAuthStore"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -109,3 +109,9 @@ export const useUpdateBuyerAddress = () => {
     })
 }
 
+export const useGetBuyerDashboard = ()=>{
+    return useQuery({
+        queryKey : ["dashbaord"],
+        queryFn : getDashboard
+    })
+}

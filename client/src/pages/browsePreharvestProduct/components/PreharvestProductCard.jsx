@@ -7,11 +7,14 @@ import { useNavigate } from 'react-router-dom'
 const PreHarvestProductCard = ({ product }) => {
   const navigate = useNavigate()
 
-  const displayPrice = product.price || product.expectedPrice || { value: 0, unit: '' }
-  const displayStock = product.stock || product.expectedyeild || { value: 0, unit: '' }
+  const displayPrice = product.price ||
+    product.expectedPrice || { value: 0, unit: '' }
+  const displayStock = product.stock ||
+    product.expectedyeild || { value: 0, unit: '' }
   const isPreHarvest = product.productType === 'pre-harvest'
 
-  const formatUnit = (unit) => unit ? unit.replace('per_', '/ ').replace('_', ' ') : ''
+  const formatUnit = unit =>
+    unit ? unit.replace('per_', '/ ').replace('_', ' ') : ''
 
   return (
     <div className='group rounded-xl border border-border bg-card overflow-hidden shadow-sm hover:shadow-lg transition-all'>
@@ -32,7 +35,16 @@ const PreHarvestProductCard = ({ product }) => {
         >
           {product.productType?.replace('-', ' ')}
         </Badge>
-        
+
+        {product?.isWishlisted && (
+          <Badge
+            variant='secondary'
+            className='absolute bottom-3 left-3 capitalize shadow-sm z-20'
+          >
+            Wishlisted
+          </Badge>
+        )}
+
         <div className='absolute w-full h-full pointer-events-none bg-linear-to-t from-black/10 to-transparent top-0 left-0 z-10' />
       </div>
 
@@ -48,7 +60,7 @@ const PreHarvestProductCard = ({ product }) => {
 
         <div className='flex items-center gap-1 text-sm text-muted-foreground'>
           <MapPin className='h-3.5 w-3.5' />
-          <span className="truncate">
+          <span className='truncate'>
             {product.farmland?.location?.district},{' '}
             {product.farmland?.location?.state}
           </span>
@@ -59,7 +71,10 @@ const PreHarvestProductCard = ({ product }) => {
             {isPreHarvest ? 'Est. Yield' : 'Stock'}
           </span>
           <span className='font-medium text-foreground'>
-            {displayStock?.value} <span className="text-xs font-normal text-muted-foreground">{displayStock?.unit}</span>
+            {displayStock?.value}{' '}
+            <span className='text-xs font-normal text-muted-foreground'>
+              {displayStock?.unit}
+            </span>
           </span>
         </div>
 
@@ -69,7 +84,7 @@ const PreHarvestProductCard = ({ product }) => {
             <p className='text-xl font-bold text-primary'>
               ₹{displayPrice?.value}
               <span className='text-sm font-normal text-muted-foreground ml-0.5'>
-                 {formatUnit(displayPrice?.unit)}
+                {formatUnit(displayPrice?.unit)}
               </span>
             </p>
           </div>

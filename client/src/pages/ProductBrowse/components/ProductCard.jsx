@@ -26,6 +26,15 @@ const ProductCard = ({ product }) => {
         >
           {product.productType}
         </Badge>
+
+        {product?.isWishlisted && (
+          <Badge
+            variant='secondary'
+            className='absolute bottom-3 left-3 capitalize shadow-sm z-20'
+          >
+            Wishlisted
+          </Badge>
+        )}
         <div className='absolute w-full h-full overflow-hidden dark:bg-black/30 top-0 left-0 z-10' />
 
         {/* <div className='absolute bottom-3 right-3 z-30'>

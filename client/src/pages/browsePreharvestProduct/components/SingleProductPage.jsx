@@ -395,10 +395,10 @@ const PreHarvestProductPage = () => {
                   </span>
                   <div className='flex items-baseline gap-1'>
                     <span className='text-4xl font-extrabold text-primary tracking-tight'>
-                      ₹{product.expectedPrice.value.toLocaleString()}
+                      ₹{product.expectedPrice?.value.toLocaleString()}
                     </span>
                     <span className='text-sm text-muted-foreground font-medium'>
-                      / {product.expectedPrice.unit.replace('_', ' ')}
+                      / {product.expectedPrice?.unit.replace('_', ' ')}
                     </span>
                   </div>
                 </div>

@@ -11,6 +11,7 @@ import SingleProductPage from '@/pages/ProductBrowse/SingleProductPage'
 import BuyerProfilePage from '@/pages/BuyerProfile/BuyerProfilePage'
 import BrowsePreharvestProductPage from '@/pages/browsePreharvestProduct/BrowsePreharvestProductPage'
 import PreHarvestProductPage from '@/pages/browsePreharvestProduct/components/SingleProductPage'
+import Dashboard from '@/pages/buyerDashboard.jsx/Dashboard'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -219,10 +220,6 @@ const router = createBrowserRouter([
         element: <BrowsePreharvestProductPage />
       },
       {
-        path: 'product/harvested/:productId',
-        element: 'harvested Product with ID'
-      },
-      {
         path: 'product/pre-harvested/:productId',
         element: <PreHarvestProductPage />
       },
@@ -253,7 +250,7 @@ const router = createBrowserRouter([
         </Suspense>
       </ProtectedRoute>
     ),
-    children: [{ index: true, element: 'Buyer Dashboard' }]
+    children: [{ index: true, element: <Dashboard /> }]
   },
 
   //unauthorized

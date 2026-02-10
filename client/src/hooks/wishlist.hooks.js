@@ -1,8 +1,15 @@
-import { addToWishlist, deleteFromWishlist } from "@/api/wishlist.api"
+import { addToWishlist, deleteFromWishlist, getMyWishlist } from "@/api/wishlist.api"
 import { queryClient } from "@/lib/queryClient"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
 
+
+export const useGetWishlist = () => {
+    return useQuery({
+        queryKey: ["wishlist"],
+        queryFn: getMyWishlist
+    })
+}
 
 export const useAddToWishlist = () => {
     return useMutation({
