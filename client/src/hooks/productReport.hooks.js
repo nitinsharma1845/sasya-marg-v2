@@ -1,6 +1,6 @@
 import { getProductReports, reportProduct } from "@/api/productReport.api";
 import { queryClient } from "@/lib/queryClient";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const useReportProduct = () => {
@@ -10,7 +10,7 @@ export const useReportProduct = () => {
       queryClient.invalidateQueries(["reports"]);
       toast.success(
         data?.message ||
-          "Your dispute is under review by admin, wait for action.",
+        "Your dispute is under review by admin, wait for action.",
       );
     },
     onError: (error) => {
@@ -19,9 +19,10 @@ export const useReportProduct = () => {
   });
 };
 
-export const useGetReports = () => {
+export const useGetReports = (params) => {
   return useQuery({
-    queryKey: ["reports"],
-    queryFn: getProductReports,
+    queryKey: ["reports", Object.fromEntries(params.entries())],
+    queryFn: () => getProductReports(params),
+    placeholderData : keepPreviousData
   });
 };

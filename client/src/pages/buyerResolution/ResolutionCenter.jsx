@@ -9,9 +9,44 @@ import {
 import SafetyGuide from './components/SafetyGuide'
 import ReportHistory from './components/ReportHistory'
 import ReportIssueForm from './components/ReportIssueForm'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { useSearchParams } from 'react-router-dom'
 
 const ResolutionCenter = () => {
   const [activeTab, setActiveTab] = useState('report')
+  const [param, setParam] = useSearchParams()
+
+  const issues = [
+    'FAKE_PRODUCT',
+    'MISLEADING_INFO',
+    'PRICE_FRAUD',
+    'DUPLICATE_LISTING',
+    'SPAM',
+    'OTHER'
+  ]
+
+  const statusArr = ['pending', 'reviewed', 'action_taken', 'rejected']
+
+  const updateParam = (key, value) => {
+    setParam(prev => {
+      const newParams = new URLSearchParams(prev)
+      if (value && value !== 'all') {
+        newParams.set(key, value)
+      } else {
+        newParams.delete(key)
+      }
+      newParams.set('page', '1')
+      return newParams
+    })
+  }
 
   return (
     <div className='min-h-screen bg-background py-10 px-4 sm:px-6 lg:px-8'>
@@ -46,15 +81,63 @@ const ResolutionCenter = () => {
               icon={<FileText className='w-4 h-4' />}
               label='My Reports'
             />
+
+            {activeTab === 'history' && (
+              <div className='mt-10 flex md:flex-col gap-2 md:gap-5 w-full'>
+                <Select
+                  value={param.get('reason') || ''}
+                  onValueChange={val => updateParam('reason', val)}
+                >
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder='Select a reason' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Reasons</SelectLabel>
+                      <SelectItem value={'all'}>All</SelectItem>
+                      {issues.map(issue => {
+                        return (
+                          <SelectItem key={issue} value={issue}>
+                            {issue}
+                          </SelectItem>
+                        )
+                      })}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+
+                <Select
+                  value={param.get('status') || ''}
+                  onValueChange={val => updateParam('status', val)}
+                >
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder='Select a Status' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status</SelectLabel>
+                      <SelectItem value={'all'}>All</SelectItem>
+                      {statusArr.map(s => {
+                        return (
+                          <SelectItem key={s} value={s}>
+                            {s}
+                          </SelectItem>
+                        )
+                      })}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
 
-          <div className='lg:col-span-3'>
-            <div className='bg-card border border-border rounded-lg shadow-sm p-6'>
-              {activeTab === 'report' && <ReportIssueForm />}
-
-              {activeTab === 'guide' && <SafetyGuide />}
-
-              {activeTab === 'history' && <ReportHistory />}
+          <div className='lg:col-span-3 flex flex-col'>
+            <div className='border border-border rounded-lg shadow-sm p-6 flex flex-col h-full'>
+              <div className='flex-1'>
+                {activeTab === 'report' && <ReportIssueForm />}
+                {activeTab === 'guide' && <SafetyGuide />}
+                {activeTab === 'history' && <ReportHistory />}
+              </div>
             </div>
 
             <div className='mt-6 p-4 bg-muted/50 rounded-md flex gap-3 items-start border border-border'>

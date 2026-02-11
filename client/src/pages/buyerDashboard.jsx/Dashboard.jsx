@@ -41,7 +41,7 @@ const Dashboard = () => {
     <div className='min-h-screen bg-background text-foreground pb-20'>
       <div className='max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-10'>
 
-        {/* HEADER */}
+
         <header className='flex flex-col md:flex-row justify-between items-start md:items-center gap-6'>
           <div className='space-y-1'>
             <div className='flex items-center gap-2'>
@@ -72,13 +72,13 @@ const Dashboard = () => {
           </div>
         </header>
 
-        {/* PROFILE & STATS GRID */}
+
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
 
-          {/* PROFILE CARD */}
+   
           <Card className='lg:col-span-7 rounded-3xl border-border bg-card shadow-sm relative overflow-hidden group'>
-            {/* Subtle Texture Overlay */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(var(--primary)_1px,transparent_1px)] [background-size:20px_20px]" />
+           
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(var(--primary)_1px,transparent_1px)] bg-size-[20px_20px]" />
             
             <CardContent className='p-8 relative'>
               <div className='flex flex-col sm:flex-row gap-8 items-start'>
@@ -116,7 +116,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          {/* STATS CARDS */}
+
           <div className='lg:col-span-5 grid grid-cols-2 lg:grid-cols-1 gap-6'>
             {[
               { label: 'Wishlist', val: stats.wishlistCount, icon: Heart, color: 'text-primary', bg: 'bg-primary/10' },
@@ -135,7 +135,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* WISHLIST SECTION */}
+
         <section className='space-y-6'>
           <div className='flex justify-between items-end'>
             <div>

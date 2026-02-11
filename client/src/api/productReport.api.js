@@ -5,7 +5,7 @@ export const reportProduct = async (payload) => {
   return data;
 };
 
-export const getProductReports = async () => {
-  const { data } = await api.get("/product-report/");
+export const getProductReports = async (params) => {
+  const { data } = await api.get("/product-report/", {params : Object.fromEntries(params.entries())});
   return data;
 };
