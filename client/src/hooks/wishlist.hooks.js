@@ -4,10 +4,10 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
 
 
-export const useGetWishlist = () => {
+export const useGetWishlist = (params) => {
     return useQuery({
-        queryKey: ["wishlist"],
-        queryFn: getMyWishlist
+        queryKey: ["wishlist", Object.fromEntries(params.entries())],
+        queryFn: ()=>getMyWishlist(params)
     })
 }
 

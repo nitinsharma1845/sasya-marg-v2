@@ -4,9 +4,13 @@ import { useGetWishlist } from '@/hooks/wishlist.hooks'
 import React from 'react'
 import EmptyWishlist from './components/EmptyWishlist'
 import WishlistProductCard from './components/WishlistProductCard'
+import WishlistToolbar from './components/WishlistToolbar'
+import WishlistPagination from './components/WishlistPagination'
+import { useSearchParams } from 'react-router-dom'
 
 const WishlistPage = () => {
-  const { data, isLoading } = useGetWishlist()
+  const [params] = useSearchParams()
+  const { data, isLoading, isError, isFetching } = useGetWishlist(params)
 
   const wishlists = data?.data?.listings || []
 
@@ -24,7 +28,9 @@ const WishlistPage = () => {
           </div>
         )}
 
-        {isLoading ? (
+        <WishlistToolbar />
+
+        {isLoading || isFetching ? (
           <CardSkeleton count={9} />
         ) : wishlists.length === 0 ? (
           <EmptyWishlist />
@@ -38,6 +44,10 @@ const WishlistPage = () => {
               })}
             </div>
           </>
+        )}
+
+        {!isLoading && !isError && wishlists.length !== 0 && (
+          <WishlistPagination pagination={data?.data?.pagination} />
         )}
       </div>
     </div>

@@ -54,10 +54,14 @@ export const removeFromWishList = async ({ listingId, buyerId }) => {
 };
 
 export const myWishList = async ({ buyerId, query = {} }) => {
-    const { page = 1, limit = 10, itemType } = query;
+    const { page = 1, limit = 10, itemType, search } = query;
 
     const filter = { buyer: buyerId };
     if (itemType) filter.itemType = itemType;
+
+    if (search) {
+        filter.title = { $regex: search, $options: "i" }
+    }
 
     const skip = (Number(page) - 1) * Number(limit);
 
