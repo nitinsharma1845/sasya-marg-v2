@@ -24,9 +24,11 @@ import { useAuthStore } from '@/store/useAuthStore'
 import ThemeToggle from '@/components/common/ThemeToggle'
 import { useLogoutAdmin } from '../hooks/auth.hooks'
 import LogoutConfirmDialog from '@/components/common/LogoutDialog'
+import AdminInviteDialog from '../components/AdminInviteDialog'
 
 export default function SuperAdminLayout () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
   const { user } = useAuthStore()
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
   const closeMobileMenu = () => setIsMobileMenuOpen(false)
@@ -106,12 +108,14 @@ export default function SuperAdminLayout () {
 
           <div className='flex items-center gap-4'>
             <Button
+              onClick={() => setOpen(true)}
               variant='outline'
               className='hidden lg:flex gap-2 border-accent/20 text-accent hover:bg-accent/10 h-9'
             >
               <UserPlus size={16} />
               <span>Invite Admin</span>
             </Button>
+            <AdminInviteDialog open={open} setOpen={setOpen} />
             <div className='h-8 w-px bg-border mx-1 md:mx-2'></div>
             <div className='flex items-center gap-3'>
               <div className='text-right hidden sm:block'>
@@ -168,13 +172,13 @@ function SuperSidebarContent ({ onItemClick }) {
           </p>
         </div>
         <NavItem
-          to='/super_admin/admins'
+          to='/super_admin/dasboard/admins'
           icon={<ShieldCheck size={20} />}
           label='Manage Admins'
           onClick={onItemClick}
         />
         <NavItem
-          to='/super_admin/invites'
+          to='/super_admin/dashboard/invites'
           icon={<UserPlus size={20} />}
           label='Admin Invites'
           onClick={onItemClick}
@@ -186,13 +190,13 @@ function SuperSidebarContent ({ onItemClick }) {
           </p>
         </div>
         <NavItem
-          to='/super_admin/farmers'
+          to='/super_admin/dashboard/farmers'
           icon={<Sprout size={20} />}
           label='All Farmers'
           onClick={onItemClick}
         />
         <NavItem
-          to='/super_admin/buyers'
+          to='/super_admin/dashboard/buyers'
           icon={<Users size={20} />}
           label='All Buyers'
           onClick={onItemClick}

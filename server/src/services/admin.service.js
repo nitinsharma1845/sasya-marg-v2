@@ -28,6 +28,11 @@ export const createAdminInviteService = async ({ adminId }) => {
     }
 }
 
+export const getAdminInviteService = async ({ adminId }) => {
+    const tokens = await AdminInvite.find({ invitedBy: adminId })
+    return tokens
+}
+
 //Invite token service end here
 
 

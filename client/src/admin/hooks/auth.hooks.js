@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { loginAdmin, logoutAdmin } from "../api/auth.api"
+import { inviteAdmin, loginAdmin, logoutAdmin, signupAdmin } from "../api/auth.api"
 import { useAuthStore } from "@/store/useAuthStore"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
@@ -35,4 +35,28 @@ export const useLogoutAdmin = () => {
             toast.error(error.response?.data?.message || "Failed to Logout");
         }
     })
+}
+
+export const useInviteAdmin = () => {
+    return useMutation({
+        mutationFn: inviteAdmin
+    })
+}
+
+export const useSignupAdmin = () => {
+    const { setUser } = useAuthStore()
+    const navigate = useNavigate()
+    return useMutation(
+        {
+            mutationFn: signupAdmin,
+            onSuccess: (data) => {
+                setUser(data.data)
+                toast.success("Account created and login successfully")
+                navigate(`/admin/dashboard`)
+            },
+            onError: (error) => {
+                toast.error(error.response?.data?.message || "Failed to Register");
+            }
+        }
+    )
 }

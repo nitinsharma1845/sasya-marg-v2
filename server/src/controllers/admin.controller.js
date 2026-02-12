@@ -1,4 +1,4 @@
-import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 
@@ -10,6 +10,16 @@ export const createAdminInvite = asyncHandler(async (req, res) => {
     const invite = await createAdminInviteService({ adminId })
 
     return res.status(201).json(new ApiResponse(201, invite, "Admin invite token generated"))
+})
+
+export const getInvites = asyncHandler(async (req, res) => {
+    const adminId = req.user._id
+
+    const invites = await getAdminInviteService({ adminId })
+
+    if (invites.length === 0) return res.status(200).json(new ApiResponse(200, [], "No invites found"))
+
+    return res.status(200).json(new ApiResponse(200, invites, "Invites fetched successfully"))
 })
 //
 

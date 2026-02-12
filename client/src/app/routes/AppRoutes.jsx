@@ -15,6 +15,8 @@ import Dashboard from '@/pages/buyerDashboard.jsx/Dashboard'
 import LoginPage from '@/admin/pages/LoginPage'
 import SuperAdminLayout from '@/admin/layouts/SuperAdminDashboardLayout'
 import SuperAdminOverview from '@/admin/pages/SuperAdminOverview'
+import AdminSignupPage from '@/admin/pages/AdminSignupPage'
+import AdminInvites from '@/admin/pages/AdminInvites'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -185,7 +187,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: 'admin/login', element: <LoginPage /> },
-      { path: 'admin/signup', element: 'Admin signup' },
+      { path: 'admin/signup', element: <AdminSignupPage /> },
       { path: 'admin/forgot-password', element: 'Forgot password' }
     ]
   },
@@ -301,7 +303,11 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <SuperAdminOverview /> },
-      { path: 'farmers', element: 'Farmers' }
+      { path: 'farmers', element: 'Farmers' },
+      {
+        path: 'invites',
+        element: <AdminInvites />
+      }
     ]
   },
 
