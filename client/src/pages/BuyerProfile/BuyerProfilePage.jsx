@@ -55,10 +55,10 @@ const BuyerProfilePage = () => {
 
   const formatAddress = address => {
     const addressFields = [
-      address.addressLine,
-      address.city,
-      address.state,
-      address.pincode
+      address?.addressLine,
+      address?.city,
+      address?.state,
+      address?.pincode
     ]
 
     return addressFields.filter(Boolean).join(', ')
@@ -267,10 +267,10 @@ const BuyerProfilePage = () => {
 
                       <div>
                         <p className='text-sm font-medium leading-relaxed'>
-                          {user.address?.label}
+                          {user?.address?.label}
                         </p>
                         <p className='text-xs text-muted-foreground leading-relaxed max-w-md'>
-                          {formatAddress(user.address)}
+                          {formatAddress(user?.address)}
                         </p>
                       </div>
                     </div>
@@ -286,7 +286,7 @@ const BuyerProfilePage = () => {
                     <p className='text-sm text-muted-foreground mt-1 mb-4 text-center'>
                       Add a shipping address to speed up checkout
                     </p>
-                    <UpdateAddressDialog address={user.address} />
+                    <UpdateAddressDialog address={user?.address} />
                   </div>
                 )}
               </CardContent>
