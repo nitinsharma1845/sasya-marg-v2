@@ -14,12 +14,12 @@ export const currentUserService = async ({ req }) => {
             email: farmer.email,
             phone: farmer.phone,
             role: req.user.role,
-            isActive : farmer.isActive
+            isActive: farmer.isActive
 
         }
     }
 
-    if (req.user.role === 'admin') {
+    if (req.user.role === 'admin' || req.user.role === 'super_admin') {
         const admin = await Admin.findById(req.user._id)
         return {
             _id: admin._id,
@@ -27,7 +27,8 @@ export const currentUserService = async ({ req }) => {
             email: admin.email,
             phone: admin.phone,
             role: req.user.role,
-
+            lastLogin : admin.lastLogin,
+            isActive : admin.isActive
         }
     }
 

@@ -12,6 +12,9 @@ import BuyerProfilePage from '@/pages/BuyerProfile/BuyerProfilePage'
 import BrowsePreharvestProductPage from '@/pages/browsePreharvestProduct/BrowsePreharvestProductPage'
 import PreHarvestProductPage from '@/pages/browsePreharvestProduct/components/SingleProductPage'
 import Dashboard from '@/pages/buyerDashboard.jsx/Dashboard'
+import LoginPage from '@/admin/pages/LoginPage'
+import SuperAdminLayout from '@/admin/layouts/SuperAdminDashboardLayout'
+import SuperAdminOverview from '@/admin/pages/SuperAdminOverview'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -66,6 +69,10 @@ const ProductViewPage = lazy(() => import('@/pages/listing/SingleLProductPage'))
 
 const FarmerDashboardPage = lazy(() =>
   import('@/pages/FarmerDashboard/FarmerDashboardPage')
+)
+
+const AdminDashboardLayout = lazy(() =>
+  import('@/admin/layouts/DashboardLayout')
 )
 
 const BuyerLogin = lazy(() => import('@/pages/buyerLogin/BuyerLogin'))
@@ -168,6 +175,21 @@ const router = createBrowserRouter([
     ]
   },
 
+  {
+    element: (
+      <ProtectedRoute allowGuest>
+        <Suspense fallback={<PageLoader />}>
+          <AuthLayout />
+        </Suspense>
+      </ProtectedRoute>
+    ),
+    children: [
+      { path: 'admin/login', element: <LoginPage /> },
+      { path: 'admin/signup', element: 'Admin signup' },
+      { path: 'admin/forgot-password', element: 'Forgot password' }
+    ]
+  },
+
   // Main Routes
 
   //Farmere's routes
@@ -251,6 +273,36 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [{ index: true, element: <Dashboard /> }]
+  },
+
+  {
+    path: 'admin/dashboard',
+    element: (
+      <ProtectedRoute role='admin'>
+        <Suspense fallback={<PageLoader />}>
+          <AdminDashboardLayout />
+        </Suspense>
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: 'OverView' },
+      { path: 'farmers', element: 'Farmers' }
+    ]
+  },
+
+  {
+    path: 'super_admin/dashboard',
+    element: (
+      <ProtectedRoute role='super_admin'>
+        <Suspense fallback={<PageLoader />}>
+          <SuperAdminLayout />
+        </Suspense>
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <SuperAdminOverview /> },
+      { path: 'farmers', element: 'Farmers' }
+    ]
   },
 
   //unauthorized
