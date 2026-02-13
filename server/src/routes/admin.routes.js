@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { validate } from "../middleware/validate.middleware.js"
-import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, moderateListingSchema, registerAdminSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
-import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminDashboard, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getInvites, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
+import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, moderateListingSchema, registerAdminSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
+import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getInvites, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
 import { requireAdmin, requireSuperAdmin } from "../middleware/adminRole.middleware.js"
 import { authLayer } from "../middleware/auth.middleware.js"
 
@@ -15,6 +15,7 @@ adminRoutes.post('/super-admin/register', validate(bootstrapSuperAdminSchema), b
 adminRoutes.post('/super-admin/login', validate(adminLoginSchema), bootStrapSuperAdminLogin)
 adminRoutes.post('/super-admin/logout', authLayer, requireSuperAdmin, bootstrapSuperAdminLogout)
 adminRoutes.get("/super-admin/dashboard", authLayer, requireSuperAdmin, superAdminDashboard)
+adminRoutes.get("/super-admin/admins", validate(getAllAdminSchema), authLayer, requireSuperAdmin, getAllAdmins)
 
 //register Admin via inviteToken
 

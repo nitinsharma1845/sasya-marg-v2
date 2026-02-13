@@ -1,4 +1,4 @@
-import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 
@@ -66,6 +66,12 @@ export const superAdminDashboard = asyncHandler(async (req, res) => {
     const data = await superAdminDashboardService()
 
     return res.status(200).json(new ApiResponse(200, data, "Dashboard fetched successfully"))
+})
+
+export const getAllAdmins = asyncHandler(async (req, res) => {
+    const data = await getAllAdminsService({ query: req.query })
+
+    return res.status(200).json(new ApiResponse(200, data, "Admin fetched successfully"))
 })
 
 //register admin with invite token

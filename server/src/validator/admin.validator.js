@@ -38,6 +38,15 @@ export const bootstrapSuperAdminSchema = z.object({
   })
 })
 
+export const getAllAdminSchema = z.object({
+  query: z.object({
+    fullname: z.string().optional(),
+    page: z.coerce.number().optional(),
+    limit: z.coerce.number().optional(),
+    isActive: z.coerce.boolean().optional()
+  })
+})
+
 
 export const adminLoginSchema = z.object({
   body: z.object({

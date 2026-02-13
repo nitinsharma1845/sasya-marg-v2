@@ -158,6 +158,40 @@ export const loginSuperAdminService = async ({ identifier, password }) => {
 
 }
 
+export const getAllAdminsService = async ({ query }) => {
+    const { fullname, page = 1, limit = 10, isActive } = query
+    const filter = { role: "admin" }
+
+    if (fullname) {
+        filter.fullname = { $regex: fullname, $options: "i" }
+    }
+
+    if (isActive) {
+        filter.isActive = isActive
+    }
+
+    const skip = (Number(page) - 1) * Number(limit)
+
+    const [admins, total] = await Promise.all([
+        Admin.find(filter)
+            .select("fullname email phone lastLogin")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(Number(limit)),
+        Admin.countDocuments(filter)
+    ])
+
+    return {
+        admins,
+        pagination: {
+            total,
+            page,
+            limit,
+            pages: Math.ceil(total / limit)
+        }
+    }
+}
+
 //register admn service with token
 
 
@@ -247,7 +281,7 @@ export const getAllPreHarvestedListingService = async (query) => {
                     select: "locality district state"
                 }
             })
-            .sort({ createdAt: -1 })
+            .sort({ "createdAt": -1 })
             .skip(skip)
             .limit(Number(limit)),
 

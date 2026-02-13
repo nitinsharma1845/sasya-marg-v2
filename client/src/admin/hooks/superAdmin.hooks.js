@@ -1,9 +1,16 @@
 import { useQuery } from "@tanstack/react-query"
-import { superAdminDashboard } from "../api/superAdmin.api"
+import { getAllAdmins, superAdminDashboard } from "../api/superAdmin.api"
 
-export const useGetSuperAdminDashboard = ()=>{
+export const useGetSuperAdminDashboard = () => {
     return useQuery({
-        queryKey : ['dashboard', 'super-admin'],
-        queryFn : superAdminDashboard
+        queryKey: ['dashboard', 'super-admin'],
+        queryFn: superAdminDashboard
+    })
+}
+
+export const useGetAllAdmins = () => {
+    return useQuery({
+        queryKey: ['admins'],
+        queryFn: getAllAdmins
     })
 }

@@ -172,7 +172,7 @@ function SuperSidebarContent ({ onItemClick }) {
           </p>
         </div>
         <NavItem
-          to='/super_admin/dasboard/admins'
+          to='/super_admin/dashboard/admins'
           icon={<ShieldCheck size={20} />}
           label='Manage Admins'
           onClick={onItemClick}
