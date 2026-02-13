@@ -16,7 +16,7 @@ import LoginPage from '@/admin/pages/LoginPage'
 import SuperAdminLayout from '@/admin/layouts/SuperAdminDashboardLayout'
 import SuperAdminOverview from '@/admin/pages/SuperAdminOverview'
 import AdminSignupPage from '@/admin/pages/AdminSignupPage'
-import AdminInvites from '@/admin/pages/AdminInvites'
+import Invites from '@/admin/pages/AdminInvites'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -306,7 +306,7 @@ const router = createBrowserRouter([
       { path: 'farmers', element: 'Farmers' },
       {
         path: 'invites',
-        element: <AdminInvites />
+        element: <Invites />
       }
     ]
   },

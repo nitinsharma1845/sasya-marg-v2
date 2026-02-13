@@ -3,6 +3,7 @@ import { inviteAdmin, loginAdmin, logoutAdmin, signupAdmin } from "../api/auth.a
 import { useAuthStore } from "@/store/useAuthStore"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
+import { queryClient } from "@/lib/queryClient"
 
 export const useLoginAdmin = () => {
     const { setUser } = useAuthStore()
@@ -39,7 +40,10 @@ export const useLogoutAdmin = () => {
 
 export const useInviteAdmin = () => {
     return useMutation({
-        mutationFn: inviteAdmin
+        mutationFn: inviteAdmin,
+        onSuccess : ()=>{
+            queryClient.invalidateQueries(['invites'])
+        }
     })
 }
 

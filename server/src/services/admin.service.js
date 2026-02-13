@@ -28,9 +28,32 @@ export const createAdminInviteService = async ({ adminId }) => {
     }
 }
 
-export const getAdminInviteService = async ({ adminId }) => {
-    const tokens = await AdminInvite.find({ invitedBy: adminId })
-    return tokens
+export const getAdminInviteService = async ({ adminId, query }) => {
+    const { page = 1, limit = 9 } = query
+
+    const skip = (Number(page) - 1) * Number(limit)
+
+    const [invites, total] = await Promise.all([
+        AdminInvite.find({ invitedBy: adminId }).sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(Number(limit)),
+        AdminInvite.countDocuments()
+    ])
+
+    return {
+        invites,
+        pagination: {
+            total,
+            page: Number(page),
+            limit: Number(limit),
+            totalPages: Math.ceil(total / limit)
+        }
+    }
+}
+
+export const revokeInviteService = async ({ adminId, inviteId }) => {
+    const invite = await AdminInvite.findOneAndDelete({_id : inviteId, invitedBy : adminId})
+    return true
 }
 
 //Invite token service end here

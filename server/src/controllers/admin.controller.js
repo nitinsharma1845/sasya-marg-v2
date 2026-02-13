@@ -1,4 +1,4 @@
-import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 
@@ -14,13 +14,24 @@ export const createAdminInvite = asyncHandler(async (req, res) => {
 
 export const getInvites = asyncHandler(async (req, res) => {
     const adminId = req.user._id
+    const query = req.query
 
-    const invites = await getAdminInviteService({ adminId })
+    const invites = await getAdminInviteService({ adminId, query })
 
     if (invites.length === 0) return res.status(200).json(new ApiResponse(200, [], "No invites found"))
 
     return res.status(200).json(new ApiResponse(200, invites, "Invites fetched successfully"))
 })
+
+export const revokeInvite = asyncHandler(async (req, res) => {
+    const adminId = req.user._id
+    const { inviteId } = req.params
+
+    await revokeInviteService({ adminId, inviteId })
+
+    return res.status(200).json(new ApiResponse(200, true, "Invite Revoked!"))
+})
+
 //
 
 export const bootstrapSuperAdmin = asyncHandler(async (req, res) => {

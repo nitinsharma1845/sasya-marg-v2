@@ -6,6 +6,13 @@ const objectId = z
   .regex(/^[0-9a-fA-F]{24}$/, "Invalid ID format");
 
 
+export const revokeInviteSchema = z.object({
+  params: z.object({
+    inviteId: objectId
+  })
+})
+
+
 export const bootstrapSuperAdminSchema = z.object({
   body: z.object({
     fullname: z.string().trim().min(2),
