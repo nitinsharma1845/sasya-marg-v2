@@ -8,6 +8,9 @@ import { AdminInvite } from "../models/adminInvite.model.js"
 import { PreHarvestListing } from "../models/preHarvetedListing.model.js"
 import { Product } from "../models/product.model.js"
 import { Query } from "../models/query.model.js"
+import { ProductReport } from '../models/productReport.model.js'
+import { GovernmentScheme } from '../models/governmentScheme.model.js'
+import { PredictHistory } from '../models/predictHistory.model.js'
 
 //InviteToken service
 
@@ -52,7 +55,7 @@ export const getAdminInviteService = async ({ adminId, query }) => {
 }
 
 export const revokeInviteService = async ({ adminId, inviteId }) => {
-    const invite = await AdminInvite.findOneAndDelete({_id : inviteId, invitedBy : adminId})
+    const invite = await AdminInvite.findOneAndDelete({ _id: inviteId, invitedBy: adminId })
     return true
 }
 
@@ -561,6 +564,392 @@ export const unblockBuyerService = async ({ buyerId }) => {
 
     await buyer.save()
     return buyer
+}
+
+//DASHBOARD API
+
+export const superAdminDashboardService = async () => {
+
+    const sevenDaysAgo = new Date(
+        Date.now() - 7 * 24 * 60 * 60 * 1000
+    )
+
+    const farmerPipeline = [
+        {
+            $group: {
+                _id: null,
+                totalFarmers: { $sum: 1 },
+                activeFarmers: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$isActive", true] },
+                            1,
+                            0
+                        ]
+                    }
+
+                },
+                suspendedFarmers: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$isActive", false] },
+                            1,
+                            0
+                        ]
+                    }
+
+                },
+                newFarmers: {
+                    $sum: {
+                        $cond: [
+                            {
+                                $gte: [
+                                    "$createdAt",
+                                    sevenDaysAgo
+                                ]
+                            },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+
+    const buyerPipeline = [
+        {
+            $group: {
+                _id: null,
+                totalBuyers: { $sum: 1 },
+                activeBuyers: {
+                    $sum: {
+                        $cond: [{ $eq: ["$isBlocked", false] }, 1, 0]
+                    }
+                },
+                suspendedBuyers: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$isBlocked", true] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                newBuyers: {
+                    $sum: {
+                        $cond: [
+                            { $gte: ["$createdAt", sevenDaysAgo] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+
+    const adminPipeline = [
+        {
+            $match: {
+                role: "admin"
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                totalAdmins: {
+                    $sum: 1
+                },
+                recentAdmins: {
+                    $sum: {
+                        $cond: [
+                            { $gte: ["$createdAt", sevenDaysAgo] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+
+    const productPipeline = [
+        {
+            $group: {
+                _id: null,
+                totalListings: { $sum: 1 },
+                pendingListings: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ['$moderation', "pending"] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                approvedListings: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ['$moderation', "approved"] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                rejectedListings: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ['$moderation', "rejected"] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                newListings: {
+                    $sum: {
+                        $cond: [
+                            { $gte: ["$createdAt", sevenDaysAgo] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+
+    const reportPipeline = [
+        {
+            $group: {
+                _id: null,
+                totalReports: { $sum: 1 },
+                pendingReports: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ['$status', 'pending'] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                rejectedReports: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ['$status', 'rejected'] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                resolvedReports: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ['$status', 'action_taken'] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                newReports: {
+                    $sum: {
+                        $cond: [
+                            { $gte: ["$createdAt", sevenDaysAgo] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+
+    const schemesPipeline = [
+        {
+            $group: {
+                _id: null,
+                totalSchemes: { $sum: 1 },
+                activeSchemes: {
+                    $sum: {
+                        $cond: ["$isActive", 1, 0]
+                    }
+                }
+            }
+        }
+    ]
+
+    const predictionPipeline = [
+        {
+            $group: {
+                _id: null,
+                totalPredictions: { $sum: 1 },
+                newPredictions: {
+                    $sum: {
+                        $cond: [
+                            { $gte: ['$createdAt', sevenDaysAgo] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+
+    const queryPipeline = [
+        {
+            $group: {
+                _id: null,
+                totalQueries: {
+                    $sum: 1
+                },
+                openQueries: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$status", "open"] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                resolvedQueries: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$status", "resolved"] },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                newQueries: {
+                    $sum: {
+                        $cond: [
+                            { $gte: ['$createdAt', sevenDaysAgo] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+
+
+    const [farmers, buyers, admins, preharvestedListings, harvestedListing, reports, schemes, predictions, queries] = await Promise.all([
+        Farmer.aggregate(farmerPipeline),
+        Buyer.aggregate(buyerPipeline),
+        Admin.aggregate(adminPipeline),
+        PreHarvestListing.aggregate(productPipeline),
+        Product.aggregate(productPipeline),
+        ProductReport.aggregate(reportPipeline),
+        GovernmentScheme.aggregate(schemesPipeline),
+        PredictHistory.aggregate(predictionPipeline),
+        Query.aggregate(queryPipeline)
+    ])
+
+    const safe = (data, fallback) => data[0] || fallback
+
+    const farmerStats = safe(farmers, {
+        totalFarmers: 0,
+        activeFarmers: 0,
+        suspendedFarmers: 0,
+        newFarmers: 0
+    })
+
+    const buyerStats = safe(buyers, {
+        totalBuyers: 0,
+        activeBuyers: 0,
+        suspendedBuyers: 0,
+        newBuyers: 0
+    })
+
+    const adminStats = safe(admins, {
+        totalAdmins: 0,
+        recentAdmins: 0
+    })
+
+    const preHarvestStats = safe(preharvestedListings, {
+        totalListings: 0,
+        pendingListings: 0,
+        approvedListings: 0,
+        rejectedListings: 0,
+        newListings: 0
+    })
+
+    const harvestStats = safe(harvestedListing, {
+        totalListings: 0,
+        pendingListings: 0,
+        approvedListings: 0,
+        rejectedListings: 0,
+        newListings: 0
+    })
+
+    const reportStats = safe(reports, {
+        totalReports: 0,
+        pendingReports: 0,
+        rejectedReports: 0,
+        resolvedReports: 0,
+        newReports: 0
+    })
+
+    const schemeStats = safe(schemes, {
+        totalSchemes: 0,
+        activeSchemes: 0
+    })
+
+    const predictionStats = safe(predictions, {
+        totalPredictions: 0,
+        newPredictions: 0
+    })
+
+    const queryStats = safe(queries, {
+        totalQueries: 0,
+        openQueries: 0,
+        resolvedQueries: 0,
+        newQueries: 0
+    })
+
+
+    const combinedListings = {
+        totalListings:
+            preHarvestStats.totalListings + harvestStats.totalListings,
+
+        pendingListings:
+            preHarvestStats.pendingListings + harvestStats.pendingListings,
+
+        approvedListings:
+            preHarvestStats.approvedListings + harvestStats.approvedListings,
+
+        rejectedListings:
+            preHarvestStats.rejectedListings + harvestStats.rejectedListings,
+
+        newListings:
+            preHarvestStats.newListings + harvestStats.newListings
+    }
+
+
+    return {
+        users: {
+            farmers: farmerStats,
+            buyers: buyerStats,
+            admins: adminStats
+        },
+
+        marketplace: {
+            listings: combinedListings,
+            reports: reportStats
+        },
+
+        governance: {
+            schemes: schemeStats,
+            queries: queryStats
+        },
+
+        intelligence: {
+            predictions: predictionStats
+        }
+    }
+
 }
 
 export const adminDashboardService = async () => {
