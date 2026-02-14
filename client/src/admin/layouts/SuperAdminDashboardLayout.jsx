@@ -25,6 +25,7 @@ import ThemeToggle from '@/components/common/ThemeToggle'
 import { useLogoutAdmin } from '../hooks/auth.hooks'
 import LogoutConfirmDialog from '@/components/common/LogoutDialog'
 import AdminInviteDialog from '../components/AdminInviteDialog'
+import GlobalSearch from '../components/GlobalSearch'
 
 export default function SuperAdminLayout () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
@@ -97,13 +98,15 @@ export default function SuperAdminLayout () {
               <Menu />
             </Button>
 
-            <div className='relative w-full max-w-md hidden sm:block'>
+            {/* <div className='relative w-full max-w-md hidden sm:block'>
               <Search className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
               <Input
                 placeholder='Search platform-wide...'
                 className='pl-10 bg-muted/50 border-none focus-visible:ring-accent'
               />
-            </div>
+            </div> */}
+
+            <GlobalSearch />
           </div>
 
           <div className='flex items-center gap-4'>

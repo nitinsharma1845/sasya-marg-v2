@@ -1,4 +1,4 @@
-import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 
@@ -72,6 +72,11 @@ export const getAllAdmins = asyncHandler(async (req, res) => {
     const data = await getAllAdminsService({ query: req.query })
 
     return res.status(200).json(new ApiResponse(200, data, "Admin fetched successfully"))
+})
+
+export const globalSerachForSuperAdmin = asyncHandler(async (req, res) => {
+    const { results, pagination } = await globalSearchServiceForSuperAdmin({ query: req.query })
+    return res.status(200).json(new ApiResponse(200, { results, pagination }, "result fetched successfully"))
 })
 
 //register admin with invite token

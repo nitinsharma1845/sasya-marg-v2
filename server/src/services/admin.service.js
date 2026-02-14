@@ -61,6 +61,8 @@ export const revokeInviteService = async ({ adminId, inviteId }) => {
 
 //Invite token service end here
 
+//Super Admin Services
+
 
 export const bootStrapSuperAdminService = async ({
     fullname,
@@ -192,7 +194,113 @@ export const getAllAdminsService = async ({ query }) => {
     }
 }
 
-//register admn service with token
+
+export const globalSearchServiceForSuperAdmin = async ({ query }) => {
+    const { search, page = 1, limit = 10 } = query
+
+    if (!search?.trim()) {
+        return {
+            results: [],
+            pagination: {
+                total: 0,
+                page: Number(page),
+                limit: Number(limit),
+                totalPages: 0
+            }
+        }
+    }
+
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+    const skip = (pageNumber - 1) * limitNumber
+
+    const searchRegex = new RegExp(search.trim(), "i")
+
+    const baseMatch = {
+        $match: {
+            $or: [
+                { fullname: searchRegex },
+                { email: searchRegex },
+                { phone: searchRegex }
+            ]
+        }
+    }
+
+    const aggregationPipeline = [
+        baseMatch,
+        {
+            $addFields: { type: "farmer" }
+        },
+        {
+            $unionWith: {
+                coll: "buyers",
+                pipeline: [
+                    baseMatch,
+                    { $addFields: { type: "buyer" } }
+                ]
+            }
+        },
+        {
+            $unionWith: {
+                coll: "admins",
+                pipeline: [
+                    baseMatch,
+                    { $addFields: { type: "admin" } }
+                ]
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                fullname: 1,
+                email: 1,
+                phone: 1,
+                createdAt: 1,
+                type: 1
+            }
+        },
+        { $sort: { createdAt: -1 } },
+        {
+            $facet: {
+                data: [
+                    { $skip: skip },
+                    { $limit: limitNumber }
+                ],
+                totalCount: [
+                    { $count: "count" }
+                ]
+            }
+        }
+    ]
+
+    const result = await Farmer.aggregate(aggregationPipeline)
+
+    const data = result[0]?.data || []
+    const total = result[0]?.totalCount[0]?.count || 0
+
+    const reshapedResults = data.map(item => ({
+        type: item.type,
+        id: item._id,
+        title: item.fullname || "Unnamed",
+        subtitle: item.email || item.phone || "No Contact",
+        createdAt: item.createdAt
+    }))
+
+    return {
+        results: reshapedResults,
+        pagination: {
+            total,
+            page: pageNumber,
+            limit: limitNumber,
+            totalPages: Math.ceil(total / limitNumber)
+        }
+    }
+}
+
+
+
+
+//register admin service with token
 
 
 export const registerAdminWithInviteTokenService = async ({ inviteToken, payload }) => {

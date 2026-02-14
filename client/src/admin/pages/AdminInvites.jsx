@@ -15,14 +15,20 @@ import {
   LinkIcon,
   ClockIcon,
   CopyIcon,
-  Trash2
+  Trash2,
+  MailQuestion,
+  PlusCircle
 } from 'lucide-react'
 import PaginationComp from '../components/Pagination'
 import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils'
+import AdminInviteDialog from '../components/AdminInviteDialog'
+import { useState } from 'react'
 
 const Invites = () => {
   const { data, isLoading, isFetching } = useGetInvites()
+  const [open, setOpen] = useState(false)
   const revokeInvite = useRevokeInvite()
   const invites = data?.data?.invites
   const pagination = data?.data?.pagination
@@ -64,7 +70,39 @@ const Invites = () => {
           ))}
         </div>
       ) : invites.length === 0 ? (
-        <div>No Invites</div>
+        <div
+          className={cn(
+            'flex flex-col items-center justify-center py-20 px-6 rounded-4xl border-2 border-dashed border-border bg-secondary/10 text-center animate-in fade-in zoom-in-95 duration-500'
+          )}
+        >
+          <div className='relative mb-6'>
+            <div className='h-24 w-24 rounded-full bg-card flex items-center justify-center shadow-sm border border-border'>
+              <MailQuestion size={42} className='text-muted-foreground/40' />
+            </div>
+            <div className='absolute -bottom-1 -right-1 bg-primary text-primary-foreground p-1.5 rounded-full shadow-lg ring-4 ring-background'>
+              <PlusCircle size={18} />
+            </div>
+          </div>
+          <div className='max-w-xs space-y-2'>
+            <h3 className='text-xl font-bold tracking-tight text-foreground'>
+              No Invitation created
+            </h3>
+            <p className='text-sm text-muted-foreground leading-relaxed'>
+              It looks like there aren't any active invitations at the moment.
+              You can start by inviting new members to the platform.
+            </p>
+          </div>
+          <Button
+            onClick={() => setOpen(true)}
+            variant='secondary'
+            size='sm'
+            className='my-5 cursor-pointer'
+          >
+            Create Invite
+          </Button>
+
+          <AdminInviteDialog open={open} setOpen={setOpen} />
+        </div>
       ) : (
         <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
           {invites?.map(invite => (

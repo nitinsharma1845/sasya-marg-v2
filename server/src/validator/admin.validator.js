@@ -47,6 +47,14 @@ export const getAllAdminSchema = z.object({
   })
 })
 
+export const globalSearchSchema = z.object({
+  query: z.object({
+    search: z.string().trim().optional(),
+    page: z.coerce.number().optional().default(1),
+    limit: z.coerce.number().optional().default(10),
+  })
+})
+
 
 export const adminLoginSchema = z.object({
   body: z.object({
