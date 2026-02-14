@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import PaginationComp from '../components/Pagination'
+import { useNavigate } from 'react-router-dom'
 
 const BuyerSkeleton = () => (
   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -42,6 +43,7 @@ const BuyerSkeleton = () => (
 
 const AllBuyerPage = () => {
   const { data, isLoading } = useGetAllBuyers()
+  const navigate = useNavigate()
 
   const buyers = data?.data?.buyers || []
   const pagination = data?.data?.pagination || {}
@@ -78,6 +80,7 @@ const AllBuyerPage = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {buyers.map(buyer => (
             <Card
+              onClick={() => navigate(`${buyer._id}`)}
               key={buyer._id}
               className='overflow-hidden border-border transition-all hover:shadow-md hover:border-primary/30'
             >

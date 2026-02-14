@@ -14,12 +14,14 @@ import {
   X
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useNavigate } from 'react-router-dom'
 
 const GlobalSearch = () => {
   const [search, setSearch] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef(null)
   const debouncedSearch = useDebounce(search, 400)
+  const navigate = useNavigate()
 
   const { data, isFetching } = useQuery({
     queryKey: ['globalSearch', debouncedSearch],
@@ -76,6 +78,25 @@ const GlobalSearch = () => {
     }
   }
 
+  const handleNavigate = (type, id) => {
+    switch (type) {
+      case 'farmer':
+        navigate(`farmers/${id}`)
+        setIsOpen(false)
+        break
+
+      case 'buyer':
+        navigate(`buyers/${id}`)
+        setIsOpen(false)
+        break
+
+      case 'admin':
+        navigate(`admins/${id}`)
+        setIsOpen(false)
+        break
+    }
+  }
+
   return (
     <div ref={containerRef} className='relative w-full max-w-xl'>
       <div className='relative flex items-center'>
@@ -87,6 +108,7 @@ const GlobalSearch = () => {
             setSearch(e.target.value)
             setIsOpen(true)
           }}
+          type={"text"}
           className='pl-10 pr-10 py-6 text-base rounded-2xl border-border focus-visible:ring-primary shadow-sm'
           placeholder='Search names, emails, or phone numbers...'
         />
@@ -127,6 +149,7 @@ const GlobalSearch = () => {
                 const styles = getTypeStyles(item.type)
                 return (
                   <div
+                    onClick={() => handleNavigate(item.type, item.id)}
                     key={item.id}
                     className='group flex items-center justify-between px-4 py-4 hover:bg-secondary/50 rounded-xl cursor-pointer transition-all duration-200 mb-1 border border-transparent hover:border-border'
                   >
@@ -158,6 +181,9 @@ const GlobalSearch = () => {
                           {item.subtitle}
                         </span>
                       </div>
+                    </div>
+                    <div className='opacity-0 group-hover:opacity-100 transition-opacity translate-x-2 group-hover:translate-x-0 duration-200'>
+                      <ArrowRight size={16} className='text-primary' />
                     </div>
                   </div>
                 )

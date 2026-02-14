@@ -1,4 +1,4 @@
-import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 
@@ -222,6 +222,30 @@ export const unBlockBuyer = asyncHandler(async (req, res) => {
     const buyer = await unblockBuyerService({ buyerId: req.params.buyerId, })
 
     return res.status(200).json(new ApiResponse(200, buyer, "Buyer unBlocked"))
+})
+
+export const getAdminById = asyncHandler(async (req, res) => {
+    const { adminId } = req.params
+
+    const admin = await getAdminByIdService({ adminId })
+
+    return res.status(200).json(new ApiResponse(200, admin, "Admin fetched successfully"))
+})
+
+export const getFarmerById = asyncHandler(async (req, res) => {
+    const { farmerId } = req.params
+
+    const farmer = await getFarmerByIdService({ farmerId })
+
+    return res.status(200).json(new ApiResponse(200, farmer, "Farmer fetched successfully"))
+})
+
+export const getBuyerById = asyncHandler(async (req, res) => {
+    const { buyerId } = req.params
+
+    const buyer = await getBuyerByIdService({ buyerId })
+
+    return res.status(200).json(new ApiResponse(200, buyer, "Admin fetched successfully"))
 })
 
 

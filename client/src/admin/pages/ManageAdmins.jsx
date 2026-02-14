@@ -18,6 +18,7 @@ import {
 import PaginationComp from '../components/Pagination'
 import { Button } from '@/components/ui/button'
 import AdminInviteDialog from '../components/AdminInviteDialog'
+import { useNavigate } from 'react-router-dom'
 
 const AdminSkeleton = () => (
   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -39,6 +40,7 @@ const AdminSkeleton = () => (
 const ManageAdmins = () => {
   const { data, isLoading } = useGetAllAdmins()
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
 
   const admins = Array.isArray(data?.data?.admins) ? data.data.admins : []
 
@@ -95,6 +97,7 @@ const ManageAdmins = () => {
             {admins.map(admin => {
               return (
                 <Card
+                onClick={()=> navigate(`${admin._id}`)}
                   key={admin._id}
                   className='overflow-hidden border-border bg-card transition-all hover:shadow-xl hover:border-primary/40 duration-300'
                 >

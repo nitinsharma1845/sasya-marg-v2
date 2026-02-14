@@ -11,6 +11,7 @@ import { Query } from "../models/query.model.js"
 import { ProductReport } from '../models/productReport.model.js'
 import { GovernmentScheme } from '../models/governmentScheme.model.js'
 import { PredictHistory } from '../models/predictHistory.model.js'
+import { FarmLand } from '../models/farmLand.model.js'
 
 //InviteToken service
 
@@ -304,6 +305,10 @@ export const globalSearchServiceForSuperAdmin = async ({ query }) => {
 
 
 export const registerAdminWithInviteTokenService = async ({ inviteToken, payload }) => {
+
+    if (!inviteToken || typeof inviteToken !== "string") {
+        throw new ApiError(400, "Invite token is required")
+    }
     const invite = await AdminInvite.findOne({
         token: inviteToken,
         used: false,
@@ -313,6 +318,7 @@ export const registerAdminWithInviteTokenService = async ({ inviteToken, payload
     if (!invite) {
         throw new ApiError(403, "Invalid or expired invite token")
     }
+
 
     const [superAdminExist, farmerExist, buyerExist] = await Promise.all([
         Admin.exists({
@@ -336,6 +342,8 @@ export const registerAdminWithInviteTokenService = async ({ inviteToken, payload
     })
 
     invite.used = true
+    admin.lastLogin = new Date()
+    await admin.save()
     await invite.save()
 
     return admin
@@ -710,6 +718,49 @@ export const unblockBuyerService = async ({ buyerId }) => {
     await buyer.save()
     return buyer
 }
+
+export const getBuyerByIdService = async ({ buyerId }) => {
+    const buyer = await Buyer.findById(buyerId)
+        .select("-password -__v")
+
+    if (!buyer) {
+        throw new ApiError(404, "Buyer not found")
+    }
+
+    return buyer
+}
+
+export const getFarmerByIdService = async ({ farmerId }) => {
+
+    const [farmer, farmlands] = await Promise.all([
+        Farmer.findById(farmerId).select("-password -__v"),
+        FarmLand.find({ owner: farmerId }).populate({
+            path: "location",
+            select: "locality city state district"
+        })
+    ])
+
+    if (!farmer) {
+        throw new ApiError(404, "Farmer not found")
+    }
+
+    const result = farmer.toObject()
+    result.farmlands = farmlands
+
+    return result
+}
+
+export const getAdminByIdService = async ({ adminId }) => {
+    const admin = await Admin.findById(adminId)
+        .select("-password -__v")
+
+    if (!admin) {
+        throw new ApiError(404, "Admin not found")
+    }
+
+    return admin
+}
+
 
 //DASHBOARD API
 

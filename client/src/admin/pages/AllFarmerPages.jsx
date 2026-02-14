@@ -15,6 +15,7 @@ import {
   AlertCircle
 } from 'lucide-react'
 import PaginationComp from '../components/Pagination'
+import { useNavigate } from 'react-router-dom'
 
 const FarmerSkeleton = () => (
   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -35,6 +36,7 @@ const FarmerSkeleton = () => (
 
 const AllFarmerPages = () => {
   const { data, isLoading } = useGetAllFarmers()
+  const navigate = useNavigate()
 
   const farmers = data?.data?.farmers || []
   const pagination = data?.data?.pagination || {}
@@ -72,6 +74,7 @@ const AllFarmerPages = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {farmers.map(farmer => (
             <Card
+              onClick={() => navigate(`${farmer._id}`)}
               key={farmer._id}
               className='overflow-hidden border-border bg-card transition-all hover:shadow-xl hover:border-primary/40 duration-300'
             >

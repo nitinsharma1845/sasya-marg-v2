@@ -20,6 +20,9 @@ import Invites from '@/admin/pages/AdminInvites'
 import ManageAdmins from '@/admin/pages/ManageAdmins'
 import AllBuyerPage from '@/admin/pages/AllBuyerPage'
 import AllFarmerPages from '@/admin/pages/AllFarmerPages'
+import SingleFarmerPage from '@/admin/pages/SingleFarmerPage'
+import SingleAdminPage from '@/admin/pages/SingleAdminPage'
+import SingleBuyerPage from '@/admin/pages/SingleBuyerPage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -319,6 +322,18 @@ const router = createBrowserRouter([
         path: 'admins',
         element: <ManageAdmins />
       },
+      {
+        path: 'admins/:adminId',
+        element: <SingleAdminPage />
+      },
+      {
+        path: 'farmers/:farmerId',
+        element: <SingleFarmerPage />
+      },
+      {
+        path: 'buyers/:buyerId',
+        element: <SingleBuyerPage />
+      }
     ]
   },
 

@@ -181,3 +181,21 @@ export const unBlockBuyerSchema = z.object({
     buyerId: objectId
   })
 })
+
+export const getBuyerByIdSchema = z.object({
+  params : z.object({
+    buyerId : objectId
+  })
+})
+
+export const getFarmerByIdSchema = z.object({
+  params : z.object({
+    farmerId : objectId
+  })
+})
+
+export const getAdminByIdSchema = z.object({
+  params : z.object({
+    adminId : objectId
+  })
+})

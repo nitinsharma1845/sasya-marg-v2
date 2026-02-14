@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { validate } from "../middleware/validate.middleware.js"
-import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, globalSearchSchema, moderateListingSchema, registerAdminSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
-import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getInvites, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
+import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAdminByIdSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getBuyerByIdSchema, getFarmerByIdSchema, globalSearchSchema, moderateListingSchema, registerAdminSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
+import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getBuyerById, getFarmerById, getInvites, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
 import { requireAdmin, requireSuperAdmin } from "../middleware/adminRole.middleware.js"
 import { authLayer } from "../middleware/auth.middleware.js"
 
@@ -9,19 +9,31 @@ export const adminRoutes = Router()
 
 
 //invite admin route
+
 adminRoutes.get('/super-admin/invite', authLayer, requireSuperAdmin, createAdminInvite)
+
 //super Admin routes 
+
 adminRoutes.post('/super-admin/register', validate(bootstrapSuperAdminSchema), bootstrapSuperAdmin)
+
 adminRoutes.post('/super-admin/login', validate(adminLoginSchema), bootStrapSuperAdminLogin)
+
 adminRoutes.post('/super-admin/logout', authLayer, requireSuperAdmin, bootstrapSuperAdminLogout)
+
 adminRoutes.get("/super-admin/dashboard", authLayer, requireSuperAdmin, superAdminDashboard)
+
 adminRoutes.get("/super-admin/admins", validate(getAllAdminSchema), authLayer, requireSuperAdmin, getAllAdmins)
+
+adminRoutes.get("/super-admin/admin/:adminId", validate(getAdminByIdSchema), authLayer, requireSuperAdmin, getAdminById)
+
 adminRoutes.get("/super-admin/search", validate(globalSearchSchema), authLayer, requireSuperAdmin, globalSerachForSuperAdmin)
 
 //register Admin via inviteToken
 
 adminRoutes.post("/register", validate(registerAdminSchema), registerAdminWithInviteToken)
+
 adminRoutes.post("/login", validate(adminLoginSchema), loginAdmin)
+
 adminRoutes.post("/logout", authLayer, requireAdmin, logoutAdmin)
 
 //ADMIN & SUPER ADMIN MODERATION ROUTES
@@ -47,11 +59,15 @@ adminRoutes.patch("/queries/:queryId/reply", authLayer, requireAdmin, validate(u
 
 adminRoutes.get("/farmer", authLayer, requireAdmin, validate(getAllFarmerSchema), getAllFarmer)
 
+adminRoutes.get("/farmer/:farmerId", authLayer, requireAdmin, validate(getFarmerByIdSchema), getFarmerById)
+
 adminRoutes.patch("/farmer/:farmerId/block", authLayer, requireAdmin, validate(blockFarmerSchema), blockFarmer)
 
 adminRoutes.patch("/farmer/:farmerId/unblock", authLayer, requireAdmin, validate(unBlockFarmerSchema), unBlockFarmer)
 
 adminRoutes.get("/buyer", authLayer, requireAdmin, validate(getAllBuyerSchema), getAllBuyer)
+
+adminRoutes.get("/buyer/:buyerId", authLayer, requireAdmin, validate(getBuyerByIdSchema), getBuyerById)
 
 adminRoutes.patch("/buyer/:buyerId/block", authLayer, requireAdmin, validate(blockBuyerSchema), blockBuyer)
 

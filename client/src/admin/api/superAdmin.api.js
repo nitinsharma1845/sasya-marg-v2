@@ -19,3 +19,18 @@ export const getAllBuyer = async (searchParams) => {
     const { data } = await api.get("/admin/buyer", { params: Object.fromEntries(searchParams.entries()) })
     return data
 }
+
+export const getAdminById = async (adminId) => {
+    const { data } = await api.get(`/admin/super-admin/admin/${adminId}`)
+    return data
+}
+
+export const getFarmerById = async (farmerId) => {
+    const { data } = await api.get(`/admin/farmer/${farmerId} `)
+    return data
+}
+
+export const getBuyerById = async (buyerId) => {
+    const { data } = await api.get(`/admin/buyer/${buyerId} `)
+    return data
+}

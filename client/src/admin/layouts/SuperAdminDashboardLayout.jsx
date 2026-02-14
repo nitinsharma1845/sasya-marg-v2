@@ -105,8 +105,9 @@ export default function SuperAdminLayout () {
                 className='pl-10 bg-muted/50 border-none focus-visible:ring-accent'
               />
             </div> */}
-
-            <GlobalSearch />
+            <div className='w-full max-w-md hidden sm:block'>
+              <GlobalSearch />
+            </div>
           </div>
 
           <div className='flex items-center gap-4'>
