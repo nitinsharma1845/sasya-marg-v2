@@ -53,10 +53,10 @@ const SingleBuyerPage = () => {
   if (isPending)
     return (
       <div className='p-8 space-y-6 animate-pulse max-w-5xl mx-auto'>
-        <div className='h-32 w-full bg-secondary rounded-[2rem]' />
+        <div className='h-32 w-full bg-secondary rounded-4xl' />
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          <div className='h-48 bg-secondary rounded-[2rem]' />
-          <div className='h-48 bg-secondary rounded-[2rem]' />
+          <div className='h-48 bg-secondary rounded-4xl' />
+          <div className='h-48 bg-secondary rounded-4xl' />
         </div>
       </div>
     )
@@ -140,7 +140,7 @@ const SingleBuyerPage = () => {
           </div>
 
           {/* Activity Log Summary */}
-          <Card className='rounded-[2rem] border-border bg-card shadow-sm overflow-hidden'>
+          <Card className='rounded-4xl border-border bg-card shadow-sm overflow-hidden'>
             <CardHeader className='bg-secondary/20 pb-4'>
               <CardTitle className='text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2'>
                 <Clock size={14} /> System Records
@@ -178,7 +178,7 @@ const SingleBuyerPage = () => {
 
           <Card
             className={cn(
-              'rounded-[2rem] border-border overflow-hidden transition-all',
+              'rounded-4xl border-border overflow-hidden transition-all',
               buyer.isBlocked
                 ? 'border-destructive/30 bg-destructive/5'
                 : 'bg-card'

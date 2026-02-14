@@ -37,10 +37,10 @@ const SingleFarmerPage = () => {
 
   if (isPending) return (
     <div className="p-8 space-y-6 animate-pulse max-w-6xl mx-auto">
-      <div className="h-32 w-full bg-secondary rounded-[2rem]" />
+      <div className="h-32 w-full bg-secondary rounded-4xl" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="h-64 bg-secondary rounded-[2rem]" />
-        <div className="h-64 md:col-span-2 bg-secondary rounded-[2rem]" />
+        <div className="h-64 bg-secondary rounded-4xl" />
+        <div className="h-64 md:col-span-2 bg-secondary rounded-4xl" />
       </div>
     </div>
   )
@@ -113,7 +113,7 @@ const SingleFarmerPage = () => {
 
           {/* Block Reason if any */}
           {farmer.blockReason && (
-            <Card className="rounded-[2rem] border-destructive/20 bg-destructive/5 overflow-hidden">
+            <Card className="rounded-4xl border-destructive/20 bg-destructive/5 overflow-hidden">
                 <CardContent className="p-6 space-y-3">
                     <div className="flex items-center gap-2 font-bold text-xs uppercase text-destructive">
                         <ShieldAlert size={16} /> Governance Restriction
@@ -141,7 +141,7 @@ const SingleFarmerPage = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {farmlands.map((plot) => (
-                <Card key={plot._id} className="rounded-[2rem] border-border overflow-hidden group hover:border-primary/40 transition-all shadow-sm">
+                <Card key={plot._id} className="rounded-4xl border-border overflow-hidden group hover:border-primary/40 transition-all shadow-sm">
                    <div className="p-6 bg-secondary/20 border-b border-border flex justify-between items-center">
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-card rounded-xl border border-border text-primary">
