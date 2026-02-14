@@ -174,7 +174,7 @@ export const getAllAdminsService = async ({ query }) => {
 
     const [admins, total] = await Promise.all([
         Admin.find(filter)
-            .select("fullname email phone lastLogin")
+            .select("fullname email phone lastLogin createdAt")
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(Number(limit)),
@@ -251,6 +251,9 @@ export const loginAdminService = async ({ identifier, password }) => {
     if (!admin.isActive) throw new ApiError(403, "Admin account is not active")
 
     const token = generateToken({ _id: admin._id, role: admin.role })
+
+    admin.lastLogin = new Date()
+    await admin.save()
 
     return { admin, token }
 
