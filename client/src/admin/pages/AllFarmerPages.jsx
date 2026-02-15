@@ -12,10 +12,13 @@ import {
   CheckCircle2,
   ShieldAlert,
   Tractor,
-  AlertCircle
+  AlertCircle,
+  IdCard
 } from 'lucide-react'
 import PaginationComp from '../components/Pagination'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/store/useAuthStore'
+import Toolbar from '../components/Toolbar'
 
 const FarmerSkeleton = () => (
   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -36,6 +39,9 @@ const FarmerSkeleton = () => (
 
 const AllFarmerPages = () => {
   const { data, isLoading } = useGetAllFarmers()
+  const { role } = useAuthStore()
+
+  console.log(role)
   const navigate = useNavigate()
 
   const farmers = data?.data?.farmers || []
@@ -58,6 +64,8 @@ const AllFarmerPages = () => {
         <p className='text-muted-foreground mt-1'>
           Manage and monitor registered farmers in the system.
         </p>
+
+        {role === 'admin' && <Toolbar />}
       </div>
 
       <Separator className='my-8' />
@@ -115,7 +123,21 @@ const AllFarmerPages = () => {
                 </div>
               </CardHeader>
 
-              <CardContent className='pt-5 space-y-4'>
+              <CardContent className='pt-5 space-y-3'>
+                <div className='flex items-center gap-3 text-sm'>
+                  <IdCard size={16} className='text-muted-foreground' />
+                  <span className='font-medium'>
+                    {farmer._id || (
+                      <Badge
+                        variant='outline'
+                        className='text-xs text-muted-foreground'
+                      >
+                        Not Provided
+                      </Badge>
+                    )}
+                  </span>
+                </div>
+
                 <div className='flex items-center gap-3 text-sm'>
                   <Phone size={16} className='text-muted-foreground' />
                   <span className='font-medium'>

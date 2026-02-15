@@ -294,7 +294,8 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: 'OverView' },
-      { path: 'farmers', element: 'Farmers' }
+      { path: 'farmers', element: <AllFarmerPages /> },
+      { path: 'farmers/:farmerId', element: <SingleFarmerPage /> }
     ]
   },
 

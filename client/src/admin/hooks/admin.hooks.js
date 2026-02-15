@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { getInvites, revokeInvite } from "../api/admin.api"
+import { blockFarmer, getInvites, revokeInvite, unBlockFarmer } from "../api/admin.api"
 import { useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 import { queryClient } from "@/lib/queryClient"
@@ -23,4 +23,30 @@ export const useRevokeInvite = () => {
             toast.error(error.response?.data?.message || "Failed to revoke invite");
         }
     })
+}
+
+export const useBlockFarmer = () => {
+    return useMutation({
+        mutationFn: blockFarmer,
+        onSuccess: () => {
+            toast.success("User blocked Successfully")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to block Farmer");
+        }
+    })
+}
+
+
+export const useUnBlockFarmer = () => {
+  return useMutation({
+    mutationFn: unBlockFarmer,
+    onSuccess: (_, farmerId) => {
+      queryClient.invalidateQueries(['farmer', farmerId])
+      toast.success("User unblocked Successfully")
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Failed to unblock Farmer")
+    }
+  })
 }

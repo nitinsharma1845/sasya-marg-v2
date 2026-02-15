@@ -12,6 +12,7 @@ import { ProductReport } from '../models/productReport.model.js'
 import { GovernmentScheme } from '../models/governmentScheme.model.js'
 import { PredictHistory } from '../models/predictHistory.model.js'
 import { FarmLand } from '../models/farmLand.model.js'
+import mongoose from "mongoose"
 
 //InviteToken service
 
@@ -606,7 +607,7 @@ export const updateQueryService = async ({
 }
 
 export const getAllFarmerService = async (query) => {
-    const { page = 1, limit = 10, isVarified, isActive } = query
+    const { page = 1, limit = 10, isVarified, isActive, search } = query
 
     const filter = {}
 
@@ -617,6 +618,23 @@ export const getAllFarmerService = async (query) => {
     if (isActive) {
         filter.isActive = isActive
     }
+
+    if (search?.trim()) {
+        const regex = new RegExp(search.trim(), "i")
+
+        const conditions = [
+            { fullname: regex },
+            { email: regex },
+            { phone: regex }
+        ]
+
+        if (mongoose.Types.ObjectId.isValid(search)) {
+            conditions.push({ _id: search })
+        }
+
+        filter.$or = conditions
+    }
+
 
     const skip = (Number(page) - 1) * Number(limit)
 

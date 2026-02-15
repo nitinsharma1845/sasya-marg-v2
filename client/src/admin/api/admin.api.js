@@ -9,3 +9,13 @@ export const revokeInvite = async (inviteId) => {
     const { data } = await api.delete(`/admin/invites/revoke/${inviteId}`,)
     return data
 }
+
+export const blockFarmer = async (payload) => {
+    const { data } = await api.patch(`/admin/farmer/${payload.farmerId}/block`, { reason: payload.reason })
+    return data
+}
+
+export const unBlockFarmer = async (farmerId) => {
+    const { data } = await api.patch(`/admin/farmer/${farmerId}/unblock`)
+    return data
+}

@@ -1,4 +1,4 @@
-import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, unblockFarmerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 
@@ -201,7 +201,7 @@ export const blockFarmer = asyncHandler(async (req, res) => {
 })
 
 export const unBlockFarmer = asyncHandler(async (req, res) => {
-    const farmer = await blockFarmerService({ farmerId: req.params.farmerId, })
+    const farmer = await unblockFarmerService({ farmerId: req.params.farmerId, })
 
     return res.status(200).json(new ApiResponse(200, farmer, "farmer unBlocked"))
 })

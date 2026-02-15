@@ -135,8 +135,8 @@ export const getAllFarmerSchema = z.object({
   query: z.object({
     page: z.number().positive().optional(),
     limit: z.number().positive().optional(),
-    isVarified: z.boolean().optional(),
-    isActive: z.boolean().optional(),
+    isVarified: z.coerce.boolean().optional(),
+    isActive: z.coerce.boolean().optional(),
   })
 })
 
