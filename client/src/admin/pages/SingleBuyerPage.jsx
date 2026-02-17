@@ -109,7 +109,7 @@ const SingleBuyerPage = () => {
                 {new Date(buyer.createdAt).toLocaleDateString()}
               </span>
 
-              <span className='flex items-center gap-1 font-mono text-[10px] sm:text-xs bg-muted px-2 py-0.5 rounded-md truncate max-w-[180px] sm:max-w-none'>
+              <span className='flex items-center gap-1 font-mono text-[10px] sm:text-xs bg-muted px-2 py-0.5 rounded-md truncate max-w-45 sm:max-w-none'>
                 <Fingerprint size={10} /> {buyer._id}
               </span>
             </div>

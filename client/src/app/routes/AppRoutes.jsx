@@ -24,6 +24,7 @@ import SingleFarmerPage from '@/admin/pages/SingleFarmerPage'
 import SingleAdminPage from '@/admin/pages/SingleAdminPage'
 import SingleBuyerPage from '@/admin/pages/SingleBuyerPage'
 import AdminOverviewPage from '@/admin/pages/AdminOverviewPage'
+import HarvestedListingsPage from '@/admin/pages/harvestedListings/HarvestedListingsPage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -298,7 +299,8 @@ const router = createBrowserRouter([
       { path: 'buyers', element: <AllBuyerPage /> },
       { path: 'buyers/:buyerId', element: <SingleBuyerPage /> },
       { path: 'farmers', element: <AllFarmerPages /> },
-      { path: 'farmers/:farmerId', element: <SingleFarmerPage /> }
+      { path: 'farmers/:farmerId', element: <SingleFarmerPage /> },
+      { path: 'product/harvested', element: <HarvestedListingsPage /> }
     ]
   },
 

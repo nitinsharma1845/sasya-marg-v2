@@ -156,9 +156,9 @@ function SidebarContent ({ onItemClick }) {
           onClick={onItemClick}
         />
         <NavItem
-          to='/admin/dashboard/analysis'
+          to='/admin/dashboard/product/harvested'
           icon={<Sprout size={20} />}
-          label='Analysis'
+          label='Harvested'
           onClick={onItemClick}
         />
         <NavItem

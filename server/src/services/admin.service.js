@@ -191,7 +191,7 @@ export const getAllAdminsService = async ({ query }) => {
             total,
             page,
             limit,
-            pages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit)
         }
     }
 }
@@ -414,7 +414,7 @@ export const getAllPreHarvestedListingService = async (query) => {
             total,
             page,
             limit,
-            pages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit)
         }
     }
 }
@@ -455,7 +455,7 @@ export const getAllProductListingService = async (query) => {
             total,
             page,
             limit,
-            pages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit)
         }
     }
 }
@@ -572,7 +572,7 @@ export const getAllQueryService = async (query) => {
             total,
             page,
             limit,
-            pages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit)
         }
     }
 }
@@ -650,7 +650,7 @@ export const getAllFarmerService = async (query) => {
             total,
             page,
             limit,
-            pages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit)
         }
     }
 }
