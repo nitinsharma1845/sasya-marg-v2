@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { blockFarmer, getInvites, revokeInvite, unBlockFarmer } from "../api/admin.api"
+import { blockFarmer, getAdminDasboard, getInvites, revokeInvite, unBlockFarmer } from "../api/admin.api"
 import { useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 import { queryClient } from "@/lib/queryClient"
@@ -39,14 +39,22 @@ export const useBlockFarmer = () => {
 
 
 export const useUnBlockFarmer = () => {
-  return useMutation({
-    mutationFn: unBlockFarmer,
-    onSuccess: (_, farmerId) => {
-      queryClient.invalidateQueries(['farmer', farmerId])
-      toast.success("User unblocked Successfully")
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || "Failed to unblock Farmer")
-    }
-  })
+    return useMutation({
+        mutationFn: unBlockFarmer,
+        onSuccess: (_, farmerId) => {
+            queryClient.invalidateQueries(['farmer', farmerId])
+            toast.success("User unblocked Successfully")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to unblock Farmer")
+        }
+    })
+}
+
+
+export const useGetAdminDashboard = () => {
+    return useQuery({
+        queryKey: ['admin', 'dashbaord'],
+        queryFn: getAdminDasboard
+    })
 }

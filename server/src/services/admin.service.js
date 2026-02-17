@@ -1192,7 +1192,12 @@ export const adminDashboardService = async () => {
         resolvedQueries,
 
         recentListings,
-        recentQueries
+        recentQueries,
+        recentReports,
+
+        totalReports,
+        pendingReports,
+        resolvedReports
     ] = await Promise.all([
 
 
@@ -1231,7 +1236,16 @@ export const adminDashboardService = async () => {
         Query.find()
             .sort({ createdAt: -1 })
             .limit(5)
-            .select("subject status createdAt")
+            .select("subject status createdAt"),
+
+        ProductReport.find()
+            .sort({ createdAt: -1 })
+            .limit(5)
+            .select("reason description status createdAt"),
+
+        ProductReport.countDocuments(),
+        ProductReport.countDocuments({ status: "pending" }),
+        ProductReport.countDocuments({ status: { $in: ["reviewed", "action_taken"] } })
     ])
 
     return {
@@ -1265,15 +1279,25 @@ export const adminDashboardService = async () => {
             },
 
             queries: {
-                total: totalQueries,
-                open: openQueries,
-                resolved: resolvedQueries
+                farmerQueries: {
+                    total: totalQueries,
+                    open: openQueries,
+                    resolved: resolvedQueries
+                },
+                buyerQueries: {
+                    total: totalReports,
+                    open: pendingReports,
+                    resolved: resolvedReports
+                }
             }
         },
 
         recent: {
             listings: recentListings,
-            queries: recentQueries
+            queries: {
+                farmerQueries: recentQueries,
+                buyersReports: recentReports
+            }
         }
     }
 }

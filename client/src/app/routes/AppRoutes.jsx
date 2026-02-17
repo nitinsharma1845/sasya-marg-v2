@@ -23,6 +23,7 @@ import AllFarmerPages from '@/admin/pages/AllFarmerPages'
 import SingleFarmerPage from '@/admin/pages/SingleFarmerPage'
 import SingleAdminPage from '@/admin/pages/SingleAdminPage'
 import SingleBuyerPage from '@/admin/pages/SingleBuyerPage'
+import AdminOverviewPage from '@/admin/pages/AdminOverviewPage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -293,7 +294,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: 'OverView' },
+      { index: true, element: <AdminOverviewPage /> },
       { path: 'farmers', element: <AllFarmerPages /> },
       { path: 'farmers/:farmerId', element: <SingleFarmerPage /> }
     ]

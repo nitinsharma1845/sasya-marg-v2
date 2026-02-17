@@ -25,6 +25,7 @@ import {
 import { cn } from '@/lib/utils'
 import { BlockUserDialog } from '../components/BlockUserDialog'
 import UnblockUserDialog from '../components/UnblockUserDialog'
+import { useAuthStore } from '@/store/useAuthStore'
 
 const DataPlaceholder = ({ text = 'Not Provided' }) => (
   <span className='text-muted-foreground/40 italic text-xs flex items-center gap-1 font-normal'>
@@ -55,6 +56,7 @@ const InfoBox = ({ icon: Icon, label, value, colorClass }) => (
 
 const SingleFarmerPage = () => {
   const { farmerId } = useParams()
+  const { role } = useAuthStore()
   const { data: response, isPending } = useGetFarmerById(farmerId)
 
   if (isPending)
@@ -74,7 +76,7 @@ const SingleFarmerPage = () => {
   return (
     <div className='p-4 md:p-10 min-h-screen bg-background text-foreground max-w-7xl mx-auto space-y-6 md:space-y-10'>
       {/* 1. Header Hero Section - Fixed for Mobile */}
-      <div className='relative overflow-hidden bg-card p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] border border-border shadow-sm'>
+      <div className='relative overflow-hidden bg-card p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-border shadow-sm'>
         <Tractor
           size={180}
           className='absolute -right-10 -bottom-10 text-primary opacity-[0.04] pointer-events-none hidden sm:block'
@@ -122,13 +124,15 @@ const SingleFarmerPage = () => {
             </div>
           </div>
 
-          <div className='w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-border'>
-            {farmer?.isActive ? (
-              <BlockUserDialog user={farmer} className='w-full md:w-auto' />
-            ) : (
-              <UnblockUserDialog user={farmer} className='w-full md:w-auto' />
-            )}
-          </div>
+          {role === 'admin' && (
+            <div className='w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-border'>
+              {farmer?.isActive ? (
+                <BlockUserDialog user={farmer} className='w-full md:w-auto' />
+              ) : (
+                <UnblockUserDialog user={farmer} className='w-full md:w-auto' />
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -195,7 +199,7 @@ const SingleFarmerPage = () => {
           </div>
 
           {farmlands.length === 0 ? (
-            <div className='py-16 border-2 border-dashed border-border rounded-[2rem] flex flex-col items-center justify-center text-muted-foreground bg-secondary/5'>
+            <div className='py-16 border-2 border-dashed border-border rounded-4xl flex flex-col items-center justify-center text-muted-foreground bg-secondary/5'>
               <Sprout size={40} className='opacity-20 mb-3' />
               <p className='text-sm font-medium'>No farmlands registered</p>
             </div>
@@ -265,7 +269,7 @@ const SingleFarmerPage = () => {
                           <span className='text-muted-foreground flex items-center gap-2'>
                             <item.icon size={13} /> {item.label}
                           </span>
-                          <span className='font-semibold truncate max-w-[120px] capitalize'>
+                          <span className='font-semibold truncate max-w-30 capitalize'>
                             {item.val}
                           </span>
                         </div>
