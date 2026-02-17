@@ -25,3 +25,13 @@ export const getAdminDasboard = async () => {
     const { data } = await api.get("/admin/dashboard")
     return data
 }
+
+export const blockBuyer = async (payload) => {
+    const { data } = await api.patch(`/admin/buyer/${payload.buyerId}/block`, { reason: payload.reason })
+    return data
+}
+
+export const unblockBuyer = async (buyerId) => {
+    const { data } = await api.patch(`/admin/buyer/${buyerId}/unblock`)
+    return data
+}

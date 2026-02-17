@@ -16,6 +16,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import PaginationComp from '../components/Pagination'
 import { useNavigate } from 'react-router-dom'
+import ToolbarForFarmer from '../components/Toolbar'
+import { useAuthStore } from '@/store/useAuthStore'
 
 const BuyerSkeleton = () => (
   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -43,6 +45,7 @@ const BuyerSkeleton = () => (
 
 const AllBuyerPage = () => {
   const { data, isLoading } = useGetAllBuyers()
+  const { role } = useAuthStore()
   const navigate = useNavigate()
 
   const buyers = data?.data?.buyers || []
@@ -50,26 +53,30 @@ const AllBuyerPage = () => {
 
   return (
     <div className='p-6 min-h-screen bg-background text-foreground'>
-      <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
-        <div>
-          <div className='flex items-center gap-3'>
-            <h1 className='text-3xl font-bold tracking-tight text-primary'>
-              Buyer Directory
-            </h1>
-            {!isLoading && (
-              <Badge
-                variant='secondary'
-                className='px-3 py-1 text-sm font-semibold bg-primary/10 text-primary border-primary/20'
-              >
-                <Users size={14} className='mr-1.5' />
-                {pagination.total || buyers.length} Total
-              </Badge>
-            )}
+      <div className='flex flex-col gap-2 w-full'>
+        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+          <div>
+            <div className='flex items-center gap-3'>
+              <h1 className='text-3xl font-bold tracking-tight text-primary'>
+                Buyer Directory
+              </h1>
+              {!isLoading && (
+                <Badge
+                  variant='secondary'
+                  className='px-3 py-1 text-sm font-semibold bg-primary/10 text-primary border-primary/20'
+                >
+                  <Users size={14} className='mr-1.5' />
+                  {pagination.total || buyers.length} Total
+                </Badge>
+              )}
+            </div>
+            <p className='text-muted-foreground mt-1'>
+              Comprehensive list of all registered buyers in Sasya Marg.
+            </p>
           </div>
-          <p className='text-muted-foreground mt-1'>
-            Comprehensive list of all registered buyers in Sasya Marg.
-          </p>
         </div>
+
+        {role === 'admin' && <ToolbarForFarmer type={'buyer'} />}
       </div>
 
       <Separator className={'my-8'} />

@@ -10,7 +10,8 @@ import {
   Menu,
   Bell,
   Search,
-  X
+  X,
+  UsersRound
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -146,6 +147,12 @@ function SidebarContent ({ onItemClick }) {
           to='/admin/dashboard/farmers'
           icon={<Users size={20} />}
           label='Farmers'
+          onClick={onItemClick}
+        />
+        <NavItem
+          to='/admin/dashboard/buyers'
+          icon={<UsersRound size={20} />}
+          label='Buyers'
           onClick={onItemClick}
         />
         <NavItem

@@ -683,12 +683,28 @@ export const unblockFarmerService = async ({ farmerId }) => {
 }
 
 export const getAllBuyerService = async (query) => {
-    const { page = 1, limit = 10, isBlocked } = query
+    const { page = 1, limit = 10, isBlocked, search } = query
 
     const filter = {}
 
     if (isBlocked) {
         filter.isBlocked = isBlocked
+    }
+
+    if (search?.trim()) {
+        const regex = new RegExp(search.trim(), "i")
+
+        const conditions = [
+            { fullname: regex },
+            { email: regex },
+            { phone: regex }
+        ]
+
+        if (mongoose.Types.ObjectId.isValid(search)) {
+            conditions.push({ _id: search })
+        }
+
+        filter.$or = conditions
     }
 
     const skip = (Number(page) - 1) * Number(limit)

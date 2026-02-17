@@ -295,6 +295,8 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AdminOverviewPage /> },
+      { path: 'buyers', element: <AllBuyerPage /> },
+      { path: 'buyers/:buyerId', element: <SingleBuyerPage /> },
       { path: 'farmers', element: <AllFarmerPages /> },
       { path: 'farmers/:farmerId', element: <SingleFarmerPage /> }
     ]

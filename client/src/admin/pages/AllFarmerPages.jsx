@@ -65,7 +65,7 @@ const AllFarmerPages = () => {
           Manage and monitor registered farmers in the system.
         </p>
 
-        {role === 'admin' && <Toolbar />}
+        {role === 'admin' && <Toolbar type={"farmer"} />}
       </div>
 
       <Separator className='my-8' />

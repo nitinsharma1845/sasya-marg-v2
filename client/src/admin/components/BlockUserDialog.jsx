@@ -12,12 +12,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { useBlockFarmer } from '../hooks/admin.hooks'
+import { useBlockBuyer, useBlockFarmer } from '../hooks/admin.hooks'
 import { queryClient } from '@/lib/queryClient'
 
 export function BlockUserDialog ({ user }) {
   const [open, setOpen] = useState(false)
   const blockFarmer = useBlockFarmer()
+  const blockBuyer = useBlockBuyer()
 
   const {
     register,
@@ -35,6 +36,21 @@ export function BlockUserDialog ({ user }) {
         {
           onSuccess: () => {
             queryClient.invalidateQueries(['farmer', user._id])
+            setOpen(false)
+          }
+        }
+      )
+    }
+
+    if (user.role === 'buyer') {
+      blockBuyer.mutate(
+        {
+          reason: data.reason,
+          buyerId: user._id
+        },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries(['buyer', user._id])
             setOpen(false)
           }
         }

@@ -18,6 +18,10 @@ import {
   UserCheck
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { useAuthStore } from '@/store/useAuthStore'
+import { BlockUserDialog } from '../components/BlockUserDialog'
+import UnblockUserDialog from '../components/UnblockUserDialog'
 
 const DataPlaceholder = ({ text = 'Not Provided' }) => (
   <span className='text-muted-foreground/40 italic text-xs flex items-center gap-1 font-normal'>
@@ -49,6 +53,7 @@ const InfoBox = ({ icon: Icon, label, value, colorClass }) => (
 const SingleBuyerPage = () => {
   const { buyerId } = useParams()
   const { data: response, isPending } = useGetBuyerById(buyerId)
+  const { role } = useAuthStore()
 
   if (isPending)
     return (
@@ -62,48 +67,64 @@ const SingleBuyerPage = () => {
     )
 
   const buyer = response?.data || {}
+  const isBlocked = buyer?.isBlocked || false
 
   return (
     <div className='p-6 md:p-10 min-h-screen bg-background text-foreground max-w-6xl mx-auto space-y-8'>
-      {/* 1. Header Hero Section */}
-      <div className='relative overflow-hidden bg-card p-8 rounded-[2.5rem] border border-border shadow-sm flex flex-col md:flex-row items-center justify-between gap-6'>
-        {/* Abstract Background Icon */}
+      
+      <div className='relative overflow-hidden bg-card p-5 sm:p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-border shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6'>
         <UserCheck
-          size={180}
-          className='absolute -right-10 -bottom-10 text-primary opacity-[0.03] pointer-events-none'
+          size={120}
+          className='absolute -right-6 -bottom-6 md:-right-10 md:-bottom-10 text-primary opacity-[0.04] pointer-events-none'
         />
 
-        <div className='flex items-center gap-6 z-10'>
-          <div className='h-20 w-20 rounded-3xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-600 shadow-inner'>
-            <User size={42} />
+        <div className='flex items-start sm:items-center gap-4 sm:gap-6 z-10 w-full md:w-auto'>
+          <div className='h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 rounded-2xl md:rounded-3xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-inner shrink-0'>
+            <User size={28} className='sm:hidden' />
+            <User size={34} className='hidden sm:block md:hidden' />
+            <User size={42} className='hidden md:block' />
           </div>
-          <div className='space-y-2'>
-            <div className='flex items-center gap-3 flex-wrap'>
-              <h1 className='text-3xl font-bold tracking-tight'>
+
+          <div className='space-y-2 min-w-0'>
+            <div className='flex items-center gap-2 sm:gap-3 flex-wrap'>
+              <h1 className='text-xl sm:text-2xl md:text-3xl font-bold tracking-tight truncate'>
                 {buyer.fullname || <DataPlaceholder text='Unnamed Buyer' />}
               </h1>
+
               <Badge
                 variant={buyer.isBlocked ? 'destructive' : 'secondary'}
                 className={cn(
-                  'px-3 py-1 font-bold',
+                  'px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold whitespace-nowrap',
                   !buyer.isBlocked &&
-                    'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                    'bg-primary/10 text-primary hover:bg-primary/20'
                 )}
               >
                 {buyer.isBlocked ? 'Blocked Access' : 'Authorized Buyer'}
               </Badge>
             </div>
-            <div className='flex items-center gap-4 text-sm text-muted-foreground font-medium'>
+
+            <div className='flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground font-medium'>
               <span className='flex items-center gap-1'>
-                <Calendar size={14} /> Joined{' '}
+                <Calendar size={12} /> Joined{' '}
                 {new Date(buyer.createdAt).toLocaleDateString()}
               </span>
-              <span className='flex items-center gap-1 font-mono text-xs bg-muted px-2 py-0.5 rounded-md'>
-                <Fingerprint size={12} /> {buyer._id}
+
+              <span className='flex items-center gap-1 font-mono text-[10px] sm:text-xs bg-muted px-2 py-0.5 rounded-md truncate max-w-[180px] sm:max-w-none'>
+                <Fingerprint size={10} /> {buyer._id}
               </span>
             </div>
           </div>
         </div>
+
+        {role === 'admin' && (
+          <div className='w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-border'>
+            {!isBlocked ? (
+              <BlockUserDialog user={buyer} className='w-full md:w-auto' />
+            ) : (
+              <UnblockUserDialog user={buyer} className='w-full md:w-auto' />
+            )}
+          </div>
+        )}
       </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>

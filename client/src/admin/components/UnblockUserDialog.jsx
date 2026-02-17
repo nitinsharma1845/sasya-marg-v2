@@ -10,16 +10,20 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { useUnBlockFarmer } from '../hooks/admin.hooks'
+import { useUnBlockBuyer, useUnBlockFarmer } from '../hooks/admin.hooks'
 import { useState } from 'react'
 
 export default function UnblockUserDialog ({ user }) {
   const unBlockFarmer = useUnBlockFarmer()
+  const unBlockBuyer = useUnBlockBuyer()
   const [open, setOpen] = useState(false)
 
   const handleUnblockUser = () => {
     if (user.role === 'farmer') {
       unBlockFarmer.mutate(user._id)
+    }
+    if (user.role === 'buyer') {
+      unBlockBuyer.mutate(user._id)
     }
   }
 

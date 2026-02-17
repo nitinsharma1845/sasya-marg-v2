@@ -94,8 +94,8 @@ export const registerAdminSchema = z.object({
 
 export const getAllListingSchema = z.object({
   query: z.object({
-    page: z.number().positive().optional(),
-    limit: z.number().positive().optional(),
+    page: z.coerce.number().positive().optional(),
+    limit: z.coerce.number().positive().optional(),
     action: z.enum(["pending", "approved", "rejected"]).optional()
   })
 })
@@ -112,8 +112,8 @@ export const moderateListingSchema = z.object({
 
 export const getAllQuerySchema = z.object({
   query: z.object({
-    page: z.number().positive().optional(),
-    limit: z.number().positive().optional(),
+    page: z.coerce.number().positive().optional(),
+    limit: z.coerce.number().positive().optional(),
     inquiery: z.enum(["crop", "product", "weather", "pricing", "technical", "other"]).optional(),
     status: z.enum(["open", "in_progress", "resolved", "closed"]).optional(),
     priority: z.enum(["low", "medium", "high", "urgent"]).optional()
@@ -133,8 +133,8 @@ export const updateQuerySchema = z.object({
 
 export const getAllFarmerSchema = z.object({
   query: z.object({
-    page: z.number().positive().optional(),
-    limit: z.number().positive().optional(),
+    page: z.coerce.number().positive().optional(),
+    limit: z.coerce.number().positive().optional(),
     isVarified: z.coerce.boolean().optional(),
     isActive: z.coerce.boolean().optional(),
   })
@@ -159,9 +159,9 @@ export const unBlockFarmerSchema = z.object({
 
 export const getAllBuyerSchema = z.object({
   query: z.object({
-    page: z.number().positive().optional(),
-    limit: z.number().positive().optional(),
-    isBlocked: z.boolean().optional(),
+    page: z.coerce.number().positive().optional(),
+    limit: z.coerce.number().positive().optional(),
+    isBlocked: z.coerce.boolean().optional(),
   })
 })
 
