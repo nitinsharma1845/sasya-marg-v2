@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { validate } from "../middleware/validate.middleware.js"
-import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAdminByIdSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getBuyerByIdSchema, getFarmerByIdSchema, globalSearchSchema, moderateListingSchema, registerAdminSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
-import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getBuyerById, getFarmerById, getInvites, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
+import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAdminByIdSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getBuyerByIdSchema, getFarmerByIdSchema, getSingleListing, globalSearchSchema, moderateListingSchema, registerAdminSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
+import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getBuyerById, getFarmerById, getInvites, getSinglePreHarvestedListing, getSingleProductListing, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
 import { requireAdmin, requireSuperAdmin } from "../middleware/adminRole.middleware.js"
 import { authLayer } from "../middleware/auth.middleware.js"
 
@@ -43,7 +43,11 @@ adminRoutes.delete("/invites/revoke/:inviteId", authLayer, requireSuperAdmin, va
 
 adminRoutes.get("/listings/pre-harvested", authLayer, requireAdmin, validate(getAllListingSchema), getAllPreHarvestedListing)
 
+adminRoutes.get("/listings/pre-harvested/:productId", authLayer, requireAdmin, validate(getSingleListing), getSinglePreHarvestedListing)
+
 adminRoutes.get("/listings/harvested", authLayer, requireAdmin, validate(getAllListingSchema), getAllProductListing)
+
+adminRoutes.get("/listings/harvested/:productId", authLayer, requireAdmin, validate(getSingleListing), getSingleProductListing)
 
 adminRoutes.patch("/listings/pre-harvested/:listingId/moderate", authLayer, requireAdmin, validate(moderateListingSchema), moderatePreHarvestListing)
 

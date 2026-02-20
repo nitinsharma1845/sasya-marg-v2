@@ -100,6 +100,12 @@ export const getAllListingSchema = z.object({
   })
 })
 
+export const getSingleListing = z.object({
+  params : z.object({
+    productId : objectId
+  })
+})
+
 export const moderateListingSchema = z.object({
   params: z.object({
     listingId: objectId

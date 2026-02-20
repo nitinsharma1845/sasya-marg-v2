@@ -1,6 +1,8 @@
 import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, unblockFarmerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
+import { getProductByIdService } from '../services/product.service.js'
+import { getSinglePreharvestListingService } from '../services/preHarvestListing.service.js'
 
 
 //Admin Invite Token Controller
@@ -124,10 +126,24 @@ export const getAllPreHarvestedListing = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, { listings, pagination }, "Listing fetch successfully"))
 })
 
+export const getSinglePreHarvestedListing = asyncHandler(async (req, res) => {
+    const { productId } = req.params
+    const listing = await getSinglePreharvestListingService(null, "admin", productId)
+
+    return res.status(200).json(new ApiResponse(200, listing, "Listing fetched successfully"))
+})
+
 export const getAllProductListing = asyncHandler(async (req, res) => {
     const { listings, pagination } = await getAllProductListingService(req.query)
 
     return res.status(200).json(new ApiResponse(200, { listings, pagination }, "Listing fetch successfully"))
+})
+
+export const getSingleProductListing = asyncHandler(async (req, res) => {
+    const { productId } = req.params
+
+    const listing = await getProductByIdService({ listingId: productId })
+    return res.status(200).json(new ApiResponse(200, listing, "Listing fetched successfully"))
 })
 
 export const moderatePreHarvestListing = asyncHandler(async (req, res) => {

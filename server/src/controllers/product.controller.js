@@ -42,11 +42,9 @@ export const getMyProducts = asyncHandler(async (req, res) => {
 })
 
 export const getProductById = asyncHandler(async (req, res) => {
-    const farmerId = req.user._id
     const { listingId } = req.params
 
     const result = await getProductByIdService({
-        farmerId,
         listingId
     })
 

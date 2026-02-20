@@ -3,8 +3,10 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { MapPin, User, AlertCircle, ImageOff } from 'lucide-react'
 import { getOptimizedImg } from '@/lib/imageHelper'
+import { useNavigate } from 'react-router-dom'
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate()
   const {
     title = 'Untitled Listing',
     price = { value: 'N/A', unit: '' },
@@ -21,7 +23,10 @@ const ProductCard = ({ product }) => {
   const mainImage = images?.[0]?.url
 
   return (
-    <Card className='group overflow-hidden border-muted bg-card hover:shadow-2xl transition-all duration-300'>
+    <Card
+      onClick={() => navigate(`${product._id}`)}
+      className='cursor-pointer group overflow-hidden border-muted bg-card hover:shadow-2xl transition-all duration-300'
+    >
       <div className='relative aspect-4/3 overflow-hidden bg-muted flex items-center justify-center'>
         {mainImage ? (
           <img

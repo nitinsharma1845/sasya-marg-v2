@@ -84,8 +84,8 @@ export const myProductListings = async ({ farmerId, query }) => {
     }
 }
 
-export const getProductByIdService = async ({ listingId, farmerId }) => {
-    const product = await Product.findOne({ _id: listingId, farmer: farmerId }).populate({
+export const getProductByIdService = async ({ listingId }) => {
+    const product = await Product.findById(listingId).populate({
         path: "farmland",
         select: "name size location",
         populate: {

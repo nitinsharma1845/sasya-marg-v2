@@ -420,11 +420,26 @@ export const getAllPreHarvestedListingService = async (query) => {
 }
 
 export const getAllProductListingService = async (query) => {
-    const { page = 1, limit = 10, moderation } = query
+    const { page = 1, limit = 10, moderation, search } = query
 
     const filter = {}
     if (moderation) {
         filter.moderation = moderation
+    }
+
+    if (search?.trim()) {
+        const searchRegex = new RegExp(search.trim(), "i")
+
+        const conditions = [
+            { title: searchRegex },
+            { category: { $in: [searchRegex] } }
+        ]
+
+        if (mongoose.Types.ObjectId.isValid(search)) {
+            conditions.push({ _id: search })
+        }
+
+        filter.$or = conditions
     }
 
     const skip = (Number(page) - 1) * limit
@@ -498,15 +513,27 @@ export const ModerateProductListingService = async ({
     reason = null
 }) => {
 
-    if (!["approved", "rejected"].includes(action)) {
+    const allowedActions = ["approved", "rejected", "blocked"]
+
+    if (!allowedActions.includes(action)) {
         throw new ApiError(400, "Invalid moderation action")
     }
 
     const listing = await Product.findById(listingId)
     if (!listing) throw new ApiError(404, "Listing not found")
 
-    if (listing.moderation !== "pending") {
-        throw new ApiError(400, "Listing already moderated")
+    const currentStatus = listing.moderation
+
+
+    const allowedTransitions = {
+        pending: ["approved", "rejected"],
+        approved: ["blocked"],
+        blocked: ["approved"],
+        rejected: []
+    }
+
+    if (!allowedTransitions[currentStatus].includes(action)) {
+        throw new ApiError(400, `Cannot change status from ${currentStatus} to ${action}`)
     }
 
     if (action === "rejected" && !reason) {
@@ -519,8 +546,10 @@ export const ModerateProductListingService = async ({
     listing.rejectionReason = action === "rejected" ? reason : null
 
     await listing.save()
+
     return listing
 }
+
 
 export const getAllQueryService = async (query) => {
     let {
