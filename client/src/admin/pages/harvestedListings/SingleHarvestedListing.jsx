@@ -20,7 +20,9 @@ import {
   Activity,
   Clock,
   Box,
-  CircleCheckBig
+  CircleCheckBig,
+  AlertCircle,
+  CircleX
 } from 'lucide-react'
 import { RejectListingDialog } from '@/admin/components/RejectListingDialog'
 import ApproveListingDialog from '@/admin/components/ApproveListingDialog'
@@ -102,10 +104,35 @@ const SingleHarvestedListing = () => {
             )}
 
             {moderation === 'rejected' && (
-              <ApproveListingDialog product={product} />
+              <div className='flex items-center gap-2 text-destructive font-bold bg-primary/10 px-4 py-2 rounded-lg'>
+                <CircleX className='h-6 w-6' /> Rejected
+              </div>
             )}
           </div>
         </div>
+
+        {moderation === 'rejected' && (
+          <Card className='border-destructive/50 bg-destructive/5 shadow-none'>
+            <CardHeader className='pb-2'>
+              <CardTitle className='text-lg flex items-center gap-2 text-destructive'>
+                <AlertCircle className='w-5 h-5' /> Rejection Details
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className='text-sm font-medium text-foreground'>
+                Reason:{' '}
+                <span className='font-normal text-muted-foreground'>
+                  {product?.rejectionReason || 'No reason provided'}
+                </span>
+              </p>
+              {product?.reviewedAt && (
+                <p className='text-[10px] text-muted-foreground mt-2 italic'>
+                  Reviewed on: {new Date(product.reviewedAt).toLocaleString()}
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
           <div className='lg:col-span-8 space-y-6'>

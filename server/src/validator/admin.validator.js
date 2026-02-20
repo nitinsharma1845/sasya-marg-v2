@@ -96,13 +96,14 @@ export const getAllListingSchema = z.object({
   query: z.object({
     page: z.coerce.number().positive().optional(),
     limit: z.coerce.number().positive().optional(),
-    action: z.enum(["pending", "approved", "rejected"]).optional()
+    action: z.enum(["pending", "approved", "rejected"]).optional(),
+    search: z.string().optional()
   })
 })
 
 export const getSingleListing = z.object({
-  params : z.object({
-    productId : objectId
+  params: z.object({
+    productId: objectId
   })
 })
 
@@ -189,19 +190,19 @@ export const unBlockBuyerSchema = z.object({
 })
 
 export const getBuyerByIdSchema = z.object({
-  params : z.object({
-    buyerId : objectId
+  params: z.object({
+    buyerId: objectId
   })
 })
 
 export const getFarmerByIdSchema = z.object({
-  params : z.object({
-    farmerId : objectId
+  params: z.object({
+    farmerId: objectId
   })
 })
 
 export const getAdminByIdSchema = z.object({
-  params : z.object({
-    adminId : objectId
+  params: z.object({
+    adminId: objectId
   })
 })

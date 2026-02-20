@@ -19,7 +19,7 @@ const AdminOverviewPage = () => {
 
   if (isLoading) return <DashboardSkeleton />;
 
-  const activeFarmerPercent = Math.round((stats.users.farmers.active / stats.users.farmers.total) * 100) || 0;
+  const activeFarmerPercent = Math.round((stats?.users.farmers.active / stats?.users.farmers.total) * 100) || 0;
   const pendingListingPercent = Math.round((stats.listings.preHarvest.pending / stats.listings.preHarvest.total) * 100) || 0;
 
   return (
@@ -37,7 +37,7 @@ const AdminOverviewPage = () => {
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard 
           title="Farmers" 
-          value={stats.users.farmers.total} 
+          value={stats?.users.farmers.total} 
           subValue={`${activeFarmerPercent}% Activity Rate`} 
           icon={<Users className="w-5 h-5" />} 
         />

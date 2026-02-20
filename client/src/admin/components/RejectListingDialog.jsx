@@ -13,11 +13,15 @@ import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { XCircle } from 'lucide-react'
-import { useModerateHarvestedListing } from '../hooks/moderation.hooks'
+import {
+  useModerateHarvestedListing,
+  useModeratePreHarvestListing
+} from '../hooks/moderation.hooks'
 
-export function RejectListingDialog({ product }) {
+export function RejectListingDialog ({ product }) {
   const [open, setOpen] = useState(false)
   const moderateProduct = useModerateHarvestedListing()
+  const moderatePreHarvestProduct = useModeratePreHarvestListing()
 
   const {
     register,
@@ -32,13 +36,24 @@ export function RejectListingDialog({ product }) {
       action: 'rejected',
       reason: data.reason
     }
+    
+    if (product.productType === 'harvested') {
+      moderateProduct.mutate(payload, {
+        onSuccess: () => {
+          reset()
+          setOpen(false)
+        }
+      })
+    }
 
-    moderateProduct.mutate(payload, {
-      onSuccess: () => {
-        reset()
-        setOpen(false)
-      }
-    })
+    if (product.productType === 'pre-harvest') {
+      moderatePreHarvestProduct.mutate(payload, {
+        onSuccess: () => {
+          reset()
+          setOpen(false)
+        }
+      })
+    }
   }
 
   return (
@@ -78,11 +93,7 @@ export function RejectListingDialog({ product }) {
           </div>
 
           <DialogFooter>
-            <Button
-              type='submit'
-              variant='destructive'
-              disabled={isSubmitting}
-            >
+            <Button type='submit' variant='destructive' disabled={isSubmitting}>
               Reject
             </Button>
           </DialogFooter>

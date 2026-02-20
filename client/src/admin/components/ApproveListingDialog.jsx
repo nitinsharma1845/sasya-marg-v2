@@ -12,11 +12,15 @@ import {
 import { Button } from '@/components/ui/button'
 import { CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
-import { useModerateHarvestedListing } from '../hooks/moderation.hooks'
+import {
+  useModerateHarvestedListing,
+  useModeratePreHarvestListing
+} from '../hooks/moderation.hooks'
 
-export default function ApproveListingDialog({ product }) {
+export default function ApproveListingDialog ({ product }) {
   const [open, setOpen] = useState(false)
   const moderateProduct = useModerateHarvestedListing()
+  const moderatePreHarvestProduct = useModeratePreHarvestListing()
 
   const handleApprove = () => {
     const payload = {
@@ -24,11 +28,21 @@ export default function ApproveListingDialog({ product }) {
       action: 'approved'
     }
 
-    moderateProduct.mutate(payload, {
-      onSuccess: () => {
-        setOpen(false)
-      }
-    })
+    if (product.productType === 'harvested') {
+      moderateProduct.mutate(payload, {
+        onSuccess: () => {
+          setOpen(false)
+        }
+      })
+    }
+
+    if (product.productType === 'pre-harvest') {
+      moderatePreHarvestProduct.mutate(payload, {
+        onSuccess: () => {
+          setOpen(false)
+        }
+      })
+    }
   }
 
   return (

@@ -11,7 +11,8 @@ import {
   Bell,
   Search,
   X,
-  UsersRound
+  UsersRound,
+  Flower2
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -162,9 +163,9 @@ function SidebarContent ({ onItemClick }) {
           onClick={onItemClick}
         />
         <NavItem
-          to='/admin/dashboard/weather'
-          icon={<CloudSun size={20} />}
-          label='Weather'
+          to='/admin/dashboard/product/pre-harvest'
+          icon={<Flower2 size={20} />}
+          label='Pre-Harvest'
           onClick={onItemClick}
         />
         <NavItem

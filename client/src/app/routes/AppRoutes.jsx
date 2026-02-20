@@ -26,6 +26,8 @@ import SingleBuyerPage from '@/admin/pages/SingleBuyerPage'
 import AdminOverviewPage from '@/admin/pages/AdminOverviewPage'
 import HarvestedListingsPage from '@/admin/pages/harvestedListings/HarvestedListingsPage'
 import SingleHarvestedListing from '@/admin/pages/harvestedListings/SingleHarvestedListing'
+import PreHarvestListings from '@/admin/pages/preHarvestListings/PreHarvestListings'
+import SinglePreHarvestListingPage from '@/admin/pages/preHarvestListings/SinglePreHarvestListingPage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -305,6 +307,14 @@ const router = createBrowserRouter([
       {
         path: 'product/harvested/:productId',
         element: <SingleHarvestedListing />
+      },
+      {
+        path: 'product/pre-harvest',
+        element: <PreHarvestListings />
+      },
+      {
+        path: 'product/pre-harvest/:productId',
+        element: <SinglePreHarvestListingPage />
       }
     ]
   },

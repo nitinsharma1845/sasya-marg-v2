@@ -18,7 +18,7 @@ export const getSingleHarvestedProduct = async (productId) => {
 }
 
 export const getSinglePreHarvestedProduct = async (productId) => {
-    const { data } = await api.patch(`/admin/listings/pre-harvested/${productId}`)
+    const { data } = await api.get(`/admin/listings/pre-harvested/${productId}`)
     return data
 }
 
@@ -30,5 +30,14 @@ export const moderateHravestedProduct = async (payload) => {
             reason: payload.reason
         }
     )
+    return data
+}
+
+export const moderatePreHarvestProduct = async (payload) => {
+    const { data } = await api.patch(`/admin/listings/pre-harvested/${payload.listingId}/moderate`, {
+        action: payload.action,
+        reason: payload.reason
+    })
+
     return data
 }

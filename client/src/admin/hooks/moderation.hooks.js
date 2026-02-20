@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router-dom"
-import { getHarvestedProducts, getPreHarvestedProducts, getSingleHarvestedProduct, getSinglePreHarvestedProduct, moderateHravestedProduct } from "../api/moderation.api"
+import { getHarvestedProducts, getPreHarvestedProducts, getSingleHarvestedProduct, getSinglePreHarvestedProduct, moderateHravestedProduct, moderatePreHarvestProduct } from "../api/moderation.api"
 import { queryClient } from "@/lib/queryClient"
 import { toast } from "sonner"
 
@@ -60,6 +60,22 @@ export const useModerateHarvestedListing = () => {
                 }
             )
 
+            toast.success('Product status changed to ' + payload?.action)
+        },
+        onError: error => {
+            toast.error(
+                error.response?.data?.message ||
+                'Failed to moderate product'
+            )
+        }
+    })
+}
+
+export const useModeratePreHarvestListing = () => {
+    return useMutation({
+        mutationFn: moderatePreHarvestProduct,
+        onSuccess: (data, payload) => {
+            queryClient.invalidateQueries(["product", "pre-harvested", payload.listingId])
             toast.success('Product status changed to ' + payload?.action)
         },
         onError: error => {

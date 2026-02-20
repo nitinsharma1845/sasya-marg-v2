@@ -379,12 +379,28 @@ export const loginAdminService = async ({ identifier, password }) => {
 //ADMIN MODERATION SERVICES
 
 export const getAllPreHarvestedListingService = async (query) => {
-    const { page = 1, limit = 10, moderation } = query
+    const { page = 1, limit = 10, moderation, search } = query
 
     const filter = {}
     if (moderation) {
         filter.moderation = moderation
     }
+
+     if (search?.trim()) {
+        const searchRegex = new RegExp(search.trim(), "i")
+
+        const conditions = [
+            { title: searchRegex },
+            { category: { $in: [searchRegex] } }
+        ]
+
+        if (mongoose.Types.ObjectId.isValid(search)) {
+            conditions.push({ _id: search })
+        }
+
+        filter.$or = conditions
+    }
+
 
     const skip = (Number(page) - 1) * limit
 
