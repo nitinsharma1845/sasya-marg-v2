@@ -67,6 +67,14 @@ schemeRouter.patch(
   updateScheme
 )
 
+schemeRouter.get(
+  "/admin/schemes/:schemeId",
+  authLayer,
+  requireAdmin,
+  validate(getSingleSchemeValidator),
+  getSingleScheme
+)
+
 schemeRouter.patch(
   "/admin/schemes/:id/toggle",
   authLayer,

@@ -1,6 +1,7 @@
 import { GovernmentScheme } from "../models/governmentScheme.model.js"
 import { Farmer } from "../models/farmer.model.js"
 import { FarmLand } from "../models/farmLand.model.js"
+import mongoose from "mongoose"
 
 
 const convertToAcre = (value, unit) => {
@@ -21,9 +22,22 @@ export const createSchemeService = async (payload) => {
 
 export const getAllSchemesAdminService = async (query) => {
 
-    const { page = 1, limit = 10, isActive, state, crop } = query
+    const { page = 1, limit = 10, isActive, state, crop, search } = query
 
     const filter = {}
+
+    if (search?.trim()) {
+        const regex = new RegExp(search?.trim(), "i")
+        const condition = [
+            { title: regex },
+        ]
+
+        if (mongoose.Types.ObjectId.isValid(search)) {
+            condition.push({ _id: search })
+        }
+
+        filter.$or = condition
+    }
 
     if (isActive !== undefined) filter.isActive = isActive === "true"
     if (state) filter["eligibility.states"] = state
@@ -170,8 +184,16 @@ export const getAllSchemesFarmerService = async (query) => {
 }
 
 
-export const getSingleSchemeService = async ({ schemeId }) => {
-    const scheme = await GovernmentScheme.findOne({ _id: schemeId, isActive: true })
+export const getSingleSchemeService = async ({ schemeId, user }) => {
+
+    const filter = {
+        _id: schemeId
+    }
+
+    if (user.role === 'farmer') {
+        filter.isActive = true
+    }
+    const scheme = await GovernmentScheme.findOne(filter)
 
     if (!scheme) throw new ApiError(404, "Scheme not found on inactive")
 

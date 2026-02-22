@@ -87,8 +87,9 @@ export const getAllSchemesForFarmer = asyncHandler(async (req, res) => {
 
 export const getSingleScheme = asyncHandler(async (req, res) => {
     const { schemeId } = req.params
+    const user = req.user
 
-    const scheme = await getSingleSchemeService({ schemeId })
+    const scheme = await getSingleSchemeService({ schemeId, user })
 
     return res.status(200).json(new ApiResponse(200, scheme, "Scheme fetched Successfully"))
 })

@@ -28,6 +28,9 @@ import HarvestedListingsPage from '@/admin/pages/harvestedListings/HarvestedList
 import SingleHarvestedListing from '@/admin/pages/harvestedListings/SingleHarvestedListing'
 import PreHarvestListings from '@/admin/pages/preHarvestListings/PreHarvestListings'
 import SinglePreHarvestListingPage from '@/admin/pages/preHarvestListings/SinglePreHarvestListingPage'
+import GovSchemes from '@/admin/pages/Scheme/GovSchemes'
+import SingleSchemePage from '@/admin/pages/Scheme/SingleSchemePage'
+import AddScheme from '@/admin/pages/Scheme/AddScheme'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -315,6 +318,22 @@ const router = createBrowserRouter([
       {
         path: 'product/pre-harvest/:productId',
         element: <SinglePreHarvestListingPage />
+      },
+      {
+        path: 'schemes',
+        element: <GovSchemes />
+      },
+      {
+        path: 'schemes/add',
+        element: <AddScheme />
+      },
+      {
+        path: 'schemes/:schemeId/edit',
+        element: <AddScheme mode='edit' />
+      },
+      {
+        path: 'schemes/:schemeId',
+        element: <SingleSchemePage />
       }
     ]
   },
