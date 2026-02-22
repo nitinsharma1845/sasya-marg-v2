@@ -23,6 +23,7 @@ import ThemeToggle from '@/components/common/ThemeToggle'
 import LogoutConfirmDialog from '@/components/common/LogoutDialog'
 import { useLogoutAdmin } from '../hooks/auth.hooks'
 import Logo from '@/components/common/Logo'
+import GlobalSearch from '../components/GlobalSearch'
 
 export default function AdminDashboardLayout () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -89,13 +90,8 @@ export default function AdminDashboardLayout () {
             >
               <Menu />
             </Button>
-
-            <div className='relative w-full max-w-md hidden sm:block'>
-              <Search className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
-              <Input
-                placeholder='Search...'
-                className='pl-10 bg-muted/50 border-none focus-visible:ring-sidebar-primary'
-              />
+            <div className='w-full max-w-md hidden sm:block'>
+              <GlobalSearch />
             </div>
           </div>
 

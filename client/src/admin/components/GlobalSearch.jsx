@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/store/useAuthStore'
 
 const GlobalSearch = () => {
   const [search, setSearch] = useState('')
@@ -22,13 +23,17 @@ const GlobalSearch = () => {
   const containerRef = useRef(null)
   const debouncedSearch = useDebounce(search, 400)
   const navigate = useNavigate()
+  const { role } = useAuthStore()
 
   const { data, isFetching } = useQuery({
     queryKey: ['globalSearch', debouncedSearch],
     queryFn: async () => {
-      const res = await api.get('/admin/super-admin/search', {
-        params: { search: debouncedSearch }
-      })
+      const res = await api.get(
+        role === 'admin' ? '/admin/search' : '/admin/super-admin/search',
+        {
+          params: { search: debouncedSearch }
+        }
+      )
       return res.data
     },
     enabled: debouncedSearch?.trim().length >= 2
@@ -57,23 +62,54 @@ const GlobalSearch = () => {
           class: 'bg-primary/10 text-primary border-primary/20',
           label: 'Farmer'
         }
+
       case 'buyer':
         return {
           icon: <User size={14} />,
           class: 'bg-blue-100 text-blue-700 border-blue-200',
           label: 'Buyer'
         }
-      case 'admin':
+
+      case 'scheme':
         return {
           icon: <ShieldCheck size={14} />,
           class: 'bg-accent/10 text-accent-foreground border-accent/20',
-          label: 'Admin'
+          label: 'Scheme'
         }
+
+      case 'preHarvestListing':
+        return {
+          icon: <Tractor size={14} />,
+          class: 'bg-chart-1/10 text-chart-1 border-chart-1/20',
+          label: 'Pre-Harvest'
+        }
+
+      case 'harvestedProduct':
+        return {
+          icon: <Tractor size={14} />,
+          class: 'bg-chart-3/10 text-chart-3 border-chart-3/20',
+          label: 'Product'
+        }
+
+      case 'report':
+        return {
+          icon: <ShieldCheck size={14} />,
+          class: 'bg-destructive/10 text-destructive border-destructive/20',
+          label: 'Report'
+        }
+
+      case 'query':
+        return {
+          icon: <User size={14} />,
+          class: 'bg-muted text-muted-foreground border-border',
+          label: 'Query'
+        }
+
       default:
         return {
           icon: <User size={14} />,
           class: 'bg-muted text-muted-foreground',
-          label: 'User'
+          label: 'Unknown'
         }
     }
   }
@@ -81,20 +117,38 @@ const GlobalSearch = () => {
   const handleNavigate = (type, id) => {
     switch (type) {
       case 'farmer':
-        navigate(`farmers/${id}`)
-        setIsOpen(false)
+        navigate(`/admin/dashboard/farmers/${id}`)
         break
 
       case 'buyer':
-        navigate(`buyers/${id}`)
-        setIsOpen(false)
+        navigate(`/admin/dashboard/buyers/${id}`)
         break
 
-      case 'admin':
-        navigate(`admins/${id}`)
-        setIsOpen(false)
+      case 'scheme':
+        navigate(`/admin/dashboard/schemes/${id}`)
         break
+
+      case 'preHarvestListing':
+        navigate(`/admin/dashboard/product/pre-harvest/${id}`)
+        break
+
+      case 'harvestedProduct':
+        navigate(`/admin/dashboard/product/harvested/${id}`)
+        break
+
+      case 'report':
+        navigate(`/admin/dashboard/reports/${id}`)
+        break
+
+      case 'query':
+        navigate(`/admin/dashboard/queries/${id}`)
+        break
+
+      default:
+        return
     }
+
+    setIsOpen(false)
   }
 
   return (
@@ -108,7 +162,7 @@ const GlobalSearch = () => {
             setSearch(e.target.value)
             setIsOpen(true)
           }}
-          type={"text"}
+          type={'text'}
           className='pl-10 pr-10 py-6 text-base rounded-2xl border-border focus-visible:ring-primary shadow-sm'
           placeholder='Search names, emails, or phone numbers...'
         />

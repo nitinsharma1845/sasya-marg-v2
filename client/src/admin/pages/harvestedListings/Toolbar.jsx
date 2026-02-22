@@ -37,7 +37,7 @@ const Toolbar = () => {
   }, [debounceSearch, params])
 
   return (
-    <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-card/80 backdrop-blur border px-3 py-2 rounded-xl shadow-sm sticky top-18 z-20'>
+    <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-card/80 backdrop-blur border px-3 py-2 rounded-xl shadow-sm sticky top-18 z-10'>
       <Tabs value={tabValue} onValueChange={handleChange} className='sm:w-auto'>
         <TabsList className='h-9 p-1 bg-muted/40 grid grid-cols-3 sm:flex w-full'>
           <TabsTrigger

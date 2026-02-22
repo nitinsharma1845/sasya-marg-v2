@@ -158,7 +158,7 @@ const AddScheme = ({ mode = 'create' }) => {
                   <div className="space-y-2">
                     <Label className="text-muted-foreground text-xs sm:text-sm">Description</Label>
                     <Textarea 
-                      className="min-h-[120px] bg-background border-input text-sm sm:text-base"
+                      className="min-h-30 bg-background border-input text-sm sm:text-base"
                       value={formData.description}
                       onChange={e => handleChange('description', e.target.value)}
                     />
@@ -166,7 +166,7 @@ const AddScheme = ({ mode = 'create' }) => {
                   <div className="space-y-2">
                     <Label className="text-muted-foreground text-xs sm:text-sm">Benefits</Label>
                     <Textarea 
-                      className="min-h-[100px] bg-muted/30 border-input text-sm sm:text-base"
+                      className="min-h-25 bg-muted/30 border-input text-sm sm:text-base"
                       value={formData.benefits}
                       onChange={e => handleChange('benefits', e.target.value)}
                     />

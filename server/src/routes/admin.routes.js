@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { validate } from "../middleware/validate.middleware.js"
 import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAdminByIdSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getBuyerByIdSchema, getFarmerByIdSchema, getSingleListing, globalSearchSchema, moderateListingSchema, registerAdminSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
-import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getBuyerById, getFarmerById, getInvites, getSinglePreHarvestedListing, getSingleProductListing, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
+import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getBuyerById, getFarmerById, getInvites, getSinglePreHarvestedListing, getSingleProductListing, globalSearchForAdmin, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
 import { requireAdmin, requireSuperAdmin } from "../middleware/adminRole.middleware.js"
 import { authLayer } from "../middleware/auth.middleware.js"
 
@@ -35,6 +35,8 @@ adminRoutes.post("/register", validate(registerAdminSchema), registerAdminWithIn
 adminRoutes.post("/login", validate(adminLoginSchema), loginAdmin)
 
 adminRoutes.post("/logout", authLayer, requireAdmin, logoutAdmin)
+
+adminRoutes.get("/search", validate(globalSearchSchema), authLayer, requireAdmin, globalSearchForAdmin)
 
 //ADMIN & SUPER ADMIN MODERATION ROUTES
 adminRoutes.get("/invites", authLayer, requireSuperAdmin, getInvites)

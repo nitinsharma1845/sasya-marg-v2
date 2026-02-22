@@ -299,6 +299,214 @@ export const globalSearchServiceForSuperAdmin = async ({ query }) => {
     }
 }
 
+export const globalSearchServiceForAdmin = async ({ query }) => {
+    const { search, page = 1, limit = 10 } = query
+
+    if (!search?.trim()) {
+        return {
+            results: [],
+            pagination: {
+                total: 0,
+                page: Number(page),
+                limit: Number(limit),
+                totalPages: 0
+            }
+        }
+    }
+
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+    const skip = (pageNumber - 1) * limitNumber
+
+    const searchRegex = new RegExp(search.trim(), "i")
+
+    const aggregationPipeline = [
+
+        {
+            $match: {
+                $or: [
+                    { fullname: searchRegex },
+                    { email: searchRegex },
+                    { phone: searchRegex }
+                ]
+            }
+        },
+        { $addFields: { type: "farmer" } },
+
+        {
+            $unionWith: {
+                coll: "buyers",
+                pipeline: [
+                    {
+                        $match: {
+                            $or: [
+                                { fullname: searchRegex },
+                                { email: searchRegex },
+                                { phone: searchRegex }
+                            ]
+                        }
+                    },
+                    { $addFields: { type: "buyer" } }
+                ]
+            }
+        },
+
+
+        {
+            $unionWith: {
+                coll: "governmentschemes",
+                pipeline: [
+                    {
+                        $match: {
+                            $or: [
+                                { title: searchRegex },
+                                { description: searchRegex },
+                                { benefits: searchRegex }
+                            ]
+                        }
+                    },
+                    { $addFields: { type: "scheme" } }
+                ]
+            }
+        },
+
+
+        {
+            $unionWith: {
+                coll: "preharvestlistings",
+                pipeline: [
+                    {
+                        $match: {
+                            $or: [
+                                { title: searchRegex },
+                                { category: searchRegex }
+                            ]
+                        }
+                    },
+                    { $addFields: { type: "preHarvestListing" } }
+                ]
+            }
+        },
+
+
+        {
+            $unionWith: {
+                coll: "products",
+                pipeline: [
+                    {
+                        $match: {
+                            $or: [
+                                { title: searchRegex },
+                                { category: searchRegex }
+                            ]
+                        }
+                    },
+                    { $addFields: { type: "harvestedProduct" } }
+                ]
+            }
+        },
+
+
+        {
+            $unionWith: {
+                coll: "productreports",
+                pipeline: [
+                    {
+                        $match: {
+                            $or: [
+                                { reason: searchRegex },
+                                { refrence: searchRegex }
+                            ]
+                        }
+                    },
+                    { $addFields: { type: "report" } }
+                ]
+            }
+        },
+
+
+        {
+            $unionWith: {
+                coll: "queries",
+                pipeline: [
+                    {
+                        $match: {
+                            $or: [
+                                { subject: searchRegex },
+                                { inquiry: searchRegex }
+                            ]
+                        }
+                    },
+                    { $addFields: { type: "query" } }
+                ]
+            }
+        },
+
+        {
+            $project: {
+                _id: 1,
+                type: 1,
+                fullname: 1,
+                email: 1,
+                phone: 1,
+                title: 1,
+                cropName: 1,
+                productName: 1,
+                reason: 1,
+                subject: 1,
+                createdAt: 1
+            }
+        },
+
+        { $sort: { createdAt: -1 } },
+
+        {
+            $facet: {
+                data: [
+                    { $skip: skip },
+                    { $limit: limitNumber }
+                ],
+                totalCount: [
+                    { $count: "count" }
+                ]
+            }
+        }
+    ]
+
+    const result = await Farmer.aggregate(aggregationPipeline)
+
+    const data = result[0]?.data || []
+    const total = result[0]?.totalCount[0]?.count || 0
+
+    const reshapedResults = data.map(item => ({
+        type: item.type,
+        id: item._id,
+        title:
+            item.fullname ||
+            item.title ||
+            item.productName ||
+            item.cropName ||
+            item.subject ||
+            "Untitled",
+        subtitle:
+            item.email ||
+            item.phone ||
+            item.reason ||
+            "",
+        createdAt: item.createdAt
+    }))
+
+    return {
+        results: reshapedResults,
+        pagination: {
+            total,
+            page: pageNumber,
+            limit: limitNumber,
+            totalPages: Math.ceil(total / limitNumber)
+        }
+    }
+}
+
 
 
 
@@ -386,7 +594,7 @@ export const getAllPreHarvestedListingService = async (query) => {
         filter.moderation = moderation
     }
 
-     if (search?.trim()) {
+    if (search?.trim()) {
         const searchRegex = new RegExp(search.trim(), "i")
 
         const conditions = [
