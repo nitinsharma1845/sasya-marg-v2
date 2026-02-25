@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { blockBuyer, blockFarmer, getAdminDasboard, getInvites, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
+import { blockBuyer, blockFarmer, changeName, changePassword, getAdminDasboard, getInvites, getProfile, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
 import { useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 import { queryClient } from "@/lib/queryClient"
+import { useAuthStore } from "@/store/useAuthStore"
 
 export const useGetInvites = () => {
     const [searchParams] = useSearchParams()
@@ -87,3 +88,43 @@ export const useUnBlockBuyer = () => {
     })
 }
 
+
+export const useGetAdminProfile = () => {
+    return useQuery({
+        queryKey: ['admin'],
+        queryFn: getProfile
+    })
+}
+
+
+export const useChangePassword = () => {
+    return useMutation({
+        mutationFn: changePassword,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['admin'])
+            toast.success("Password changed Successfully")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to change password")
+        }
+    })
+}
+
+export const useChangName = () => {
+    const { setUser, user } = useAuthStore()
+    return useMutation({
+        mutationFn: changeName,
+        onSuccess: (res) => {
+            const updatedName = res.data.fullname;
+            queryClient.invalidateQueries(['admin'])
+            setUser({
+                ...user,
+                fullname: updatedName,
+            });
+            toast.success("Fullname changed Successfully")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to change name")
+        }
+    })
+}

@@ -246,3 +246,18 @@ export const getAdminByIdSchema = z.object({
     adminId: objectId
   })
 })
+
+//profile validators
+
+export const changePasswordSchema = z.object({
+  body: z.object({
+    newPassword: z.string().min(8, "Password contains at least 8 character"),
+    oldPassword: z.string().min(8, "Password contains at least 8 character")
+  })
+})
+
+export const changeNameSchema = z.object({
+  body: z.object({
+    newFullname: z.string()
+  })
+})

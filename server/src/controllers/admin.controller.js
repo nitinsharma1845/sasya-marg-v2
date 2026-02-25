@@ -1,4 +1,4 @@
-import { adminDashboardService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForAdmin, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, unblockFarmerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, adminProfileService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, changeNameService, changePasswordService, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForAdmin, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, unblockFarmerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 import { getProductByIdService } from '../services/product.service.js'
@@ -213,10 +213,10 @@ export const replyToQuery = asyncHandler(async (req, res) => {
 export const replyToReport = asyncHandler(async (req, res) => {
     const { reportId } = req.params
     const { reply } = req.body
-    const {adminId} = req.user._id
-    const report = await replyReport({ reportId, reply , adminId})
+    const { adminId } = req.user._id
+    const report = await replyReport({ reportId, reply, adminId })
 
-    return res.status(200).json(new ApiResponse(200, report , "Reply sent"))
+    return res.status(200).json(new ApiResponse(200, report, "Reply sent"))
 })
 
 export const changeQueryStatus = asyncHandler(async (req, res) => {
@@ -307,4 +307,29 @@ export const getAdminDashboard = asyncHandler(async (req, res) => {
     return res
         .status(200)
         .json(new ApiResponse(200, dashboard, "Admin dashboard fetched successfully"))
+})
+
+//profile controllers
+
+export const getAdminProfile = asyncHandler(async (req, res) => {
+    const admin = await adminProfileService(req.user._id)
+    return res.status(200).json(new ApiResponse(200, admin, "profile fetched"))
+})
+
+export const changePassword = asyncHandler(async (req, res) => {
+    const adminId = req.user._id
+    const { newPassword, oldPassword } = req.body
+
+    const admin = await changePasswordService({ adminId, newPassword, oldPassword })
+
+    return res.status(200).json(new ApiResponse(200, admin, "Password changed successfully"))
+})
+
+export const changeFullname = asyncHandler(async (req, res) => {
+    const adminId = req.user._id
+    const { newFullname } = req.body
+
+    const admin = await changeNameService({ adminId, newFullname })
+
+    return res.status(200).json(new ApiResponse(200, admin, "Name changed successfully"))
 })

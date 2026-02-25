@@ -1,10 +1,11 @@
 import { Router } from "express"
 import { validate } from "../middleware/validate.middleware.js"
-import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, getAdminByIdSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getAllReportsSchema, getBuyerByIdSchema, getFarmerByIdSchema, getSingleListing, getSingleReportSchema, globalSearchSchema, moderateListingSchema, registerAdminSchema, replyQuerySchema, replyReportSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
-import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getAllReports, getBuyerById, getFarmerById, getInvites, getSinglePreHarvestedListing, getSingleProductListing, getSingleQuery, getSingleReport, globalSearchForAdmin, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, replyToReport, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
+import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, changeNameSchema, changePasswordSchema, getAdminByIdSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getAllReportsSchema, getBuyerByIdSchema, getFarmerByIdSchema, getSingleListing, getSingleReportSchema, globalSearchSchema, moderateListingSchema, registerAdminSchema, replyQuerySchema, replyReportSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
+import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeFullname, changePassword, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAdminProfile, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getAllReports, getBuyerById, getFarmerById, getInvites, getSinglePreHarvestedListing, getSingleProductListing, getSingleQuery, getSingleReport, globalSearchForAdmin, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, replyToReport, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
 import { requireAdmin, requireSuperAdmin } from "../middleware/adminRole.middleware.js"
 import { authLayer } from "../middleware/auth.middleware.js"
 import { viewSingleQuerySchema } from "../validator/query.validator.js"
+import { authorize } from "../middleware/role.middleware.js"
 
 export const adminRoutes = Router()
 
@@ -89,3 +90,11 @@ adminRoutes.patch("/buyer/:buyerId/block", authLayer, requireAdmin, validate(blo
 adminRoutes.patch("/buyer/:buyerId/unblock", authLayer, requireAdmin, validate(unBlockBuyerSchema), unBlockBuyer)
 
 adminRoutes.get("/dashboard", authLayer, requireAdmin, getAdminDashboard)
+
+//profile routes
+
+adminRoutes.get("/", authLayer, authorize("admin", "super_admin"), getAdminProfile)
+
+adminRoutes.patch('/change-password', authLayer, requireAdmin, validate(changePasswordSchema), changePassword)
+
+adminRoutes.patch('/change-name', authLayer, requireAdmin, validate(changeNameSchema), changeFullname)

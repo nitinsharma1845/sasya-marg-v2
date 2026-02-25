@@ -13,6 +13,7 @@ import { GovernmentScheme } from '../models/governmentScheme.model.js'
 import { PredictHistory } from '../models/predictHistory.model.js'
 import { FarmLand } from '../models/farmLand.model.js'
 import mongoose from "mongoose"
+import { verifyPassword } from "../utils/verifyPassword.js"
 
 //InviteToken service
 
@@ -1584,4 +1585,32 @@ export const adminDashboardService = async () => {
             }
         }
     }
+}
+
+//profile sevices
+
+export const adminProfileService = async (adminId) => {
+    return await Admin.findById(adminId)
+}
+
+export const changePasswordService = async ({ adminId, newPassword, oldPassword }) => {
+    const admin = await Admin.findById(adminId).select("+password")
+
+    const isVerified = await verifyPassword(oldPassword, admin.password)
+
+    if (!isVerified) throw new ApiError(402, "Password Missmatch")
+
+    admin.password = newPassword
+    await admin.save()
+
+    return admin
+}
+
+export const changeNameService = async ({ adminId, newFullname}) => {
+    const admin = await Admin.findById(adminId).select("+password")
+
+    admin.fullname = newFullname
+    await admin.save()
+
+    return admin
 }

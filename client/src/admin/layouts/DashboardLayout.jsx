@@ -14,7 +14,8 @@ import {
   UsersRound,
   Flower2,
   CircleQuestionMark,
-  MessageCircleWarning
+  MessageCircleWarning,
+  UserRoundPen
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -186,9 +187,9 @@ function SidebarContent ({ onItemClick }) {
         />
         <div className='pt-4 mt-4 border-t border-sidebar-border/50'>
           <NavItem
-            to='/admin/dashboard/settings'
-            icon={<Settings size={20} />}
-            label='Settings'
+            to='/admin/dashboard/profile'
+            icon={<UserRoundPen size={20} />}
+            label='Profile'
             onClick={onItemClick}
           />
         </div>
