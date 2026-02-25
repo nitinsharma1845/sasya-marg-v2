@@ -107,6 +107,12 @@ export const getSingleListing = z.object({
   })
 })
 
+export const getSingleReportSchema = z.object({
+  params: z.object({
+    reportId: objectId
+  })
+})
+
 export const moderateListingSchema = z.object({
   params: z.object({
     listingId: objectId
@@ -127,6 +133,22 @@ export const getAllQuerySchema = z.object({
   })
 })
 
+export const getAllReportsSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().positive().optional(),
+    limit: z.coerce.number().positive().optional(),
+    reason: z.enum([
+      "FAKE_PRODUCT",
+      "MISLEADING_INFO",
+      "PRICE_FRAUD",
+      "DUPLICATE_LISTING",
+      "SPAM",
+      "OTHER"
+    ]).optional(),
+    status: z.enum(["pending", "reviewed", "action_taken", "rejected"]).optional()
+  })
+})
+
 export const updateQuerySchema = z.object({
   params: z.object({
     queryId: objectId
@@ -141,6 +163,18 @@ export const updateQuerySchema = z.object({
 export const replyQuerySchema = z.object({
   params: z.object({
     queryId: objectId
+  }),
+  body: z.object({
+    reply: z.string()
+  })
+})
+
+export const replyReportSchema = z.object({
+  params: z.object({
+    reportId: objectId
+  }),
+  body: z.object({
+    reply: z.string()
   })
 })
 

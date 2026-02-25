@@ -33,6 +33,8 @@ import SingleSchemePage from '@/admin/pages/Scheme/SingleSchemePage'
 import AddScheme from '@/admin/pages/Scheme/AddScheme'
 import FarmerQueries from '@/admin/pages/reports/FarmerQueries'
 import SingleQuery from '@/admin/pages/reports/SingleQuery'
+import BuyerReports from '@/admin/pages/buyerReports/BuyerReports'
+import SingleReport from '@/admin/pages/buyerReports/SingleReport'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -344,6 +346,14 @@ const router = createBrowserRouter([
       {
         path: 'queries/:id',
         element: <SingleQuery />
+      },
+      {
+        path: 'reports',
+        element: <BuyerReports />
+      },
+      {
+        path: 'reports/:id',
+        element: <SingleReport />
       }
     ]
   },

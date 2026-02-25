@@ -4,6 +4,7 @@ import { ApiResponse } from '../utils/apiResponse.js'
 import { getProductByIdService } from '../services/product.service.js'
 import { getSinglePreharvestListingService } from '../services/preHarvestListing.service.js'
 import { viewSingleQueryService } from '../services/query.service.js'
+import { getBuyerReports, getReportById, replyReport } from '../services/productReport.service.js'
 
 
 //Admin Invite Token Controller
@@ -180,11 +181,23 @@ export const getAllQuery = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, { queries, pagination }, "Query fetched"))
 })
 
+export const getAllReports = asyncHandler(async (req, res) => {
+    const { reports, pagination } = await getBuyerReports({ query: req.query })
+    return res.status(200).json(new ApiResponse(200, { reports, pagination }, "Reports fetched successfully"))
+})
+
 export const getSingleQuery = asyncHandler(async (req, res) => {
     const user = req.user
     const { queryId } = req.params
     const query = await viewSingleQueryService(user, queryId)
     return res.status(200).json(new ApiResponse(200, query, "Query fetched successfully"))
+})
+
+export const getSingleReport = asyncHandler(async (req, res) => {
+    const { reportId } = req.params
+    const report = await getReportById(reportId)
+
+    return res.status(200).json(new ApiResponse(200, report, "Report fetched successfully"))
 })
 
 export const replyToQuery = asyncHandler(async (req, res) => {
@@ -195,6 +208,15 @@ export const replyToQuery = asyncHandler(async (req, res) => {
     })
 
     return res.status(200).json(new ApiResponse(200, query, "Reply sent"))
+})
+
+export const replyToReport = asyncHandler(async (req, res) => {
+    const { reportId } = req.params
+    const { reply } = req.body
+    const {adminId} = req.user._id
+    const report = await replyReport({ reportId, reply , adminId})
+
+    return res.status(200).json(new ApiResponse(200, report , "Reply sent"))
 })
 
 export const changeQueryStatus = asyncHandler(async (req, res) => {

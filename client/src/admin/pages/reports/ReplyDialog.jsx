@@ -13,9 +13,9 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Reply } from 'lucide-react'
-import { useReplyQuery } from '@/admin/hooks/reports.hooks'
+import { useReplyQuery, useReplyReport } from '@/admin/hooks/reports.hooks'
 
-const ReplyDialog = ({ id }) => {
+const ReplyDialog = ({ id, forBuyerReports }) => {
   const {
     register,
     handleSubmit,
@@ -27,17 +27,27 @@ const ReplyDialog = ({ id }) => {
   })
   const [open, setOpen] = useState(false)
   const reply = useReplyQuery()
+  const replyReport = useReplyReport()
 
   const onSubmit = data => {
     const payload = {
       reply: data.adminReply,
       id: id
     }
-    reply.mutate(payload, {
-      onSuccess: () => {
-        setOpen(false)
-      }
-    })
+
+    if (forBuyerReports) {
+      replyReport.mutate(payload, {
+        onSuccess: () => {
+          setOpen(false)
+        }
+      })
+    } else {
+      reply.mutate(payload, {
+        onSuccess: () => {
+          setOpen(false)
+        }
+      })
+    }
   }
 
   return (

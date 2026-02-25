@@ -44,7 +44,12 @@ const productReportSchema = new mongoose.Schema(
         url: String,
         publicId: String
       }
-    ]
+    ],
+    
+    repliedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin"
+    },
   },
   { timestamps: true }
 );

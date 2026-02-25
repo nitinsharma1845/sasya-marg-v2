@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import { ProductReport } from "../models/productReport.model.js"
 import { ApiError } from "../utils/apiError.js"
 import { uploadToCloudinary } from "../utils/upload.cloudinary.js"
@@ -27,7 +28,7 @@ export const createReport = async ({ buyerId, payload, files }) => {
 
 export const getBuyerReports = async ({ buyerId = null, query }) => {
 
-    const { page = 1, limit = 5, reason, status } = query
+    const { page = 1, limit = 5, reason, status, search } = query
     const filter = {}
 
     if (buyerId) {
@@ -37,6 +38,20 @@ export const getBuyerReports = async ({ buyerId = null, query }) => {
     if (reason) filter.reason = reason
 
     if (status) filter.status = status
+
+    if (search?.trim()) {
+        const searchRegex = new RegExp(search?.trim(), "i")
+        const conditions = [
+            { reason: searchRegex },
+            { refrence: searchRegex },
+        ]
+
+        if (mongoose.Types.ObjectId.isValid(search)) {
+            conditions.push({ _id: search })
+        }
+
+        filter.$or = conditions
+    }
 
 
     const skip = (Number(page - 1)) * Number(limit)
@@ -76,4 +91,23 @@ export const getBuyerReports = async ({ buyerId = null, query }) => {
             totalPages: Math.ceil(total / limit)
         }
     }
+}
+
+export const getReportById = async (id) => {
+    const report = await ProductReport.findById(id).populate("buyer")
+
+    if (!report) throw new ApiError(404, "No report found")
+
+    return report
+}
+
+export const replyReport = async ({ reportId, reply, adminId }) => {
+    const report = await ProductReport.findById(reportId)
+
+    if (!report) throw new ApiError(404, "No report found")
+
+    report.adminRemark = reply
+    report.repliedBy = adminId
+    await report.save()
+    return report
 }
