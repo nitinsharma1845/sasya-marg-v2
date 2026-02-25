@@ -21,10 +21,10 @@ export const viewMyQuery = asyncHandler(async (req, res) => {
 })
 
 export const viewSingleQuery = asyncHandler(async (req, res) => {
-    const farmerId = req.user._id
+    const user = req.user
     const { queryId } = req.params
 
-    const query = await viewSingleQueryService(farmerId, queryId)
+    const query = await viewSingleQueryService(user, queryId)
 
     return res.status(200).json(new ApiResponse(200, query, "Query fetched successfully"))
 })

@@ -12,7 +12,8 @@ import {
   Search,
   X,
   UsersRound,
-  Flower2
+  Flower2,
+  CircleQuestionMark
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -168,6 +169,12 @@ function SidebarContent ({ onItemClick }) {
           to='/admin/dashboard/schemes'
           icon={<FileText size={20} />}
           label='Schemes'
+          onClick={onItemClick}
+        />
+        <NavItem
+          to='/admin/dashboard/queries'
+          icon={<CircleQuestionMark size={20} />}
+          label='Queries'
           onClick={onItemClick}
         />
         <div className='pt-4 mt-4 border-t border-sidebar-border/50'>

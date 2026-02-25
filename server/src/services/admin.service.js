@@ -433,7 +433,8 @@ export const globalSearchServiceForAdmin = async ({ query }) => {
                         $match: {
                             $or: [
                                 { subject: searchRegex },
-                                { inquiry: searchRegex }
+                                { inquiry: searchRegex },
+                                { message: searchRegex }
                             ]
                         }
                     },
@@ -781,16 +782,17 @@ export const getAllQueryService = async (query) => {
         limit = 10,
         inquiry,
         status,
-        priority
+        priority,
+        search
     } = query
 
     page = Math.max(1, Number(page))
-    limit = Math.min(50, Number(limit)) // hard cap
+    limit = Math.min(50, Number(limit))
 
-    const filter = {}
+    const filter = { status: { $ne: "closed" } }
 
-    const validInquiry = ["crop", "product", "weather", "pricing", "technical", "other"]
-    const validStatus = ["open", "resolved", "closed"]
+    const validInquiry = ["crop", "product", "weather", "pricing", "technical", "other", 'account']
+    const validStatus = ["open", "resolved"]
     const validPriority = ["low", "medium", "high"]
 
     if (inquiry && validInquiry.includes(inquiry)) {
@@ -799,12 +801,25 @@ export const getAllQueryService = async (query) => {
 
     if (status && validStatus.includes(status)) {
         filter.status = status
-    } else {
-        filter.status = "open" // default for admin
     }
 
     if (priority && validPriority.includes(priority)) {
         filter.priority = priority
+    }
+
+    if (search?.trim()) {
+        const searchRegex = new RegExp(search?.trim(), "i")
+        const conditions = [
+            { fullname: searchRegex },
+            { inquiry: searchRegex },
+            { subject: searchRegex },
+        ]
+
+        if (mongoose.Types.ObjectId.isValid(search)) {
+            conditions.push({ _id: search })
+        }
+
+        filter.$or = conditions
     }
 
     const skip = (page - 1) * limit

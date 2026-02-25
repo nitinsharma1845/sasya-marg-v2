@@ -138,6 +138,12 @@ export const updateQuerySchema = z.object({
   })
 })
 
+export const replyQuerySchema = z.object({
+  params: z.object({
+    queryId: objectId
+  })
+})
+
 export const getAllFarmerSchema = z.object({
   query: z.object({
     page: z.coerce.number().positive().optional(),

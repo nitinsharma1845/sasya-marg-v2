@@ -3,6 +3,7 @@ import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 import { getProductByIdService } from '../services/product.service.js'
 import { getSinglePreharvestListingService } from '../services/preHarvestListing.service.js'
+import { viewSingleQueryService } from '../services/query.service.js'
 
 
 //Admin Invite Token Controller
@@ -177,6 +178,13 @@ export const getAllQuery = asyncHandler(async (req, res) => {
     const { queries, pagination } = await getAllQueryService(req.query)
 
     return res.status(200).json(new ApiResponse(200, { queries, pagination }, "Query fetched"))
+})
+
+export const getSingleQuery = asyncHandler(async (req, res) => {
+    const user = req.user
+    const { queryId } = req.params
+    const query = await viewSingleQueryService(user, queryId)
+    return res.status(200).json(new ApiResponse(200, query, "Query fetched successfully"))
 })
 
 export const replyToQuery = asyncHandler(async (req, res) => {

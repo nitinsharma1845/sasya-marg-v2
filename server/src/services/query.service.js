@@ -49,8 +49,13 @@ export const viewMyQuerySevice = async (farmerId, query = {}) => {
 }
 
 
-export const viewSingleQueryService = async (farmerId, queryId) => {
-    const query = await Query.findOne({ farmer: farmerId, _id: queryId }).select("inquiry subject message adminReply repliedAt status priority")
+export const viewSingleQueryService = async (user, queryId) => {
+    const filter = { _id: queryId }
+
+    if (user.role === "farmer") {
+        filter.farmer = user._id
+    }
+    const query = await Query.findOne(filter).select("inquiry subject message adminReply repliedAt status priority").populate("farmer", "fullname phone email")
 
     if (!query) {
         throw new ApiError(404, "No query found")

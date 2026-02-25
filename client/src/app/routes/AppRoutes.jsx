@@ -31,6 +31,8 @@ import SinglePreHarvestListingPage from '@/admin/pages/preHarvestListings/Single
 import GovSchemes from '@/admin/pages/Scheme/GovSchemes'
 import SingleSchemePage from '@/admin/pages/Scheme/SingleSchemePage'
 import AddScheme from '@/admin/pages/Scheme/AddScheme'
+import FarmerQueries from '@/admin/pages/reports/FarmerQueries'
+import SingleQuery from '@/admin/pages/reports/SingleQuery'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -334,6 +336,14 @@ const router = createBrowserRouter([
       {
         path: 'schemes/:schemeId',
         element: <SingleSchemePage />
+      },
+      {
+        path: 'queries',
+        element: <FarmerQueries />
+      },
+      {
+        path: 'queries/:id',
+        element: <SingleQuery />
       }
     ]
   },
