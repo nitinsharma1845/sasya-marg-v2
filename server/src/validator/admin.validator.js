@@ -269,3 +269,9 @@ export const changePhoneNumberSchema = z.object({
     purpose: z.enum(["login", "register", "forgot_password"])
   })
 })
+
+export const changeEmailSchema = z.object({
+  body: z.object({
+    newEmail: z.email(),
+  })
+})

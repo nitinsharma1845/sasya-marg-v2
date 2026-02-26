@@ -114,7 +114,7 @@ const ChangePhone = () => {
           className='grid gap-6 py-4'
           onSubmit={handleSubmit(handleVerifyAndChange)}
         >
-          {/* Phone Field */}
+          
           <div className='space-y-2'>
             <Label className='text-[10px] font-bold uppercase tracking-widest text-muted-foreground'>
               New Phone Number
@@ -154,7 +154,7 @@ const ChangePhone = () => {
             )}
           </div>
 
-          {/* OTP Field - Activated only when OTP is sent */}
+        
           <div
             className={`space-y-2 transition-all duration-300 ${
               otpSent ? 'opacity-100' : 'opacity-40 pointer-events-none'

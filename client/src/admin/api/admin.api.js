@@ -55,3 +55,8 @@ export const changePhone = async (payload) => {
     const { data } = await api.patch("/admin/change-phone", payload)
     return data
 }
+
+export const changeEmail = async (payload) => {
+    const { data } = await api.patch("/admin/change-email", payload)
+    return data
+}

@@ -1619,9 +1619,38 @@ export const changeNameService = async ({ adminId, newFullname }) => {
 export const changePhoneNumber = async ({ adminId, newPhone, otp, purpose }) => {
     const admin = await Admin.findById(adminId)
 
+    if (!admin) throw new ApiError(404, "Admin not found!")
+
+    const [farmerExists, buyerExists, adminExists] = await Promise.all([
+        Farmer.findOne({ phone: newPhone }),
+        Buyer.findOne({ phone: newPhone }),
+        Admin.findOne({ phone: newPhone })
+    ])
+
+    if (farmerExists || buyerExists || adminExists) throw new ApiError(402, "Number already in use")
+
     await verifyOtpService({ phone: newPhone, otp, purpose })
 
     admin.phone = newPhone
+    await admin.save()
+
+    return admin
+}
+
+export const changeEmailService = async ({ adminId, newEmail }) => {
+    const admin = await Admin.findById(adminId)
+
+    if (!admin) throw new ApiError(404, "Admin not found!")
+
+    const [farmerExists, buyerExists, adminExists] = await Promise.all([
+        Farmer.findOne({ phone: newEmail }),
+        Buyer.findOne({ phone: newEmail }),
+        Admin.findOne({ phone: newEmail })
+    ])
+
+    if (farmerExists || buyerExists || adminExists) throw new ApiError(402, "Email already in use")
+
+    admin.email = newEmail
     await admin.save()
 
     return admin

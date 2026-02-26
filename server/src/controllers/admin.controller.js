@@ -1,4 +1,4 @@
-import { adminDashboardService, adminProfileService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, changeNameService, changePasswordService, changePhoneNumber, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForAdmin, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, unblockFarmerService, updateQueryService } from '../services/admin.service.js'
+import { adminDashboardService, adminProfileService, blockBuyerService, blockFarmerService, bootStrapSuperAdminService, changeEmailService, changeNameService, changePasswordService, changePhoneNumber, createAdminInviteService, getAdminByIdService, getAdminInviteService, getAllAdminsService, getAllBuyerService, getAllFarmerService, getAllPreHarvestedListingService, getAllProductListingService, getAllQueryService, getBuyerByIdService, getFarmerByIdService, globalSearchServiceForAdmin, globalSearchServiceForSuperAdmin, loginAdminService, loginSuperAdminService, ModeratePreHarvestedListingService, ModerateProductListingService, registerAdminWithInviteTokenService, revokeInviteService, superAdminDashboardService, unblockBuyerService, unblockFarmerService, updateQueryService } from '../services/admin.service.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 import { getProductByIdService } from '../services/product.service.js'
@@ -339,6 +339,15 @@ export const changePhone = asyncHandler(async (req, res) => {
     const { newPhone, otp, purpose } = req.body
 
     const admin = await changePhoneNumber({ adminId, newPhone, otp, purpose })
+
+    return res.status(200).json(new ApiResponse(200, admin, "Phone number changed successfully"))
+})
+
+export const changeEmail = asyncHandler(async (req, res) => {
+    const adminId = req.user._id
+    const { newEmail } = req.body
+
+    const admin = await changeEmailService({ adminId, newEmail })
 
     return res.status(200).json(new ApiResponse(200, admin, "Phone number changed successfully"))
 })

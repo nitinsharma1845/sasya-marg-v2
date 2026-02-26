@@ -14,20 +14,18 @@ import {
   Key,
   Activity,
   UserCog,
-  Lock,
-  Smartphone,
-  AtSign
 } from 'lucide-react'
 import ChangePasswordDialog from './ChangePasswordDailog'
 import ChangeName from './ChangeName'
 import ChangePhone from './ChangePhone'
+import ChangeEmail from './ChangeEmail'
 
 const ProfileSkeleton = () => (
   <div className='p-8 max-w-4xl mx-auto space-y-8'>
     <Skeleton className='h-12 w-64 bg-secondary' />
     <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-      <Skeleton className='h-64 w-full bg-secondary rounded-(--radius)' />
-      <Skeleton className='h-64 md:col-span-2 w-full bg-secondary rounded-(--radius)' />
+      <Skeleton className='h-64 w-full bg-secondary rounded-lg' />
+      <Skeleton className='h-64 md:col-span-2 w-full bg-secondary rounded-lg' />
     </div>
   </div>
 )
@@ -94,7 +92,7 @@ const AdminProfile = () => {
               </CardContent>
             </Card>
 
-            <div className='p-4 rounded-(--radius) bg-primary text-primary-foreground shadow-lg flex items-center gap-3'>
+            <div className='p-4 rounded-lg bg-primary text-primary-foreground shadow-lg flex items-center gap-3'>
               <div className='p-2 bg-white/10 rounded-lg'>
                 <ShieldCheck className='w-5 h-5 text-accent' />
               </div>
@@ -108,7 +106,7 @@ const AdminProfile = () => {
           </div>
 
           <div className='md:col-span-2 space-y-6'>
-            {/* Details Section */}
+       
             <Card className='border-border shadow-sm bg-card'>
               <CardHeader className='pb-4 border-b border-border bg-muted/10'>
                 <CardTitle className='text-base flex items-center gap-2'>
@@ -153,7 +151,7 @@ const AdminProfile = () => {
                   </div>
 
                   <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                    <div className='p-3 rounded-(--radius) bg-muted/30 border border-border'>
+                    <div className='p-3 rounded-lg bg-muted/30 border border-border'>
                       <p className='text-[9px] font-black text-muted-foreground uppercase mb-1'>
                         Last Authenticated
                       </p>
@@ -162,7 +160,7 @@ const AdminProfile = () => {
                         {new Date(admin?.lastLogin).toLocaleString()}
                       </div>
                     </div>
-                    <div className='p-3 rounded-(--radius) bg-muted/30 border border-border'>
+                    <div className='p-3 rounded-lg bg-muted/30 border border-border'>
                       <p className='text-[9px] font-black text-muted-foreground uppercase mb-1'>
                         Record Modified
                       </p>
@@ -176,7 +174,6 @@ const AdminProfile = () => {
               </CardContent>
             </Card>
 
-            {/* Management Actions Grid */}
             <div className='space-y-4'>
               <div className='flex items-center gap-2 px-1'>
                 <UserCog className='w-4 h-4 text-primary' />
@@ -192,12 +189,7 @@ const AdminProfile = () => {
 
                 <ChangePhone />
 
-                <button className='flex flex-col items-center justify-center p-4 rounded-(--radius) bg-secondary hover:bg-border transition-all group border border-transparent hover:border-primary/20'>
-                  <AtSign className='w-5 h-5 text-primary mb-2 group-hover:scale-110 transition-transform' />
-                  <span className='text-[10px] font-bold uppercase tracking-tight'>
-                    Modify Email
-                  </span>
-                </button>
+                <ChangeEmail />
               </div>
             </div>
           </div>

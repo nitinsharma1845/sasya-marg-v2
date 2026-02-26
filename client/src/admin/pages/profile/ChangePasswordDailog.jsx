@@ -90,7 +90,7 @@ const ChangePasswordDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className='flex flex-col items-center justify-center p-4 rounded-(--radius) bg-secondary hover:bg-border transition-all group border border-transparent hover:border-primary/20'>
+        <button className='flex flex-col items-center justify-center p-4 rounded-lg bg-secondary hover:bg-border transition-all group border border-transparent hover:border-primary/20'>
           <Lock className='w-5 h-5 text-primary mb-2 group-hover:scale-110 transition-transform' />
           <span className='text-[10px] font-bold uppercase tracking-tight'>
             Password
