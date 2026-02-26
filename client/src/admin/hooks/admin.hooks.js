@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { blockBuyer, blockFarmer, changeName, changePassword, getAdminDasboard, getInvites, getProfile, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
+import { blockBuyer, blockFarmer, changeName, changePassword, changePhone, getAdminDasboard, getInvites, getProfile, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
 import { useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 import { queryClient } from "@/lib/queryClient"
@@ -125,6 +125,25 @@ export const useChangName = () => {
         },
         onError: (error) => {
             toast.error(error.response?.data?.message || "Failed to change name")
+        }
+    })
+}
+
+export const useChangPhone = () => {
+    const { setUser, user } = useAuthStore()
+    return useMutation({
+        mutationFn: changePhone,
+        onSuccess: (res) => {
+            const updatedPhone = res.data.phone;
+            queryClient.invalidateQueries(['admin'])
+            setUser({
+                ...user,
+                phone: updatedPhone,
+            });
+            toast.success("Phone Number changed Successfully")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to change Phone number")
         }
     })
 }

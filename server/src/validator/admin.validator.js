@@ -261,3 +261,11 @@ export const changeNameSchema = z.object({
     newFullname: z.string()
   })
 })
+
+export const changePhoneNumberSchema = z.object({
+  body: z.object({
+    newPhone: z.string().length(10).regex(/^[6-9]\d{9}$/),
+    otp: z.string().length(6, "Otp must be of 6 digits"),
+    purpose: z.enum(["login", "register", "forgot_password"])
+  })
+})

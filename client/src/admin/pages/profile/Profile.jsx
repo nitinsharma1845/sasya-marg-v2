@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import ChangePasswordDialog from './ChangePasswordDailog'
 import ChangeName from './ChangeName'
+import ChangePhone from './ChangePhone'
 
 const ProfileSkeleton = () => (
   <div className='p-8 max-w-4xl mx-auto space-y-8'>
@@ -187,14 +188,9 @@ const AdminProfile = () => {
               <div className='grid grid-cols-2 sm:grid-cols-4 gap-3'>
                 <ChangePasswordDialog />
 
-                <ChangeName />
+                <ChangeName currentName={admin.fullname} />
 
-                <button className='flex flex-col items-center justify-center p-4 rounded-(--radius) bg-secondary hover:bg-border transition-all group border border-transparent hover:border-primary/20'>
-                  <Smartphone className='w-5 h-5 text-primary mb-2 group-hover:scale-110 transition-transform' />
-                  <span className='text-[10px] font-bold uppercase tracking-tight'>
-                    New Phone
-                  </span>
-                </button>
+                <ChangePhone />
 
                 <button className='flex flex-col items-center justify-center p-4 rounded-(--radius) bg-secondary hover:bg-border transition-all group border border-transparent hover:border-primary/20'>
                   <AtSign className='w-5 h-5 text-primary mb-2 group-hover:scale-110 transition-transform' />

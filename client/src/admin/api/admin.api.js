@@ -50,3 +50,8 @@ export const changeName = async (payload) => {
     const { data } = await api.patch("/admin/change-name", payload)
     return data
 }
+
+export const changePhone = async (payload) => {
+    const { data } = await api.patch("/admin/change-phone", payload)
+    return data
+}

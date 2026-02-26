@@ -14,6 +14,7 @@ import { PredictHistory } from '../models/predictHistory.model.js'
 import { FarmLand } from '../models/farmLand.model.js'
 import mongoose from "mongoose"
 import { verifyPassword } from "../utils/verifyPassword.js"
+import { verifyOtpService } from "./otp.service.js"
 
 //InviteToken service
 
@@ -1606,10 +1607,21 @@ export const changePasswordService = async ({ adminId, newPassword, oldPassword 
     return admin
 }
 
-export const changeNameService = async ({ adminId, newFullname}) => {
+export const changeNameService = async ({ adminId, newFullname }) => {
     const admin = await Admin.findById(adminId).select("+password")
 
     admin.fullname = newFullname
+    await admin.save()
+
+    return admin
+}
+
+export const changePhoneNumber = async ({ adminId, newPhone, otp, purpose }) => {
+    const admin = await Admin.findById(adminId)
+
+    await verifyOtpService({ phone: newPhone, otp, purpose })
+
+    admin.phone = newPhone
     await admin.save()
 
     return admin
