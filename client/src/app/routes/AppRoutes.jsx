@@ -36,6 +36,7 @@ import SingleQuery from '@/admin/pages/reports/SingleQuery'
 import BuyerReports from '@/admin/pages/buyerReports/BuyerReports'
 import SingleReport from '@/admin/pages/buyerReports/SingleReport'
 import AdminProfile from '@/admin/pages/profile/Profile'
+import Logs from '@/admin/pages/Logs/Logs'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -357,8 +358,8 @@ const router = createBrowserRouter([
         element: <SingleReport />
       },
       {
-        path : "profile",
-        element : <AdminProfile />
+        path: 'profile',
+        element: <AdminProfile />
       }
     ]
   },
@@ -398,6 +399,10 @@ const router = createBrowserRouter([
       {
         path: 'buyers/:buyerId',
         element: <SingleBuyerPage />
+      },
+      {
+        path: 'logs',
+        element: <Logs />
       }
     ]
   },

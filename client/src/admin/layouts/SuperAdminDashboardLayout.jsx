@@ -13,7 +13,8 @@ import {
   Search,
   X,
   FileBadge,
-  User
+  User,
+  Logs
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -98,13 +99,6 @@ export default function SuperAdminLayout () {
               <Menu />
             </Button>
 
-            {/* <div className='relative w-full max-w-md hidden sm:block'>
-              <Search className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
-              <Input
-                placeholder='Search platform-wide...'
-                className='pl-10 bg-muted/50 border-none focus-visible:ring-accent'
-              />
-            </div> */}
             <div className='w-full max-w-md hidden sm:block'>
               <GlobalSearch />
             </div>
@@ -203,6 +197,18 @@ function SuperSidebarContent ({ onItemClick }) {
           to='/super_admin/dashboard/buyers'
           icon={<Users size={20} />}
           label='All Buyers'
+          onClick={onItemClick}
+        />
+
+        <div className='pt-4 pb-2'>
+          <p className='text-[10px] font-bold text-muted-foreground uppercase px-3 tracking-widest'>
+            System Audits
+          </p>
+        </div>
+        <NavItem
+          to='/super_admin/dashboard/logs'
+          icon={<Logs size={20} />}
+          label='Activity Logs'
           onClick={onItemClick}
         />
       </nav>

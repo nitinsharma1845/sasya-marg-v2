@@ -275,3 +275,49 @@ export const changeEmailSchema = z.object({
     newEmail: z.email(),
   })
 })
+
+
+export const getAdminLogsSchema = z.object({
+  page: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : 1))
+    .refine((val) => val > 0, {
+      message: "Page must be greater than 0"
+    }),
+
+  limit: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : 20))
+    .refine((val) => val > 0 && val <= 100, {
+      message: "Limit must be between 1 and 100"
+    }),
+
+  role: z
+    .enum(["admin", "farmer", "buyer"])
+    .optional(),
+
+  action: z
+    .string()
+    .optional(),
+
+  search: z
+    .string()
+    .max(100)
+    .optional(),
+
+  startDate: z
+    .string()
+    .optional()
+    .refine((val) => !val || !isNaN(Date.parse(val)), {
+      message: "Invalid startDate format"
+    }),
+
+  endDate: z
+    .string()
+    .optional()
+    .refine((val) => !val || !isNaN(Date.parse(val)), {
+      message: "Invalid endDate format"
+    })
+})

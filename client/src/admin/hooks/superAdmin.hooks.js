@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getAdminById, getAllAdmins, getAllBuyer, getAllFarmers, getBuyerById, getFarmerById, superAdminDashboard } from "../api/superAdmin.api"
+import { getAdminById, getAllAdmins, getAllBuyer, getAllFarmers, getBuyerById, getFarmerById, getLogs, superAdminDashboard } from "../api/superAdmin.api"
 import { useSearchParams } from "react-router-dom"
 
 export const useGetSuperAdminDashboard = () => {
@@ -52,5 +52,14 @@ export const useGetFarmerById = (farmerId) => {
     return useQuery({
         queryKey: ['farmer', farmerId],
         queryFn: () => getFarmerById(farmerId)
+    })
+}
+
+
+export const useGetLogs = () => {
+    const [searchParams] = useSearchParams()
+    return useQuery({
+        queryKey: ['logs', Object.fromEntries(searchParams.entries())],
+        queryFn: () => getLogs(searchParams)
     })
 }

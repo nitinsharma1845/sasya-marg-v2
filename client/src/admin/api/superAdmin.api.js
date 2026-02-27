@@ -34,3 +34,8 @@ export const getBuyerById = async (buyerId) => {
     const { data } = await api.get(`/admin/buyer/${buyerId} `)
     return data
 }
+
+export const getLogs = async (searchParams) => {
+    const { data } = await api.get("/admin/super-admin/logs", { params: Object.fromEntries(searchParams.entries()) })
+    return data
+}
