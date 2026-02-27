@@ -17,8 +17,6 @@ const BuyerReports = () => {
   const pagination = response?.data?.pagination || {}
   const navigate = useNavigate()
 
-  console.log(queries)
-
   if (isLoading) {
     return (
       <div className='p-6 space-y-4 bg-background min-h-screen'>

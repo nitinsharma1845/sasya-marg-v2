@@ -270,12 +270,12 @@ export const replyToQuery = asyncHandler(async (req, res) => {
     })
 
     req.activityLog = {
-        userId: adminId,
+        userId: req.user._id,
         role: "admin",
         action: "RESPONSE",
         message: "Query response done.",
         metadata: {
-            adminId,
+            adminId : req.user._id,
             queryId,
             reply
         }
@@ -313,12 +313,12 @@ export const changeQueryStatus = asyncHandler(async (req, res) => {
     })
 
     req.activityLog = {
-        userId: adminId,
+        userId: req.user._id,
         role: "admin",
         action: "MODERATION",
         message: "Farmer Query status changed.",
         metadata: {
-            adminId,
+            adminId : req.user._id,
             queryId,
             status
         }
@@ -335,12 +335,12 @@ export const changeQueryPriority = asyncHandler(async (req, res) => {
     })
 
     req.activityLog = {
-        userId: adminId,
+        userId: req.user._id,
         role: "admin",
         action: "MODERATION",
         message: "Farmer Query priority changed.",
         metadata: {
-            adminId,
+            adminId : req.user._id,
             queryId,
             priority
         }

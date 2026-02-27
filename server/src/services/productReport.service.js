@@ -108,6 +108,7 @@ export const replyReport = async ({ reportId, reply, adminId }) => {
 
     report.adminRemark = reply
     report.repliedBy = adminId
+    report.status = "reviewed"
     await report.save()
     return report
 }

@@ -60,7 +60,6 @@ const WeatherCurrentCard = ({ weather }) => {
     }
   };
 
-  console.log(weather);
 
   return (
     <Card

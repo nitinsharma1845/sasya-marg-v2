@@ -14,8 +14,6 @@ const BrowsePreharvestProductPage = () => {
   const listings = data?.data?.listings ?? []
   const pagination = data?.data?.pagination
 
-  console.log('Data', data)
-
   return (
     <>
       <div className='min-h-screen bg-background w-full'>

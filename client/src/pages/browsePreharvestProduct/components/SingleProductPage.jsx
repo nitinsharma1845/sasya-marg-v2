@@ -131,7 +131,6 @@ const PreHarvestProductPage = () => {
     }
   }
 
-    console.log("product" , product)
 
   if (!product) {
     return (

@@ -40,8 +40,6 @@ const FarmerSkeleton = () => (
 const AllFarmerPages = () => {
   const { data, isLoading } = useGetAllFarmers()
   const { role } = useAuthStore()
-
-  console.log(role)
   const navigate = useNavigate()
 
   const farmers = data?.data?.farmers || []

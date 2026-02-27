@@ -13,10 +13,8 @@ import { useThemeStore } from "./store/useThemeStrore";
 
 export const RootShell = () => {
   const loading = useAuthStore((s) => s.loading);
-  const user = useAuthStore((s) => s.user);
   const { theme } = useThemeStore();
 
-  console.log("USER STATUS ::" , user)
 
   useEffect(() => {
     document.documentElement.classList.remove("light", "dark");

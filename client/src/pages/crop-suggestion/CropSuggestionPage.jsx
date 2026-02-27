@@ -39,7 +39,6 @@ const CropSuggestionPage = () => {
   }
 
   const farmlands = data.data.farmland
-  console.log("farmlands ", farmlands)
 
   if (!farmlands || farmlands.length === 0) {
     return <EmptyFarmlandState />;

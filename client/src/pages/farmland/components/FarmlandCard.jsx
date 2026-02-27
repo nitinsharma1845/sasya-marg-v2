@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 const FarmlandCard = ({ farmland }) => {
   const navigate = useNavigate();
-  console.log(farmland)
 
   const isActive = farmland.isActive;
 
