@@ -9,6 +9,17 @@ export const createQuery = asyncHandler(async (req, res) => {
 
     const query = await createQueryService({ farmerId, payload: req.body })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "farmer",
+        action: "QUERY_RAISED",
+        message: "A new query is raised by farmer.",
+        metadata: {
+            farmerId: req.user._id,
+            queryId: query._id,
+        }
+    }
+
     return res.status(201).json(new ApiResponse(201, query, "Query created successfully"))
 })
 
@@ -36,6 +47,19 @@ export const updateQuery = asyncHandler(async (req, res) => {
 
     const query = await updateQueryService({ farmerId, queryId, message, subject })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "farmer",
+        action: "QUERY_UPDATED",
+        message: "Query is updated by farmer.",
+        metadata: {
+            farmerId: req.user._id,
+            queryId: query._id,
+            message,
+            subject
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, query, "Query updated Successfully"))
 })
 
@@ -44,6 +68,17 @@ export const closeQuery = asyncHandler(async (req, res) => {
     const { queryId } = req.params
 
     const query = await closeQueryService({ farmerId, queryId })
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "farmer",
+        action: "QUERY_CLOSED",
+        message: "Query is closed by farmer.",
+        metadata: {
+            farmerId: req.user._id,
+            queryId: query._id,
+        }
+    }
 
     return res.status(200).json(
         new ApiResponse(200, query, "Query closed successfully")

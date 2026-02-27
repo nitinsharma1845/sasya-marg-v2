@@ -90,6 +90,19 @@ export const registerAdminWithInviteToken = asyncHandler(async (req, res) => {
 
     const admin = await registerAdminWithInviteTokenService({ inviteToken, payload: req.body })
 
+    req.activityLog = {
+        userId: admin._id,
+        role: "admin",
+        action: "ACCOUNT_CREATED",
+        message: "Account creation done for admin role threw inviteToke.",
+        metadata: {
+            id: admin._id,
+            fullname: admin.fullname,
+            phone: admin.phone,
+            email: admin.email,
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, admin, "Admin created successfully"))
 
 })
@@ -98,6 +111,19 @@ export const loginAdmin = asyncHandler(async (req, res) => {
     const { identifier, password } = req.body
 
     const { token, admin } = await loginAdminService({ identifier, password })
+
+    req.activityLog = {
+        userId: admin._id,
+        role: "admin",
+        action: "LOGIN",
+        message: "Login done for admin account.",
+        metadata: {
+            id: admin._id,
+            fullname: admin.fullname,
+            phone: admin.phone,
+            email: admin.email,
+        }
+    }
 
     return res
         .cookie("token", token, {
@@ -110,6 +136,16 @@ export const loginAdmin = asyncHandler(async (req, res) => {
 })
 
 export const logoutAdmin = asyncHandler(async (req, res) => {
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "LOGOUT",
+        message: "Account Log outed by admin role.",
+        metadata: {
+            id: req.user._id
+        }
+    }
     return res
         .clearCookie("token", {
             httpOnly: true,
@@ -161,6 +197,19 @@ export const moderatePreHarvestListing = asyncHandler(async (req, res) => {
 
     const listing = await ModeratePreHarvestedListingService({ listingId, adminId, action, reason })
 
+    req.activityLog = {
+        userId: adminId,
+        role: "admin",
+        action: "MODERATION",
+        message: "Pre-harvest crop listing is moderated by admin.",
+        metadata: {
+            adminId,
+            listingId: listing._id,
+            moderatedTo: action,
+            productType: "pre-harvest"
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, listing, "moderation changed successfully"))
 })
 
@@ -171,6 +220,19 @@ export const moderateProductListing = asyncHandler(async (req, res) => {
     const { action, reason } = req.body
 
     const listing = await ModerateProductListingService({ listingId, adminId, action, reason })
+
+    req.activityLog = {
+        userId: adminId,
+        role: "admin",
+        action: "MODERATION",
+        message: "Harvested crop listing is moderated by admin.",
+        metadata: {
+            adminId,
+            listingId: listing._id,
+            moderatedTo: action,
+            productType: "harvested"
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, listing, "moderation changed successfully"))
 })
@@ -207,6 +269,18 @@ export const replyToQuery = asyncHandler(async (req, res) => {
         queryId: req.params.queryId
     })
 
+    req.activityLog = {
+        userId: adminId,
+        role: "admin",
+        action: "RESPONSE",
+        message: "Query response done.",
+        metadata: {
+            adminId,
+            queryId,
+            reply
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, query, "Reply sent"))
 })
 
@@ -215,6 +289,18 @@ export const replyToReport = asyncHandler(async (req, res) => {
     const { reply } = req.body
     const { adminId } = req.user._id
     const report = await replyReport({ reportId, reply, adminId })
+
+    req.activityLog = {
+        userId: adminId,
+        role: "admin",
+        action: "RESPONSE",
+        message: "Buyer Report response done.",
+        metadata: {
+            adminId,
+            reportId,
+            reply
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, report, "Reply sent"))
 })
@@ -226,6 +312,18 @@ export const changeQueryStatus = asyncHandler(async (req, res) => {
         queryId: req.params.queryId
     })
 
+    req.activityLog = {
+        userId: adminId,
+        role: "admin",
+        action: "MODERATION",
+        message: "Farmer Query status changed.",
+        metadata: {
+            adminId,
+            queryId,
+            status
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, query, "Query status updated"))
 })
 
@@ -235,6 +333,18 @@ export const changeQueryPriority = asyncHandler(async (req, res) => {
         adminId: req.user._id,
         queryId: req.params.queryId
     })
+
+    req.activityLog = {
+        userId: adminId,
+        role: "admin",
+        action: "MODERATION",
+        message: "Farmer Query priority changed.",
+        metadata: {
+            adminId,
+            queryId,
+            priority
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, query, "Query status updated"))
 })
@@ -248,11 +358,34 @@ export const getAllFarmer = asyncHandler(async (req, res) => {
 export const blockFarmer = asyncHandler(async (req, res) => {
     const farmer = await blockFarmerService({ adminId: req.user._id, farmerId: req.params.farmerId, reason: req.body.reason })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "MODERATION",
+        message: "Farmer Blocked",
+        metadata: {
+            adminId: req.user._id,
+            farmerId: farmer._id,
+            reason: req.body.reason
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, farmer, "farmer blocked"))
 })
 
 export const unBlockFarmer = asyncHandler(async (req, res) => {
     const farmer = await unblockFarmerService({ farmerId: req.params.farmerId, })
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "MODERATION",
+        message: "Farmer Unblocked",
+        metadata: {
+            adminId: req.user._id,
+            farmerId: farmer._id,
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, farmer, "farmer unBlocked"))
 })
@@ -266,11 +399,34 @@ export const getAllBuyer = asyncHandler(async (req, res) => {
 export const blockBuyer = asyncHandler(async (req, res) => {
     const buyer = await blockBuyerService({ adminId: req.user._id, buyerId: req.params.buyerId, reason: req.body.reason })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "MODERATION",
+        message: "Buyer Blocked",
+        metadata: {
+            adminId: req.user._id,
+            buyerId: buyer._id,
+            reason: req.body.reason
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, buyer, "Buyer blocked"))
 })
 
 export const unBlockBuyer = asyncHandler(async (req, res) => {
     const buyer = await unblockBuyerService({ buyerId: req.params.buyerId, })
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "MODERATION",
+        message: "Buyer Unblocked",
+        metadata: {
+            adminId: req.user._id,
+            buyerId: buyer._id,
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, buyer, "Buyer unBlocked"))
 })
@@ -322,6 +478,18 @@ export const changePassword = asyncHandler(async (req, res) => {
 
     const admin = await changePasswordService({ adminId, newPassword, oldPassword })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "PROFILE_UPDATE",
+        message: "Password changed.",
+        metadata: {
+            adminId: req.user._id,
+            fullname: admin.fullname,
+            phone: admin.phone
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, admin, "Password changed successfully"))
 })
 
@@ -330,6 +498,19 @@ export const changeFullname = asyncHandler(async (req, res) => {
     const { newFullname } = req.body
 
     const admin = await changeNameService({ adminId, newFullname })
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "PROFILE_UPDATE",
+        message: "Fullname changed.",
+        metadata: {
+            adminId: req.user._id,
+            fullname: admin.fullname,
+            phone: admin.phone,
+            email: admin.email
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, admin, "Name changed successfully"))
 })
@@ -340,6 +521,19 @@ export const changePhone = asyncHandler(async (req, res) => {
 
     const admin = await changePhoneNumber({ adminId, newPhone, otp, purpose })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "PROFILE_UPDATE",
+        message: "Phone changed.",
+        metadata: {
+            adminId: req.user._id,
+            fullname: admin.fullname,
+            phone: admin.phone,
+            email: admin.email
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, admin, "Phone number changed successfully"))
 })
 
@@ -348,6 +542,19 @@ export const changeEmail = asyncHandler(async (req, res) => {
     const { newEmail } = req.body
 
     const admin = await changeEmailService({ adminId, newEmail })
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "PROFILE_UPDATE",
+        message: "Email changed.",
+        metadata: {
+            adminId: req.user._id,
+            fullname: admin.fullname,
+            phone: admin.phone,
+            email: admin.email
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, admin, "Phone number changed successfully"))
 })

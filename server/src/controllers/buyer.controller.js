@@ -11,6 +11,18 @@ export const registerBuyer = asyncHandler(async (req, res) => {
 
     const { buyer, token } = await registerBuyerService({ fullname, phone, otp, password, email })
 
+    req.activityLog = {
+        userId: buyer._id,
+        role: "buyer",
+        action: "ACCOUNT_CREATED",
+        message: "Account creation done for buyer role.",
+        metadata: {
+            id: buyer._id,
+            fullname: buyer.fullname,
+            phone: buyer.phone
+        }
+    }
+
     res
         .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(201)
@@ -21,6 +33,19 @@ export const loginBuyerWithPassword = asyncHandler(async (req, res) => {
     const { password, identifier } = req.body
 
     const { buyer, token } = await loginBuyerUsingPasswordService({ password, identifier })
+
+    req.activityLog = {
+        userId: buyer._id,
+        role: "buyer",
+        action: "LOGIN",
+        message: "Account Loggedin by buyer role.",
+        metadata: {
+            method: "PASSWORD",
+            id: buyer._id,
+            fullname: buyer.fullname,
+            phone: buyer.phone
+        }
+    }
 
     res
         .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 100 * 60 * 60 * 24 * 7 })
@@ -34,6 +59,19 @@ export const loginBuyerWithOtp = asyncHandler(async (req, res) => {
 
     const { token, buyer } = await loginBuyerUsingOtpService({ otp, phone })
 
+    req.activityLog = {
+        userId: buyer._id,
+        role: "buyer",
+        action: "LOGIN",
+        message: "Account Loggedin by buyer role.",
+        metadata: {
+            id: buyer._id,
+            fullname: buyer.fullname,
+            phone: buyer.phone,
+            method: "OTP"
+        }
+    }
+
     res
         .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(200)
@@ -45,6 +83,18 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 
     const { buyer } = await forgotBuyerPasswordService({ otp, phone, newPassword })
 
+    req.activityLog = {
+        userId: buyer._id,
+        role: "buyer",
+        action: "FORGOT_PASSWORD",
+        message: "Forgot password request from buyer role.",
+        metadata: {
+            id: buyer._id,
+            fullname: buyer.fullname,
+            phone: buyer.phone
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, buyer, "Password changed successfully"))
 })
 
@@ -54,6 +104,18 @@ export const changePassword = asyncHandler(async (req, res) => {
 
 
     const buyer = await changeBuyerPasswordService({ oldPassword, newPassword, _id: buyerId })
+
+    req.activityLog = {
+        userId: buyer._id,
+        role: "buyer",
+        action: "RESET_PASSWORD",
+        message: "password reset request from buyer role.",
+        metadata: {
+            id: buyer._id,
+            fullname: buyer.fullname,
+            phone: buyer.phone
+        }
+    }
 
     return res.status(200).json(new ApiResponse(200, buyer, "Password Changed Successfully"))
 })
@@ -73,6 +135,18 @@ export const updateBuyerAddress = asyncHandler(async (req, res) => {
 
     const buyer = await updateBuyerAddressService({ buyerId, address })
 
+    req.activityLog = {
+        userId: buyer._id,
+        role: "buyer",
+        action: "UPDATE_ADDRESS",
+        message: "Update address request from buyer.",
+        metadata: {
+            id: buyer._id,
+            fullname: buyer.fullname,
+            phone: buyer.phone
+        }
+    }
+
     return res.status(200).json(new ApiResponse(200, buyer, "Address updated"))
 })
 
@@ -82,10 +156,33 @@ export const updateBuyerProfile = asyncHandler(async (req, res) => {
 
     const buyer = await changeBuyerProfileService({ buyerId, fullname, email })
 
+    req.activityLog = {
+        userId: buyer._id,
+        role: "buyer",
+        action: "UPDATE_PROFILE",
+        message: "Profile updation request from buyer.",
+        metadata: {
+            id: buyer._id,
+            fullname: buyer.fullname,
+            phone: buyer.phone
+        }
+    }
+
     return res.status(201).json(new ApiResponse(201, buyer, "Profile updated Successfully"))
 })
 
 export const logoutBuyer = asyncHandler(async (req, res) => {
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "buyer",
+        action: "LOGOUT",
+        message: "Account logged out by buyer.",
+        metadata: {
+            id: req.user._id,
+        }
+    }
+
     return res
         .clearCookie("token",
             {

@@ -10,6 +10,18 @@ export const createPreHarvestList = asyncHandler(async (req, res) => {
 
     const listing = await createPreHarvestListingService({ farmerId, payload, files })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "farmer",
+        action: "LISTING_CREATED",
+        message: "New pre-harvest crop is listed by farmer.",
+        metadata: {
+            farmerId: req.user._id,
+            listingId: listing._id,
+            productType: "pre-harvest"
+        }
+    }
+
     return res.status(201).json(new ApiResponse(201, listing, "Product listed successfully"))
 })
 
@@ -42,6 +54,18 @@ export const updatePreHarvestListing = asyncHandler(async (req, res) => {
     const payload = req.body
 
     const listing = await updatePreHarvestListingService(listingId, farmerId, payload)
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "farmer",
+        action: "LISTING_UPDATED",
+        message: "pre-harvest crop listing is updated by farmer.",
+        metadata: {
+            farmerId: req.user._id,
+            listingId: listing._id,
+            productType: "pre-harvest"
+        }
+    }
 
     return res.status(201).json(new ApiResponse(201, listing, "Listing update successfully"))
 })

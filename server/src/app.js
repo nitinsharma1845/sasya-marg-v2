@@ -20,6 +20,7 @@ import { wishListRouter } from './routes/wishList.routes.js';
 import { schemeRouter } from './routes/governmentScheme.routes.js';
 import { authRouter } from './routes/auth.routes.js';
 import { reportRouter } from './routes/productReport.route.js';
+import { activityLogger } from './middleware/logActivity.middleware.js';
 
 
 
@@ -47,6 +48,7 @@ app.use(
 app.use(urlencoded({ extended: true }))
 app.use(json())
 app.use(cookieParser())
+app.use(activityLogger)
 
 
 app.get("/error-test", async (req, res) => {
@@ -85,7 +87,6 @@ app.use('/api/v2/buyer/wishlist', wishListRouter)
 
 //scheme routes
 app.use("/api/v2", schemeRouter)
-
 
 
 

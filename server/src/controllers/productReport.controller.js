@@ -9,6 +9,17 @@ export const createProductReport = asyncHandler(async (req, res) => {
 
     const report = await createReport({ buyerId, payload, files })
 
+    req.activityLog = {
+        userId: req.user._id,
+        role: "buyer",
+        action: "REPORT_POSTED",
+        message: "A new report is done by buyer",
+        metadata: {
+            buyerId: req.user._id,
+            reportId: report._id,
+        }
+    }
+
     return res.status(201).json(new ApiResponse(201, report, "Report sent to admin for review and required action"))
 })
 

@@ -47,7 +47,8 @@ export const loginFarmerUsingOtpService = async ({ phone, otp }) => {
         fullname: farmerDoc.fullname,
         email: farmerDoc.email,
         role: farmerDoc.role,
-        phone: farmerDoc.phone
+        phone: farmerDoc.phone,
+        _id : farmerDoc._id
 
     }
 
@@ -71,7 +72,8 @@ export const loginFarmerUsingPasswordService = async ({ phone, password }) => {
         fullname: farmerDoc.fullname,
         email: farmerDoc.email,
         role: farmerDoc.role,
-        phone: farmerDoc.phone
+        phone: farmerDoc.phone,
+        _id : farmerDoc._id
 
     }
 
