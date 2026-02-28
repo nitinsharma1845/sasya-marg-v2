@@ -1,0 +1,150 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "submit": "Submit",
+    "search": "Search",
+    "loading": "Loading...",
+    "noData": "No data available"
+  },
+
+  "app": {
+    "name1": "Sasya",
+    "name2": "Marg",
+    "fullname" : "Sasyamarg",
+    "tagline": "Smart Agriculture Marketplace & Advisory Platform"
+  },
+
+  "navbar": {
+    "home": "Home",
+    "explore": "Explore",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "logout": "Logout",
+    "joinFarmer": "Join as Farmer",
+    "joinBuyer": "Join as Buyer"
+  },
+
+  "auth": {
+    "login": {
+      "title": "Login",
+      "farmerTitle": "Farmer Login",
+      "buyerTitle": "Buyer Login",
+      "phoneLabel": "Mobile Number",
+      "emailLabel": "Email Address",
+      "passwordLabel": "Password",
+      "otpLabel": "Enter OTP",
+      "sendOtp": "Send OTP",
+      "verifyOtp": "Verify OTP",
+      "loginButton": "Login",
+      "noAccount": "Don't have an account?",
+      "register": "Register"
+    },
+    "logout": {
+      "confirmTitle": "Confirm Logout",
+      "confirmMessage": "Are you sure you want to logout?"
+    }
+  },
+
+  "roles": {
+    "farmer": "Farmer",
+    "buyer": "Buyer",
+    "admin": "Admin"
+  },
+
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "blocked": "Blocked",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+
+  "listing": {
+    "title": "Crop Title",
+    "description": "Description",
+    "price": "Price",
+    "quantity": "Quantity",
+    "createListing": "Create Listing",
+    "editListing": "Edit Listing"
+  },
+
+  "dashboard": {
+    "welcome": "Welcome {{name}}",
+    "totalListings": "Total Listings",
+    "recentActivity": "Recent Activity"
+  },
+
+  "emptyState": {
+    "noListings": "No listings found",
+    "noWishlist": "Your wishlist is empty"
+  },
+
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "profile": "Profile",
+    "mandi": "Mandi",
+    "schemes": "Schemes",
+    "farmlands": "Farmlands",
+    "getSuggestion": "Get Suggestion",
+    "support": "Support",
+    "addEmail" : "Add Email",
+    "harvested": "Harvested",
+    "preHarvested": "Pre-Harvested",
+    "helpSupport": "Help & Support",
+    "wishlist": "Wishlist"
+  },
+  "footer": {
+    "description": {
+      "guest": "Join our community of modern farmers. Get the latest crop insights and market trends.",
+      "farmer": "Empowering your farming journey with real-time data and AI insights.",
+      "buyer": "Explore the market and buy crops even before harvest. Grow your business and profit margins by empowering farmers.",
+      "default": "Welcome to SasyaMarg."
+    },
+    "newsletter": {
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    },
+    "sections": {
+      "discover": "Discover",
+      "marketplace": "Marketplace",
+      "myFarm": "My Farm",
+      "support": "Support",
+      "connect": "Connect",
+      "legal": "Legal"
+    },
+    "links": {
+      "home": "Home",
+      "about": "About Us",
+      "services": "Our Services",
+      "startFarmer": "Start as farmer",
+      "startBuyer": "Start as buyer",
+      "mandiPrices": "Mandi",
+      "myFarmlands": "My Farmlands",
+      "aiSuggestions": "AI Suggestions",
+      "farmerDashboard": "Farmer Dashboard",
+      "harvestedProduct": "Harvested Product",
+      "preHarvestedProduct": "Pre-harvested Product",
+      "buyerDashboard": "Buyer Dashboard",
+      "wishlist": "Wishlist",
+      "helpSupport": "Help & Support",
+      "farmerForum": "Farmer Forum",
+      "govtSchemes": "Govt Schemes",
+      "resolutionCenter": "Resolution Center",
+      "contact": "Contact Us",
+      "blog": "Farming Blog",
+      "privacyPolicy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "dataUsage": "Data Usage Policy",
+      "disclaimer": "Disclaimer",
+      "refundPolicy": "Refund Policy"
+    },
+    "copyright": "All rights reserved."
+  }
+}

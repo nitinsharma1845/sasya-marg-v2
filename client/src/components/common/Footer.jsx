@@ -2,9 +2,11 @@ import React from 'react'
 import Logo from './Logo'
 import { Link } from 'react-router-dom'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useTranslation } from 'react-i18next'
 
 const Footer = () => {
   const { authStatus, role } = useAuthStore()
+  const { t } = useTranslation()
 
   const isAuthenticated = authStatus === 'authenticated' || authStatus === true
 
@@ -16,18 +18,18 @@ const Footer = () => {
             <div className='flex items-center gap-2 mb-4'>
               <Logo className={'w-8 md:w-11'} />
               <span className='text-xl font-bold tracking-tight text-foreground'>
-                SasyaMarg
+                {t('app.fullname')}
               </span>
             </div>
 
             <p className='text-sm text-muted-foreground mb-6 max-w-sm'>
               {!isAuthenticated
-                ? 'Join our community of modern farmers. Get the latest crop insights and market trends.'
+                ? t('footer.description.guest')
                 : role === 'farmer'
-                ? 'Empowering your farming journey with real-time data and AI insights.'
+                ? t('footer.description.farmer')
                 : role === 'buyer'
-                ? 'Explore the market and buy crops even before harvest. Grow your business and profit margins by empowering farmers.'
-                : 'Welcome to SasyaMarg.'}
+                ? t('footer.description.buyer')
+                : t('footer.description.default')}
             </p>
 
             <form
@@ -36,14 +38,14 @@ const Footer = () => {
             >
               <input
                 type='email'
-                placeholder='Enter your email'
+                placeholder={t('footer.newsletter.placeholder')}
                 className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50'
               />
               <button
                 type='submit'
                 className='inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2'
               >
-                Subscribe
+                {t('footer.newsletter.subscribe')}
               </button>
             </form>
           </div>
@@ -51,33 +53,48 @@ const Footer = () => {
           <div>
             <h3 className='text-sm font-semibold text-foreground tracking-wider uppercase'>
               {!isAuthenticated
-                ? 'Discover'
+                ? t('footer.sections.discover')
                 : role === 'buyer'
-                ? 'Marketplace'
-                : 'My Farm'}
+                ? t('footer.sections.marketplace')
+                : t('footer.sections.myFarm')}
             </h3>
             <ul className='mt-4 space-y-3'>
               {!isAuthenticated && (
                 <>
-                  <FooterLink href='/' label='Home' />
-                  <FooterLink href='/about' label='About Us' />
-                  <FooterLink href='/services' label='Our Services' />
-                  <FooterLink href='/farmer/signup' label='Start as farmer' />
-                  <FooterLink href='/buyer/signup' label='Start as buyer' />
+                  <FooterLink href='/' label={t('footer.links.home')} />
+                  <FooterLink href='/about' label={t('footer.links.about')} />
+                  <FooterLink
+                    href='/services'
+                    label={t('footer.links.services')}
+                  />
+                  <FooterLink
+                    href='/farmer/signup'
+                    label={t('footer.links.startFarmer')}
+                  />
+                  <FooterLink
+                    href='/buyer/signup'
+                    label={t('footer.links.startBuyer')}
+                  />
                 </>
               )}
 
               {isAuthenticated && role === 'farmer' && (
                 <>
-                  <FooterLink href='/farmer/mandi' label='Mandi Prices' />
-                  <FooterLink href='/farmer/farmland' label='My Farmlands' />
+                  <FooterLink
+                    href='/farmer/mandi'
+                    label={t('footer.links.mandiPrices')}
+                  />
+                  <FooterLink
+                    href='/farmer/farmland'
+                    label={t('footer.links.myFarmlands')}
+                  />
                   <FooterLink
                     href='/farmer/get-suggestion'
-                    label='AI Suggestions'
+                    label={t('footer.links.aiSuggestions')}
                   />
                   <FooterLink
                     href='/farmer/dashboard'
-                    label='Farmer Dashboard'
+                    label={t('footer.links.farmerDashboard')}
                   />
                 </>
               )}
@@ -86,14 +103,20 @@ const Footer = () => {
                 <>
                   <FooterLink
                     href='/buyer/product/harvested-products'
-                    label='Harvested Product'
+                    label={t('footer.links.harvestedProduct')}
                   />
                   <FooterLink
                     href='/buyer/product/pre-harvested-products'
-                    label='Pre-harvested Product'
+                    label={t('footer.links.preHarvestedProduct')}
                   />
-                  <FooterLink href='/buyer/dashboard' label='Buyer Dashboard' />
-                  <FooterLink href='/buyer/wishlist' label='Wishlist' />
+                  <FooterLink
+                    href='/buyer/dashboard'
+                    label={t('footer.links.buyerDashboard')}
+                  />
+                  <FooterLink
+                    href='/buyer/wishlist'
+                    label={t('footer.links.wishlist')}
+                  />
                 </>
               )}
             </ul>
@@ -101,33 +124,44 @@ const Footer = () => {
 
           <div>
             <h3 className='text-sm font-semibold text-foreground tracking-wider uppercase'>
-              {isAuthenticated ? 'Support' : 'Connect'}
+              {isAuthenticated
+                ? t('footer.sections.support')
+                : t('footer.sections.connect')}
             </h3>
             <ul className='mt-4 space-y-3'>
               {isAuthenticated ? (
                 <>
                   {role === 'farmer' && (
                     <>
-                      <FooterLink href='/support' label='Help & Support' />
+                      <FooterLink
+                        href='/support'
+                        label={t('footer.links.helpSupport')}
+                      />
                       <FooterLink
                         href='/farmer/community'
-                        label='Farmer Forum'
+                        label={t('footer.links.farmerForum')}
                       />
-                      <FooterLink href='/farmer/schemes' label='Govt Schemes' />
+                      <FooterLink
+                        href='/farmer/schemes'
+                        label={t('footer.links.govtSchemes')}
+                      />
                     </>
                   )}
 
                   {role === 'buyer' && (
                     <FooterLink
                       href='/buyer/disputes'
-                      label='Resolution Center'
+                      label={t('footer.links.resolutionCenter')}
                     />
                   )}
                 </>
               ) : (
                 <>
-                  <FooterLink href='/contact' label='Contact Us' />
-                  <FooterLink href='/blogs' label='Farming Blog' />
+                  <FooterLink
+                    href='/contact'
+                    label={t('footer.links.contact')}
+                  />
+                  <FooterLink href='/blogs' label={t('footer.links.blog')} />
                 </>
               )}
             </ul>
@@ -135,21 +169,37 @@ const Footer = () => {
 
           <div>
             <h3 className='text-sm font-semibold text-foreground tracking-wider uppercase'>
-              Legal
+              {t('footer.sections.legal')}
             </h3>
             <ul className='mt-4 space-y-3'>
-              <FooterLink href='/privacy-policy' label='Privacy Policy' />
-              <FooterLink href='/terms-of-service' label='Terms of Service' />
-              <FooterLink href='/data-usage' label='Data Usage Policy' />
-              <FooterLink href='/disclaimer' label='Disclaimer' />
-              <FooterLink href='/refund-policy' label='Refund Policy' />
+              <FooterLink
+                href='/privacy-policy'
+                label={t('footer.links.privacyPolicy')}
+              />
+              <FooterLink
+                href='/terms-of-service'
+                label={t('footer.links.terms')}
+              />
+              <FooterLink
+                href='/data-usage'
+                label={t('footer.links.dataUsage')}
+              />
+              <FooterLink
+                href='/disclaimer'
+                label={t('footer.links.disclaimer')}
+              />
+              <FooterLink
+                href='/refund-policy'
+                label={t('footer.links.refundPolicy')}
+              />
             </ul>
           </div>
         </div>
 
         <div className='mt-12 border-t border-border pt-8 text-center'>
           <p className='text-center text-sm text-muted-foreground'>
-            &copy; {new Date().getFullYear()} Sasya-Marg. All rights reserved.
+            &copy; {new Date().getFullYear()} {t('app.fullname')}{' '}
+            {t('footer.copyright')}
           </p>
         </div>
       </div>

@@ -1,16 +1,4 @@
 import { Link } from 'react-router-dom'
-import {
-  Menu,
-  User,
-  LogOut,
-  LayoutDashboard,
-  Loader2,
-  Store,
-  Tractor,
-  HeartHandshake,
-  Brain,
-  BookMarked
-} from 'lucide-react'
 import { useAuthStore } from '@/store/useAuthStore'
 
 import { Button } from '@/components/ui/button'
@@ -24,28 +12,31 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import ThemeToggle from './ThemeToggle'
+import { useTranslation } from 'react-i18next'
+import LanguageProvider from './LanguageProvider'
 
 const DashboardHeader = () => {
   const { user, isAuthenticated, role } = useAuthStore()
+  const { t } = useTranslation()
 
   const farmerLinks = [
-    { name: 'Scheme', href: '/farmer/schemes' },
-    { name: 'Mandi', href: '/farmer/mandi' },
-    { name: 'Farmland', href: '/farmer/farmland' },
-    { name: 'Get-Suggestion', href: '/farmer/get-suggestion' },
-    { name: 'Help & Support', href: '/farmer/support' }
+    { name: 'nav.schemes', href: '/farmer/schemes' },
+    { name: 'nav.mandi', href: '/farmer/mandi' },
+    { name: 'nav.farmlands', href: '/farmer/farmland' },
+    { name: 'nav.getSuggestion', href: '/farmer/get-suggestion' },
+    { name: 'nav.support', href: '/farmer/support' }
   ]
 
   const buyerlinks = [
-    { name: 'Harvested product', href: '/buyer/product/harvested' },
-    { name: 'Pre-Harvested product', href: '/buyer/product/pre-harvested' },
-    { name: 'Help & Support', href: '/buyer/disputes' },
-    { name: 'Wishlist', href: '/buyer/wishlist' }
+    { name: 'nav.harvested', href: '/buyer/product/harvested' },
+    { name: 'nav.preHarvested', href: '/buyer/product/pre-harvested' },
+    { name: 'nav.helpSupport', href: '/buyer/disputes' },
+    { name: 'nav.wishlist', href: '/buyer/wishlist' }
   ]
 
   return (
     <header className='h-16 bg-background border-b flex items-center justify-between px-10 md:px-23'>
-      <h1 className='font-semibold text-xl'>Dashboard</h1>
+      <h1 className='font-semibold text-xl'>{t('navbar.dashboard')}</h1>
       <div className='flex items-center gap-2'>
         {isAuthenticated ? (
           <DropdownMenu>
@@ -76,7 +67,7 @@ const DashboardHeader = () => {
                         to={`/${role}/`}
                         className='border-b border-dotted text-accent'
                       >
-                        Add Email
+                        {t('nav.addEmail')}
                       </Link>
                     )}
                   </p>
@@ -85,7 +76,7 @@ const DashboardHeader = () => {
               <DropdownMenuSeparator />
               <Link to={`/${role}`}>
                 <DropdownMenuItem className='focus:bg-secondary cursor-pointer focus:text-secondary-foreground'>
-                  <span>Profile</span>
+                  <span>{t('nav.profile')}</span>
                 </DropdownMenuItem>
               </Link>
 
@@ -93,8 +84,7 @@ const DashboardHeader = () => {
                 farmerLinks.map(link => (
                   <Link to={link.href} key={link.name}>
                     <DropdownMenuItem className='focus:bg-secondary cursor-pointer focus:text-secondary-foreground'>
-                      <Store className='mr-2 h-4 w-4' />
-                      <span>{link.name}</span>
+                      <span>{t(link.name)}</span>
                     </DropdownMenuItem>
                   </Link>
                 ))}
@@ -103,7 +93,7 @@ const DashboardHeader = () => {
                 buyerlinks.map(link => (
                   <Link to={link.href} key={link.name}>
                     <DropdownMenuItem className='focus:bg-secondary cursor-pointer focus:text-secondary-foreground'>
-                      <span>{link.name}</span>
+                      <span>{t(link.name)}</span>
                     </DropdownMenuItem>
                   </Link>
                 ))}
@@ -120,6 +110,7 @@ const DashboardHeader = () => {
           </div>
         )}
         <ThemeToggle />
+        <LanguageProvider />
       </div>
     </header>
   )

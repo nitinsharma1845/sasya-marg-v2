@@ -1,0 +1,151 @@
+{
+  "common": {
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "submit": "जमा करें",
+    "search": "खोजें",
+    "loading": "लोड हो रहा है...",
+    "noData": "कोई डेटा उपलब्ध नहीं है"
+  },
+
+  "app": {
+    "name1": "सस्य",
+    "name2": "मार्ग",
+    "fullname": "सस्यमार्ग",
+    "tagline": "स्मार्ट कृषि बाज़ार और परामर्श मंच"
+  },
+
+  "navbar": {
+    "home": "होम",
+    "explore": "खोजें",
+    "dashboard": "डैशबोर्ड",
+    "login": "लॉगिन",
+    "logout": "लॉगआउट",
+    "joinFarmer": "किसान के रूप में जुड़ें",
+    "joinBuyer": "खरीदार के रूप में जुड़ें"
+  },
+
+  "auth": {
+    "login": {
+      "title": "लॉगिन",
+      "farmerTitle": "किसान लॉगिन",
+      "buyerTitle": "खरीदार लॉगिन",
+      "phoneLabel": "मोबाइल नंबर",
+      "emailLabel": "ईमेल पता",
+      "passwordLabel": "पासवर्ड",
+      "otpLabel": "ओटीपी दर्ज करें",
+      "sendOtp": "ओटीपी भेजें",
+      "verifyOtp": "ओटीपी सत्यापित करें",
+      "loginButton": "लॉगिन करें",
+      "noAccount": "क्या आपका खाता नहीं है?",
+      "register": "पंजीकरण करें"
+    },
+    "logout": {
+      "confirmTitle": "लॉगआउट की पुष्टि करें",
+      "confirmMessage": "क्या आप वाकई लॉगआउट करना चाहते हैं?"
+    }
+  },
+
+  "roles": {
+    "farmer": "किसान",
+    "buyer": "खरीदार",
+    "admin": "प्रशासक"
+  },
+
+  "status": {
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "blocked": "अवरुद्ध",
+    "pending": "लंबित",
+    "approved": "स्वीकृत",
+    "rejected": "अस्वीकृत"
+  },
+
+  "listing": {
+    "title": "फसल शीर्षक",
+    "description": "विवरण",
+    "price": "कीमत",
+    "quantity": "मात्रा",
+    "createListing": "नई सूची बनाएँ",
+    "editListing": "सूची संपादित करें"
+  },
+
+  "dashboard": {
+    "welcome": "स्वागत है {{name}}",
+    "totalListings": "कुल सूचियाँ",
+    "recentActivity": "हाल की गतिविधि"
+  },
+
+  "emptyState": {
+    "noListings": "कोई सूची नहीं मिली",
+    "noWishlist": "आपकी इच्छा सूची खाली है"
+  },
+
+  "nav": {
+    "home": "होम",
+    "services": "सेवाएं",
+    "about": "हमारे बारे में",
+    "contact": "संपर्क करें",
+    "profile": "प्रोफ़ाइल",
+    "mandi": "मंडी",
+    "schemes": "योजनाएँ",
+    "farmlands": "खेती भूमि",
+    "getSuggestion": "सलाह प्राप्त करें",
+    "support": "सहायता",
+    "addEmail": "ईमेल जोड़ें",
+    "harvested": "कटाई की गई फसल",
+    "preHarvested": "पूर्व-कटाई फसल",
+    "helpSupport": "सहायता एवं समर्थन",
+    "wishlist": "इच्छा सूची"
+  },
+
+  "footer": {
+    "description": {
+      "guest": "आधुनिक किसानों के समुदाय से जुड़ें। नवीनतम फसल जानकारी और बाजार रुझान प्राप्त करें।",
+      "farmer": "रीयल-टाइम डेटा और एआई सुझावों के साथ आपकी खेती की यात्रा को सशक्त बनाना।",
+      "buyer": "कटाई से पहले ही फसल खरीदें। किसानों को सशक्त बनाकर अपने व्यवसाय और लाभ को बढ़ाएं।",
+      "default": "सस्य मार्ग में आपका स्वागत है।"
+    },
+    "newsletter": {
+      "placeholder": "अपना ईमेल दर्ज करें",
+      "subscribe": "सदस्य बनें"
+    },
+    "sections": {
+      "discover": "खोजें",
+      "marketplace": "मार्केटप्लेस",
+      "myFarm": "मेरी खेती",
+      "support": "सहायता",
+      "connect": "संपर्क",
+      "legal": "कानूनी"
+    },
+    "links": {
+      "home": "होम",
+      "about": "हमारे बारे में",
+      "services": "हमारी सेवाएं",
+      "startFarmer": "किसान के रूप में शुरू करें",
+      "startBuyer": "खरीदार के रूप में शुरू करें",
+      "mandiPrices": "मंडी",
+      "myFarmlands": "मेरी भूमि",
+      "aiSuggestions": "एआई सुझाव",
+      "farmerDashboard": "किसान डैशबोर्ड",
+      "harvestedProduct": "कटाई की गई फसल",
+      "preHarvestedProduct": "कटाई से पहले की फसल",
+      "buyerDashboard": "खरीदार डैशबोर्ड",
+      "wishlist": "इच्छा सूची",
+      "helpSupport": "मदद और सहायता",
+      "farmerForum": "किसान मंच",
+      "govtSchemes": "सरकारी योजनाएं",
+      "resolutionCenter": "समाधान केंद्र",
+      "contact": "संपर्क करें",
+      "blog": "कृषि ब्लॉग",
+      "privacyPolicy": "गोपनीयता नीति",
+      "terms": "सेवा की शर्तें",
+      "dataUsage": "डेटा उपयोग नीति",
+      "disclaimer": "अस्वीकरण",
+      "refundPolicy": "रिफंड नीति"
+    },
+    "copyright": "सर्वाधिकार सुरक्षित।"
+  }
+}

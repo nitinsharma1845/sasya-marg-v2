@@ -1,4 +1,5 @@
 import { Button } from "../ui/button";
+import { useTranslation } from "react-i18next";
 
 const LogoutButton = ({
   onClick,
@@ -6,6 +7,7 @@ const LogoutButton = ({
   variant = "destructive",
   className = "",
 }) => {
+  const {t} = useTranslation()
   return (
     <Button
       variant={variant}
@@ -13,7 +15,7 @@ const LogoutButton = ({
       size={size}
       className={className}
     >
-      Logout
+      {t("navbar.logout")}
     </Button>
   );
 };
