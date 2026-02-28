@@ -9,8 +9,10 @@ import {
   XCircle
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const HeroSection = () => {
+  const { t } = useTranslation()
   return (
     <section className='relative w-full overflow-hidden bg-background pt-12 pb-20 lg:pt-20 lg:pb-28'>
       <div className='absolute top-0 right-0 -mr-20 -mt-20 h-125 w-125 rounded-full bg-primary/10 blur-3xl filter' />
@@ -21,17 +23,18 @@ const HeroSection = () => {
           <div className='flex flex-col items-start space-y-6'>
             <div className='inline-flex items-center rounded-full border border-primary/20 bg-secondary px-3 py-1 text-xs font-medium text-primary'>
               <span className='flex h-2 w-2 rounded-full bg-accent mr-2 animate-pulse'></span>
-              AI Model 1.0 Live Now
+              {t('home.hero.badge')}
             </div>
 
             <h1 className='text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl'>
-              Cultivating the Future with{' '}
-              <span className='text-primary'>Smart Data.</span>
+              {t('home.hero.titleLine1')}{' '}
+              <span className='text-primary'>
+                {t('home.hero.titleHighlight')}
+              </span>
             </h1>
 
             <p className='max-w-xl text-base text-muted-foreground sm:text-lg'>
-              Empower your farm with Sasya-Marg. Get precise crop suggestions
-              based on your soil and water levels to maximize your yield.
+              {t('home.hero.description')}
             </p>
 
             <div className='flex flex-col w-full gap-3 sm:flex-row sm:w-auto pt-2'>
@@ -39,7 +42,7 @@ const HeroSection = () => {
                 to='/farmer/login'
                 className='inline-flex h-11 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'
               >
-                Start as Farmer
+                {t('home.hero.buttons.farmer')}
                 <ArrowRight className='ml-2 h-4 w-4' />
               </Link>
 
@@ -47,7 +50,7 @@ const HeroSection = () => {
                 to='/buyer/login'
                 className='inline-flex h-11 items-center justify-center rounded-md bg-accent px-8 text-sm font-medium text-accent-foreground shadow transition-colors hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'
               >
-                Start as Buyer
+                {t('home.hero.buttons.buyer')}
                 <ArrowRight className='ml-2 h-4 w-4' />
               </Link>
             </div>
@@ -55,11 +58,11 @@ const HeroSection = () => {
             <div className='mt-8 flex items-center gap-6 text-sm text-muted-foreground'>
               <div className='flex items-center gap-2'>
                 <ShieldCheck className='h-4 w-4 text-primary' />
-                <span>Verified Logic</span>
+                <span>{t('home.hero.features.verified')}</span>
               </div>
               <div className='flex items-center gap-2'>
                 <CloudSun className='h-4 w-4 text-primary' />
-                <span>Season Aware</span>
+                <span>{t('home.hero.features.seasonAware')}</span>
               </div>
             </div>
           </div>
@@ -73,10 +76,10 @@ const HeroSection = () => {
                   </div>
                   <div>
                     <p className='text-sm font-medium text-foreground'>
-                      Crop Suggestions
+                      {t('home.hero.card.title')}
                     </p>
                     <p className='text-xs text-muted-foreground'>
-                      Based on your Soil & Water
+                      {t('home.hero.card.subtitle')}
                     </p>
                   </div>
                 </div>
@@ -90,10 +93,10 @@ const HeroSection = () => {
                     </div>
                     <div>
                       <p className='text-sm font-bold text-foreground'>
-                        Potato
+                        {t('home.hero.card.potato.name')}
                       </p>
                       <p className='text-xs text-muted-foreground'>
-                        High Yield Potential
+                        {t('home.hero.card.potato.desc')}
                       </p>
                     </div>
                   </div>
@@ -103,7 +106,7 @@ const HeroSection = () => {
                       <CheckCircle2 className='h-4 w-4' />
                     </div>
                     <span className='text-[10px] text-primary uppercase font-semibold'>
-                      Recommended
+                      {t('home.hero.card.potato.status')}
                     </span>
                   </div>
                 </div>
@@ -114,9 +117,11 @@ const HeroSection = () => {
                       🌾
                     </div>
                     <div>
-                      <p className='text-sm font-bold text-foreground'>Wheat</p>
+                      <p className='text-sm font-bold text-foreground'>
+                        {t('home.hero.card.wheat.name')}
+                      </p>
                       <p className='text-xs text-muted-foreground'>
-                        Moderate Water Req
+                        {t('home.hero.card.wheat.desc')}
                       </p>
                     </div>
                   </div>
@@ -126,7 +131,7 @@ const HeroSection = () => {
                       <AlertTriangle className='h-4 w-4' />
                     </div>
                     <span className='text-[10px] text-accent/80 uppercase font-semibold'>
-                      Average
+                      {t('home.hero.card.wheat.status')}
                     </span>
                   </div>
                 </div>
@@ -137,9 +142,11 @@ const HeroSection = () => {
                       🍚
                     </div>
                     <div>
-                      <p className='text-sm font-bold text-foreground'>Rice</p>
+                      <p className='text-sm font-bold text-foreground'>
+                        {t('home.hero.card.rice.name')}
+                      </p>
                       <p className='text-xs text-muted-foreground'>
-                        Water Scarcity Risk
+                        {t('home.hero.card.rice.desc')}
                       </p>
                     </div>
                   </div>
@@ -149,7 +156,7 @@ const HeroSection = () => {
                       <XCircle className='h-4 w-4' />
                     </div>
                     <span className='text-[10px] text-destructive uppercase font-semibold'>
-                      Risky
+                      {t('home.hero.card.wheat.rice')}
                     </span>
                   </div>
                 </div>
@@ -157,7 +164,7 @@ const HeroSection = () => {
 
               <div className='mt-4 pt-3 border-t border-border text-center'>
                 <p className='text-xs text-muted-foreground'>
-                  AI analysis complete for UP West Region
+                  {t('home.hero.card.analysis')}
                 </p>
               </div>
             </div>

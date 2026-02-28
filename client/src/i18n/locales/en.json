@@ -13,7 +13,7 @@
   "app": {
     "name1": "Sasya",
     "name2": "Marg",
-    "fullname" : "Sasyamarg",
+    "fullname": "Sasyamarg",
     "tagline": "Smart Agriculture Marketplace & Advisory Platform"
   },
 
@@ -94,7 +94,7 @@
     "farmlands": "Farmlands",
     "getSuggestion": "Get Suggestion",
     "support": "Support",
-    "addEmail" : "Add Email",
+    "addEmail": "Add Email",
     "harvested": "Harvested",
     "preHarvested": "Pre-Harvested",
     "helpSupport": "Help & Support",
@@ -146,5 +146,51 @@
       "refundPolicy": "Refund Policy"
     },
     "copyright": "All rights reserved."
+  },
+
+  "home": {
+    "hero": {
+      "badge": "AI Model 1.0 Live Now",
+
+      "titleLine1": "Cultivating the Future with",
+      "titleHighlight": "Smart Data.",
+
+      "description": "Empower your farm with Sasya-Marg. Get precise crop suggestions based on your soil and water levels to maximize your yield.",
+
+      "buttons": {
+        "farmer": "Start as Farmer",
+        "buyer": "Start as Buyer"
+      },
+
+      "features": {
+        "verified": "Verified Logic",
+        "seasonAware": "Season Aware"
+      },
+
+      "card": {
+        "title": "Crop Suggestions",
+        "subtitle": "Based on your Soil & Water",
+
+        "potato": {
+          "name": "Potato",
+          "desc": "High Yield Potential",
+          "status": "Recommended"
+        },
+
+        "wheat": {
+          "name": "Wheat",
+          "desc": "Moderate Water Req",
+          "status": "Average"
+        },
+
+        "rice": {
+          "name": "Rice",
+          "desc": "Water Scarcity Risk",
+          "status": "Risky"
+        },
+
+        "analysis": "AI analysis complete for UP West Region"
+      }
+    }
   }
 }
