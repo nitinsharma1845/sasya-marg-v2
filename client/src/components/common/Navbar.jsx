@@ -33,6 +33,7 @@ const Navbar = () => {
   ]
 
   const farmerLinks = [
+    { key: 'nav.profile', href: '/farmer' },
     { key: 'nav.mandi', href: '/farmer/mandi' },
     { key: 'nav.schemes', href: '/farmer/schemes' },
     { key: 'nav.farmlands', href: '/farmer/farmland' },
@@ -41,6 +42,7 @@ const Navbar = () => {
   ]
 
   const buyerLinks = [
+    { key: 'nav.profile', href: '/buyer' },
     { key: 'nav.harvested', href: '/buyer/product/harvested' },
     { key: 'nav.preHarvested', href: '/buyer/product/pre-harvested' },
     { key: 'nav.helpSupport', href: '/buyer/disputes' },

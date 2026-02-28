@@ -19,6 +19,7 @@ const SupportPage = () => {
   const [filter, setFilter] = useState('all')
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [editingQuery, setEditingQuery] = useState(null)
+  const isActive = useAuthStore().user.isActive
 
   const { data, isLoading, isError, isFetching } = useFetchQueries({
     page: Number(page),
@@ -144,7 +145,7 @@ const SupportPage = () => {
         isOpen={isSheetOpen}
         onClose={handleSheetClose}
         editData={editingQuery}
-        forBlock={() => useAuthStore.getState().user.isActive}
+        forBlock={!isActive}
       />
     </div>
   )
