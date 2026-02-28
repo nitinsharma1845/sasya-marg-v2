@@ -191,6 +191,33 @@
 
         "analysis": "AI analysis complete for UP West Region"
       }
+    },
+
+    "featuresSection": {
+      "heading": {
+        "line1": "Everything you need to",
+        "highlight": "Farm Better."
+      },
+      "description": "Sasya-Marg combines traditional farming wisdom with cutting-edge technology to help you make profitable decisions.",
+
+      "items": {
+        "aiCrop": {
+          "title": "AI Crop Suggestion",
+          "description": "Our rule-based AI analyzes your soil type (Black, Alluvial) and water availability to recommend the perfect crop."
+        },
+        "multipleFarmlands": {
+          "title": "Add multiple farmlands",
+          "description": "You can manage and add multiple farmlands at multiple locations and get personalized crop suggestions."
+        },
+        "onlineMandi": {
+          "title": "Online Mandi",
+          "description": "List your crop on E-commerce to connect directly with customers without middlemen. You can even list crops before harvesting."
+        },
+        "govtSchemes": {
+          "title": "Government Schemes",
+          "description": "Stay informed about the latest subsidies, insurance plans, and financial aid available for farmers."
+        }
+      }
     }
   }
 }

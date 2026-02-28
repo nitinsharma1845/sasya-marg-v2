@@ -1,49 +1,52 @@
 import React from 'react'
 import { Sprout, TrendingUp, BookOpen, Tractor } from 'lucide-react'
-
-const features = [
-  {
-    title: 'AI Crop Suggestion',
-    description:
-      'Our rule-based AI analyzes your soil type (Black, Alluvial) and water availability to recommend the perfect crop.',
-    icon: <Sprout className='h-6 w-6 text-primary' />,
-    link: '/crop-suggestion'
-  },
-  {
-    title: 'Add multiple farmlands',
-    description:
-      'You can manage and add multiple farmlands at multiple location and get personalized suggestion for the crop.',
-    icon: <Tractor className='h-6 w-6 text-chart-1' />,
-    link: '/weather'
-  },
-  {
-    title: 'Online Mandi',
-    description:
-      'List your crop on E-commers to get the direct custumer with out middleman , you can also list crop even before harvesting.',
-    icon: <TrendingUp className='h-6 w-6 text-accent' />,
-    link: '/market-place'
-  },
-  {
-    title: 'Government Schemes',
-    description:
-      'Stay informed about the latest subsidies, insurance plans, and financial aid available for farmers.',
-    icon: <BookOpen className='h-6 w-6 text-destructive' />,
-    link: '/schemes'
-  }
-]
+import { useTranslation } from 'react-i18next'
 
 const FeaturesSection = () => {
+  const { t } = useTranslation()
+
+  const features = [
+    {
+      title: t('home.featuresSection.items.aiCrop.title'),
+      description: t('home.featuresSection.items.aiCrop.description'),
+      icon: <Sprout className='h-6 w-6 text-primary' />,
+      link: '/crop-suggestion'
+    },
+    {
+      title: t('home.featuresSection.items.multipleFarmlands.title'),
+      description: t(
+        'home.featuresSection.items.multipleFarmlands.description'
+      ),
+      icon: <Tractor className='h-6 w-6 text-chart-1' />,
+      link: '/weather'
+    },
+    {
+      title: t('home.featuresSection.items.onlineMandi.title'),
+      description: t('home.featuresSection.items.onlineMandi.description'),
+      icon: <TrendingUp className='h-6 w-6 text-accent' />,
+      link: '/market-place'
+    },
+    {
+      title: t('home.featuresSection.items.govtSchemes.title'),
+      description: t('home.featuresSection.items.govtSchemes.description'),
+      icon: <BookOpen className='h-6 w-6 text-destructive' />,
+      link: '/schemes'
+    }
+  ]
+
   return (
     <section className='bg-secondary py-20 lg:py-32'>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='mx-auto max-w-2xl text-center mb-16'>
           <h2 className='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>
-            Everything you need to{' '}
-            <span className='text-primary'>Farm Better.</span>
+            {t('home.featuresSection.heading.line1')}{' '}
+            <span className='text-primary'>
+              {t('home.featuresSection.heading.highlight')}
+            </span>
           </h2>
+
           <p className='mt-4 text-lg text-muted-foreground'>
-            Sasya-Marg combines traditional farming wisdom with cutting-edge
-            technology to help you make profitable decisions.
+            {t('home.featuresSection.description')}
           </p>
         </div>
 
