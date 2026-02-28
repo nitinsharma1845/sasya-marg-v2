@@ -22,7 +22,7 @@ const CtaSection = () => {
 
         <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
           
-          <div className="group relative flex flex-col h-full overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-card via-card to-primary/10 p-8 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
+          <div className="group relative flex flex-col h-full overflow-hidden rounded-3xl border border-border/50 bg-linear-to-br from-card via-card to-primary/10 p-8 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
             
             <Wheat className="absolute -bottom-10 -right-10 h-48 w-48 text-primary/5 transition-all duration-500 group-hover:text-primary/10 group-hover:rotate-12 group-hover:scale-110 z-0 pointer-events-none" />
 
@@ -34,7 +34,7 @@ const CtaSection = () => {
               <h3 className="text-2xl font-bold text-foreground mb-3">
                 I am a Farmer
               </h3>
-              <p className="text-muted-foreground leading-relaxed flex-grow">
+              <p className="text-muted-foreground leading-relaxed grow">
                 Register your land, get AI-driven crop suggestions for the next season, and list your harvest directly for buyers to see. Increase your profits with smart decisions.
               </p>
               
@@ -50,7 +50,7 @@ const CtaSection = () => {
             </div>
           </div>
 
-          <div className="group relative flex flex-col h-full overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-card via-card to-accent/10 p-8 transition-all duration-500 hover:border-accent/50 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-2">
+          <div className="group relative flex flex-col h-full overflow-hidden rounded-3xl border border-border/50 bg-linear-to-br from-card via-card to-accent/10 p-8 transition-all duration-500 hover:border-accent/50 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-2">
             
             <TrendingUp className="absolute -bottom-10 -right-10 h-48 w-48 text-accent/10 transition-all duration-500 group-hover:text-accent/20 group-hover:-rotate-12 group-hover:scale-110 z-0 pointer-events-none" />
 
@@ -62,7 +62,7 @@ const CtaSection = () => {
               <h3 className="text-2xl font-bold text-foreground mb-3">
                 I am a Buyer
               </h3>
-              <p className="text-muted-foreground leading-relaxed flex-grow">
+              <p className="text-muted-foreground leading-relaxed grow">
                 Create a wishlist of crops you need. Get notified when farmers in your desired regions are ready to harvest. Source fresh directly from the farm.
               </p>
               

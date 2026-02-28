@@ -127,11 +127,11 @@ const Navbar = () => {
               </>
             ) : (
               <div className='flex items-center gap-2'>
-                <Button variant='secondary' asChild>
-                  <Link to='/farmer/login'>Log in</Link>
+                <Button variant='secondary' asChild size='sm'>
+                  <Link to='/farmer/login'>Farmer Login</Link>
                 </Button>
-                <Button asChild>
-                  <Link to='/farmer/signup'>Get Started</Link>
+                <Button asChild size='sm'>
+                  <Link to='/buyer/login'>Buyer Login</Link>
                 </Button>
               </div>
             )}
@@ -225,11 +225,11 @@ const Navbar = () => {
                       </Link>
                     ))}
                     <div className='flex flex-col gap-4 w-full'>
-                      <Button variant='secondary' asChild>
-                        <Link to='/farmer/login'>Log in</Link>
+                      <Button variant='secondary' asChild size='sm'>
+                        <Link to='/farmer/login'>Farmer Login</Link>
                       </Button>
-                      <Button asChild>
-                        <Link to='/farmer/signup'>Get Started</Link>
+                      <Button asChild size='sm'>
+                        <Link to='/buyer/login'>Buyer Login</Link>
                       </Button>
                     </div>
                   </div>

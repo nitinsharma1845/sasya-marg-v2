@@ -6,14 +6,12 @@ import { useAuthStore } from '@/store/useAuthStore'
 const Footer = () => {
   const { authStatus, role } = useAuthStore()
 
-  // Helper to check authentication status consistently
   const isAuthenticated = authStatus === 'authenticated' || authStatus === true
 
   return (
     <footer className='w-full bg-background border-t border-border'>
       <div className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
         <div className='grid grid-cols-1 gap-8 md:grid-cols-4 lg:grid-cols-5'>
-          {/* Column 1: Brand & Newsletter */}
           <div className='col-span-1 md:col-span-2 lg:col-span-2'>
             <div className='flex items-center gap-2 mb-4'>
               <Logo className={'w-8 md:w-11'} />
@@ -22,7 +20,6 @@ const Footer = () => {
               </span>
             </div>
 
-            {/* Dynamic Description based on Role */}
             <p className='text-sm text-muted-foreground mb-6 max-w-sm'>
               {!isAuthenticated
                 ? 'Join our community of modern farmers. Get the latest crop insights and market trends.'
@@ -51,7 +48,6 @@ const Footer = () => {
             </form>
           </div>
 
-          {/* Column 2: Main Navigation (Role Specific) */}
           <div>
             <h3 className='text-sm font-semibold text-foreground tracking-wider uppercase'>
               {!isAuthenticated
@@ -61,16 +57,16 @@ const Footer = () => {
                 : 'My Farm'}
             </h3>
             <ul className='mt-4 space-y-3'>
-              {/* Public Links */}
               {!isAuthenticated && (
                 <>
                   <FooterLink href='/' label='Home' />
                   <FooterLink href='/about' label='About Us' />
                   <FooterLink href='/services' label='Our Services' />
+                  <FooterLink href='/farmer/signup' label='Start as farmer' />
+                  <FooterLink href='/buyer/signup' label='Start as buyer' />
                 </>
               )}
 
-              {/* Farmer Links */}
               {isAuthenticated && role === 'farmer' && (
                 <>
                   <FooterLink href='/farmer/mandi' label='Mandi Prices' />
@@ -86,7 +82,6 @@ const Footer = () => {
                 </>
               )}
 
-              {/* Buyer Links (New) */}
               {isAuthenticated && role === 'buyer' && (
                 <>
                   <FooterLink
@@ -104,7 +99,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: Support & Community */}
           <div>
             <h3 className='text-sm font-semibold text-foreground tracking-wider uppercase'>
               {isAuthenticated ? 'Support' : 'Connect'}
@@ -139,7 +133,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 4: Legal (All Pages) */}
           <div>
             <h3 className='text-sm font-semibold text-foreground tracking-wider uppercase'>
               Legal
