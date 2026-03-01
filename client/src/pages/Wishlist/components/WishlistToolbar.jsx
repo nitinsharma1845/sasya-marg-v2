@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -35,7 +35,7 @@ const WishlistToolbar = () => {
   const updateParam = (key, value) => {
     setParams(prev => {
       const newParams = new URLSearchParams(prev)
-      if (value && value !== "all") {
+      if (value && value !== 'all') {
         newParams.set(key, value)
       } else {
         newParams.delete(key)
@@ -45,11 +45,16 @@ const WishlistToolbar = () => {
     })
   }
 
-
   return (
     <div className='flex flex-col gap-4 bg-card p-4 rounded-xl border border-border shadow-sm w-full'>
       <div className='flex flex-col sm:flex-row gap-3 justify-between items-center'>
         <div className='relative w-full sm:max-w-xs group'>
+          {searchTerm && (
+            <X
+              className='absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors cursor-pointer'
+              onClick={() => setSearchTerm('')}
+            />
+          )}
           <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors' />
           <Input
             placeholder='Search products...'
@@ -64,7 +69,7 @@ const WishlistToolbar = () => {
             value={params.get('itemType') || 'all'}
             onValueChange={val => updateParam('itemType', val)}
           >
-            <SelectTrigger className='w-35 bg-background'>
+            <SelectTrigger className='w-35 bg-background cursor-pointer'>
               <SelectValue placeholder='Category' />
             </SelectTrigger>
             <SelectContent>

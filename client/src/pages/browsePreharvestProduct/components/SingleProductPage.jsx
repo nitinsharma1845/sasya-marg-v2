@@ -131,7 +131,6 @@ const PreHarvestProductPage = () => {
     }
   }
 
-
   if (!product) {
     return (
       <div className='min-h-[50vh] flex flex-col items-center justify-center gap-4 text-muted-foreground'>
@@ -142,6 +141,7 @@ const PreHarvestProductPage = () => {
           variant='outline'
           size='sm'
           onClick={() => window.history.back()}
+          className={'cursor-pointer'}
         >
           Go Back
         </Button>
@@ -160,7 +160,7 @@ const PreHarvestProductPage = () => {
           <DotIcon className='h-4 w-4 opacity-50' />
           <Link
             to='/buyer/product/pre-harvested'
-            className='hover:text-primary transition-colors'
+            className='hover:text-primary transition-colors cursor-pointer'
           >
             Market
           </Link>
@@ -353,7 +353,7 @@ const PreHarvestProductPage = () => {
                         size='icon'
                         onClick={toggleWishlist}
                         className={cn(
-                          'h-10 w-10 shrink-0 border-border transition-all duration-300 rounded-full',
+                          'h-10 w-10 shrink-0 border-border transition-all duration-300 rounded-full cursor-pointer',
                           isWishlisted
                             ? 'border-red-200 bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 hover:border-red-300'
                             : 'text-muted-foreground hover:text-red-500 hover:bg-red-50 hover:border-red-200'
@@ -476,7 +476,7 @@ const PreHarvestProductPage = () => {
                     <div className='space-y-3 animation-in fade-in slide-in-from-top-2 duration-300'>
                       <Button
                         variant='outline'
-                        className='w-full border-primary/20 text-primary font-bold h-11 text-md select-all bg-primary/5 hover:bg-primary/10'
+                        className='w-full border-primary/20 text-primary font-bold h-11 text-md select-all bg-primary/5 hover:bg-primary/10 cursor-pointer'
                       >
                         <Phone className='h-4 w-4 mr-2' />
                         {product.farmer.phone !== 'false'
@@ -487,7 +487,7 @@ const PreHarvestProductPage = () => {
                       {product.farmer.email && (
                         <Button
                           variant='ghost'
-                          className='w-full h-9 text-xs text-muted-foreground hover:text-primary'
+                          className='w-full h-9 text-xs text-muted-foreground hover:text-primary cursor-pointer'
                           onClick={() =>
                             (window.location.href = `mailto:${product.farmer.email}`)
                           }
@@ -504,7 +504,7 @@ const PreHarvestProductPage = () => {
                   ) : (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button className='w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 font-semibold shadow-md transition-transform active:scale-[0.98]'>
+                        <Button className='w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 font-semibold shadow-md transition-transform active:scale-[0.98] cursor-pointer'>
                           <Phone className='h-4 w-4 mr-2' /> Reveal Contact
                           Details
                         </Button>
@@ -534,7 +534,7 @@ const PreHarvestProductPage = () => {
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => setIsContactRevealed(true)}
-                            className='bg-primary hover:bg-primary/90'
+                            className='bg-primary hover:bg-primary/90 cursor-pointer'
                           >
                             I Understand, Show Number
                           </AlertDialogAction>
@@ -560,7 +560,7 @@ const PreHarvestProductPage = () => {
 
                     <Button
                       disabled
-                      className='w-full bg-muted text-muted-foreground h-10 opacity-70'
+                      className='w-full bg-muted text-muted-foreground h-10 opacity-70 cursor-pointer'
                     >
                       <Phone className='h-4 w-4 mr-2' /> Phone Unavailable
                     </Button>
@@ -568,7 +568,7 @@ const PreHarvestProductPage = () => {
                     {product.farmer.email && (
                       <Button
                         variant='outline'
-                        className='w-full border-primary/20 text-primary hover:bg-primary/5 h-10'
+                        className='w-full border-primary/20 text-primary hover:bg-primary/5 h-10 cursor-pointer'
                         onClick={() =>
                           (window.location.href = `mailto:${product.farmer.email}`)
                         }
@@ -580,7 +580,7 @@ const PreHarvestProductPage = () => {
 
                     <Button
                       variant='secondary'
-                      className='w-full h-10 text-xs border border-border/50'
+                      className='w-full h-10 text-xs border border-border/50 cursor-pointer'
                     >
                       <MapPin className='h-3.5 w-3.5 mr-2' />{' '}
                       {product.farmland?.location?.locality},{' '}

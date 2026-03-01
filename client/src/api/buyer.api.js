@@ -35,7 +35,12 @@ export const updateBuyerAddress = async (payload) => {
     return data
 }
 
-export const getDashboard = async ()=>{
-    const {data} = await api.get('/buyer/dashboard')
+export const getDashboard = async () => {
+    const { data } = await api.get('/buyer/dashboard')
+    return data
+}
+
+export const logoutBuyer = async () => {
+    const { data } = await api.post("/buyer/logout")
     return data
 }

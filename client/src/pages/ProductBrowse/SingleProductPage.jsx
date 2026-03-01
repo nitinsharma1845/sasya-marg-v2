@@ -102,9 +102,6 @@ const SingleProductPage = () => {
     }
   }
 
-
-
-
   if (!product) {
     return (
       <div className='min-h-[50vh] flex flex-col items-center justify-center gap-4 text-muted-foreground'>
@@ -115,6 +112,7 @@ const SingleProductPage = () => {
           variant='outline'
           size='sm'
           onClick={() => window.history.back()}
+          className={'cursor-pointer'}
         >
           Go Back
         </Button>
@@ -133,7 +131,7 @@ const SingleProductPage = () => {
             Harvested Products
           </span>
 
-          <DotIcon className='h-4 w-4 opacity-50' />
+          <DotIcon className='h-4 w-4 opacity-50 cursor-pointer' />
           <Link
             to='/buyer/product/harvested'
             className='hover:text-primary transition-colors'
@@ -268,7 +266,7 @@ const SingleProductPage = () => {
                         size='icon'
                         onClick={toggleWishlist}
                         className={cn(
-                          'h-10 w-10 shrink-0 border-border transition-all duration-300 rounded-full',
+                          'h-10 w-10 shrink-0 border-border transition-all duration-300 rounded-full cursor-pointer',
                           isWishlisted
                             ? 'border-red-200 bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 hover:border-red-300'
                             : 'text-muted-foreground hover:text-red-500 hover:bg-red-50 hover:border-red-200'
@@ -372,7 +370,7 @@ const SingleProductPage = () => {
                       <div className='space-y-3 animation-in fade-in slide-in-from-top-2'>
                         <Button
                           variant='outline'
-                          className='w-full border-primary/20 text-primary hover:text-primary font-bold h-10 select-all'
+                          className='w-full border-primary/20 text-primary hover:text-primary font-bold h-10 select-all cursor-pointer'
                         >
                           {product.farmer.phone || 'Phone number not found'}
                         </Button>
@@ -383,7 +381,7 @@ const SingleProductPage = () => {
                     ) : (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button className='w-full bg-primary hover:bg-primary/90 text-primary-foreground h-10 shadow-sm'>
+                          <Button className='w-full bg-primary hover:bg-primary/90 text-primary-foreground h-10 shadow-sm cursor-pointer'>
                             <Phone className='h-4 w-4 mr-2' /> Get Contact
                             Details
                           </Button>
@@ -413,7 +411,7 @@ const SingleProductPage = () => {
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
                               onClick={() => setIsContactRevealed(true)}
-                              className='bg-primary hover:bg-primary/90'
+                              className='bg-primary hover:bg-primary/90 cursor-pointer'
                             >
                               I Understand, Show Number
                             </AlertDialogAction>

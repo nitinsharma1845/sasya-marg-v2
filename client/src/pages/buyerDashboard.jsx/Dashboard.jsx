@@ -19,7 +19,7 @@ import LogoutButton from '@/components/common/LogoutButton'
 import LogoutConfirmDialog from '@/components/common/LogoutDialog'
 
 import { useGetBuyerDashboard } from '@/hooks/buyer.hooks'
-import { useLogoutFarmer as useLogout } from '@/hooks/auth.hooks'
+import { useLogoutBuyer as useLogout } from '@/hooks/buyer.hooks'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -63,14 +63,14 @@ const Dashboard = () => {
 
           <div className='flex items-center gap-3 bg-card p-2 rounded-2xl border border-border shadow-sm'>
             <Button
-              className='rounded-xl shadow-md transition-all hover:opacity-90 active:scale-95 bg-primary text-primary-foreground'
+              className='rounded-xl shadow-md transition-all hover:opacity-90 active:scale-95 bg-primary text-primary-foreground cursor-pointer'
               onClick={() => navigate('/buyer/product/harvested')}
             >
               Marketplace
             </Button>
             <LogoutButton
               variant='ghost'
-              className='rounded-xl hover:bg-destructive/10 hover:text-destructive text-muted-foreground'
+              className='rounded-xl hover:bg-destructive/10 hover:text-destructive text-muted-foreground cursor-pointer'
               onClick={() => setIsOpen(true)}
             />
           </div>
@@ -107,7 +107,6 @@ const Dashboard = () => {
                   </div>
 
                   <div className='grid grid-cols-1 xl:grid-cols-2 gap-4'>
-            
                     {profile?.email ? (
                       <div className='flex items-center gap-4 bg-muted/50 p-4 rounded-xl border border-border/50'>
                         <Mail size={18} className='text-primary' />
@@ -202,7 +201,7 @@ const Dashboard = () => {
             </div>
             <Button
               variant='link'
-              className='font-bold text-primary hover:text-primary/80 group p-0'
+              className='font-bold text-primary hover:text-primary/80 group p-0 cursor-pointer'
               onClick={() => navigate('/buyer/wishlist')}
             >
               View All{' '}
@@ -265,7 +264,7 @@ const Dashboard = () => {
 
                         <Button
                           size='sm'
-                          className='rounded-xl px-5 font-bold bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors'
+                          className='rounded-xl px-5 font-bold bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer'
                           onClick={() =>
                             navigate(
                               `/buyer/product/${
@@ -293,7 +292,7 @@ const Dashboard = () => {
                   Start exploring the marketplace to fill your wishlist.
                 </p>
                 <Button
-                  className='rounded-xl px-8 bg-primary text-primary-foreground'
+                  className='rounded-xl px-8 bg-primary text-primary-foreground cursor-pointer'
                   onClick={() => navigate('/buyer/product/harvested')}
                 >
                   Explore Now

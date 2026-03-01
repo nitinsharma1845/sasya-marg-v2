@@ -46,6 +46,7 @@ const ProductPagination = ({ pagination }) => {
           size='icon'
           disabled={page === 1}
           onClick={() => changePage(page - 1)}
+          className={'cursor-pointer'}
         >
           <ChevronLeft className='h-4 w-4' />
         </Button>
@@ -59,6 +60,7 @@ const ProductPagination = ({ pagination }) => {
           size='icon'
           disabled={page === totalPages}
           onClick={() => changePage(page + 1)}
+          className={'cursor-pointer'}
         >
           <ChevronRight className='h-4 w-4' />
         </Button>

@@ -1,4 +1,4 @@
-import { buyerLoginWithOtp, buyerLoginWithPassword, buyerSignup, forgotBuyerPassword, getBuyerProfile, getDashboard, updateBuyerAddress, updateBuyerProfile } from "@/api/buyer.api"
+import { buyerLoginWithOtp, buyerLoginWithPassword, buyerSignup, forgotBuyerPassword, getBuyerProfile, getDashboard, logoutBuyer, updateBuyerAddress, updateBuyerProfile } from "@/api/buyer.api"
 import { queryClient } from "@/lib/queryClient"
 import { useAuthStore } from "@/store/useAuthStore"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -109,9 +109,25 @@ export const useUpdateBuyerAddress = () => {
     })
 }
 
-export const useGetBuyerDashboard = ()=>{
+export const useGetBuyerDashboard = () => {
     return useQuery({
-        queryKey : ["dashbaord"],
-        queryFn : getDashboard
+        queryKey: ["dashbaord"],
+        queryFn: getDashboard
+    })
+}
+
+export const useLogoutBuyer = () => {
+    const { clearUser } = useAuthStore()
+    const navigate = useNavigate()
+    return useMutation({
+        mutationFn: logoutBuyer,
+        onSuccess: () => {
+            clearUser()
+            toast.success("Logout successfully")
+            navigate(`/`)
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to Logout");
+        }
     })
 }

@@ -88,7 +88,7 @@ const ResolutionCenter = () => {
                   value={param.get('reason') || ''}
                   onValueChange={val => updateParam('reason', val)}
                 >
-                  <SelectTrigger className='w-full'>
+                  <SelectTrigger className='w-full cursor-pointer'>
                     <SelectValue placeholder='Select a reason' />
                   </SelectTrigger>
                   <SelectContent>
@@ -110,7 +110,7 @@ const ResolutionCenter = () => {
                   value={param.get('status') || ''}
                   onValueChange={val => updateParam('status', val)}
                 >
-                  <SelectTrigger className='w-full'>
+                  <SelectTrigger className='w-full cursor-pointer'>
                     <SelectValue placeholder='Select a Status' />
                   </SelectTrigger>
                   <SelectContent>
@@ -160,7 +160,7 @@ const ResolutionCenter = () => {
 const NavButton = ({ active, onClick, icon, label }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-md transition-colors ${
+    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-md transition-colors cursor-pointer ${
       active
         ? 'bg-primary/10 text-primary border border-primary/20'
         : 'text-muted-foreground hover:bg-muted hover:text-foreground'
