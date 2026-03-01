@@ -86,7 +86,7 @@ const HistoryCard = ({ item, redirectTo }) => {
 
         <Button
           variant="outline"
-          className="w-full mt-4 h-8 text-xs text-primary hover:text-primary hover:bg-primary/5"
+          className="w-full mt-4 h-8 text-xs text-primary hover:text-primary hover:bg-primary/5 cursor-pointer"
           onClick={redirectTo}
         >
           View Details <ArrowUpRight className="ml-1 h-3 w-3" />

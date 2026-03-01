@@ -16,7 +16,7 @@ const FarmlandHeader = ({ farmland, onEdit }) => {
             variant="ghost"
             size="icon"
             onClick={() => navigate(-1)}
-            className="-ml-2 text-muted-foreground hover:text-primary hover:bg-secondary dark:hover:bg-transparent"
+            className="-ml-2 text-muted-foreground hover:text-primary hover:bg-secondary dark:hover:bg-transparent cursor-pointer"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -41,7 +41,7 @@ const FarmlandHeader = ({ farmland, onEdit }) => {
       <Button
         onClick={onEdit}
         variant="outline"
-        className="border-primary text-primary hover:bg-secondary hover:text-primary"
+        className="border-primary text-primary hover:bg-secondary hover:text-primary cursor-pointer"
       >
         <Edit2 className="mr-2 h-4 w-4" /> Edit Details
       </Button>

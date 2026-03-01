@@ -26,7 +26,7 @@ const AddFarmland = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8 max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+        <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className={"cursor-pointer"}>
           <ArrowLeft className="h-6 w-6 text-muted-foreground" />
         </Button>
         <div>

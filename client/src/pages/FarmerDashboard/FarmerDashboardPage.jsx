@@ -1,103 +1,108 @@
-import React, { useState } from "react";
-import { useFarmerDashboard } from "@/hooks/farmer.hooks";
-import AppLoader from "@/components/common/AppLoader";
+import React, { useState } from 'react'
+import { useFarmerDashboard } from '@/hooks/farmer.hooks'
 import {
   StatsOverview,
   DetailedPredictionReport,
   FarmlandTable,
-  HarvestActivityLog,
-} from "./components/DashboardWidgets";
+  HarvestActivityLog
+} from './components/DashboardWidgets'
 import {
   UserCircle,
-  Download,
   RefreshCcw,
   Mail,
   Phone,
-  LogOut,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useLogoutFarmer } from "@/hooks/auth.hooks";
-import { Link } from "react-router-dom";
-import LogoutButton from "@/components/common/LogoutButton";
-import LogoutConfirmDialog from "@/components/common/LogoutDialog";
+  LayoutDashboard
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useLogoutFarmer } from '@/hooks/auth.hooks'
+import { Link } from 'react-router-dom'
+import LogoutButton from '@/components/common/LogoutButton'
+import LogoutConfirmDialog from '@/components/common/LogoutDialog'
+import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const FarmerDashboardPage = () => {
-  const getDashboard = useFarmerDashboard();
-  const logout = useLogoutFarmer();
-  const [isOpen, setIsOpen] = useState(false);
+  const getDashboard = useFarmerDashboard()
+  const logout = useLogoutFarmer()
+  const [isOpen, setIsOpen] = useState(false)
 
-  if (
-    getDashboard.isLoading ||
-    getDashboard.isRefetching ||
-    getDashboard.isFetching
-  ) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <AppLoader />
-      </div>
-    );
-  }
+  const data = getDashboard?.data?.data
+  const isLoading = getDashboard.isLoading || getDashboard.isRefetching
+  const { profile = {}, stats = {}, farmlands = [], recent = {} } = data || {}
 
-  const data = getDashboard?.data?.data;
-  if (!data) return null;
-
-  const { profile, stats, farmlands, recent } = data;
-
-  const handleLogout = () => {
-    logout.mutate();
-  };
+  const handleLogout = () => logout.mutate()
 
   return (
-    <div className="min-h-screen font-sans pb-10">
-      <div className=" border-b border-border sticky top-0 z-20 px-4 py-4 md:px-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-start gap-3">
-            <div className="mt-1 h-10 w-10 shrink-0 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-              <UserCircle className="h-6 w-6" />
+    <div className='min-h-screen text-foreground pb-12'>
+      <div className='sticky top-0 z-30 w-full border-b border-border bg-card/80 backdrop-blur-md px-4 py-3 md:px-8'>
+        <div className='container mx-auto flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
+          <div className='flex items-center gap-4 min-w-0 flex-1'>
+            <div className='relative shrink-0'>
+              <div className='h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-sm'>
+                <UserCircle className='h-7 w-7' />
+              </div>
             </div>
-            <div className="min-w-0">
-              <h1 className="text-xl font-bold tracking-tight text-primary truncate">
-                {profile.fullname}
-              </h1>
-
-              <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3 text-sm text-muted-foreground mt-1">
-                <div className="flex items-center gap-1.5 truncate">
-                  <Mail className="h-3.5 w-3.5 shrink-0" />
-                  <span className="truncate max-w-50 md:max-w-none">
-                    {profile?.email ? (
-                      profile.email
+            <div className='min-w-0 flex-1'>
+              <div className='flex items-center gap-2'>
+                <h1 className='text-lg font-black tracking-tight text-foreground truncate'>
+                  {isLoading ? (
+                    <Skeleton className='h-5 w-32 bg-secondary' />
+                  ) : (
+                    profile.fullname || 'User'
+                  )}
+                </h1>
+                {!isLoading && (
+                  <Badge
+                    variant='outline'
+                    className='bg-primary/5 text-[10px] py-0 border-primary/20 text-primary uppercase font-bold shrink-0'
+                  >
+                    {profile.role || 'Farmer'}
+                  </Badge>
+                )}
+              </div>
+              <div className='flex items-center gap-3 text-xs text-muted-foreground mt-0.5 w-full'>
+                <span className='flex items-center gap-1 shrink-0'>
+                  <Phone className='h-3 w-3' />{' '}
+                  {isLoading ? (
+                    <Skeleton className='h-3 w-20 bg-secondary' />
+                  ) : (
+                    profile.phone || 'N/A'
+                  )}
+                </span>
+                <span className='opacity-30 shrink-0'>|</span>
+                <span className='flex items-center gap-1 truncate min-w-0'>
+                  <Mail className='h-3 w-3 shrink-0' />
+                  <span className='truncate'>
+                    {isLoading ? (
+                      <Skeleton className='h-3 w-32 bg-secondary' />
                     ) : (
-                      <Link
-                        to="/farmer/"
-                        className="text-chart-2 text-xs border-b border-dashed border-chart-2"
-                      >
-                        Add Email
-                      </Link>
+                      profile.email || 'No Email'
                     )}
                   </span>
-                </div>
-                <span className="hidden md:inline text-foreground">|</span>
-                <div className="flex items-center gap-1.5">
-                  <Phone className="h-3.5 w-3.5 shrink-0" />
-                  <span>+91 {profile.phone}</span>
-                </div>
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="flex gap-2 w-full md:w-auto">
+          <div className='flex items-center gap-2 shrink-0'>
             <Button
-              variant="secondary"
-              size="sm"
-              className="flex-1 md:flex-none h-9 text-xs cursor-pointer"
+              variant='secondary'
+              size='sm'
+              className='h-9 rounded-xl font-bold text-xs shadow-none border border-border'
               onClick={() => getDashboard.refetch()}
+              disabled={isLoading}
             >
-              <RefreshCcw className="mr-2 h-3.5 w-3.5" /> Sync
+              <RefreshCcw
+                className={`mr-2 h-3.5 w-3.5 ${
+                  getDashboard.isFetching ? 'animate-spin' : ''
+                }`}
+              />{' '}
+              Sync
             </Button>
             <LogoutButton
-              className="cursor-pointer"
+              className='cursor-pointer h-9 rounded-xl text-xs font-bold px-4'
               onClick={() => setIsOpen(true)}
-              variant="destructive"
+              variant='destructive'
             />
             <LogoutConfirmDialog
               onClose={() => setIsOpen(false)}
@@ -108,28 +113,53 @@ const FarmerDashboardPage = () => {
         </div>
       </div>
 
-      <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
-        <section>
-          <StatsOverview stats={stats} />
-        </section>
+      <div className='p-4 md:p-8 max-w-400 mx-auto space-y-8 mt-4'>
+        <StatsOverview stats={stats} isLoading={isLoading} />
 
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 min-h-125">
-            <DetailedPredictionReport predictions={recent.predictions} />
+        <div className='grid grid-cols-1 xl:grid-cols-12 gap-8 items-start'>
+          <div className='xl:col-span-8 space-y-8'>
+            <div className='flex items-center justify-between px-1'>
+              <h2 className='text-xl font-black flex items-center gap-2 tracking-tight'>
+                <LayoutDashboard className='h-5 w-5 text-primary' /> Active
+                Advisory
+              </h2>
+              <Link
+                to='/farmer/get-suggestion'
+                className='text-xs font-bold text-primary hover:underline underline-offset-4 uppercase tracking-wider'
+              >
+                Get Suggestion
+              </Link>
+            </div>
+            <DetailedPredictionReport
+              predictions={recent.predictions || []}
+              isLoading={isLoading}
+            />
           </div>
 
-          <div className="lg:col-span-1 flex flex-col gap-6">
-            <div className="h-100">
-              <FarmlandTable farmlands={farmlands} />
+          <div className='xl:col-span-4 flex flex-col gap-8'>
+            <div className='space-y-4'>
+              <h2 className='text-sm font-black uppercase tracking-[0.2em] text-muted-foreground px-1'>
+                Infrastructure
+              </h2>
+              <FarmlandTable
+                farmlands={farmlands || []}
+                isLoading={isLoading}
+              />
             </div>
-            <div className="h-100">
-              <HarvestActivityLog listings={recent.listings} />
+            <div className='space-y-4'>
+              <h2 className='text-sm font-black uppercase tracking-[0.2em] text-muted-foreground px-1'>
+                Market Activity
+              </h2>
+              <HarvestActivityLog
+                listings={recent.listings || []}
+                isLoading={isLoading}
+              />
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FarmerDashboardPage;
+export default FarmerDashboardPage

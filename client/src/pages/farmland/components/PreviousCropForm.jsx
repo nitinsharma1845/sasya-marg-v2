@@ -146,7 +146,7 @@ const PreviousCropForm = ({ farmlandId, onComplete }) => {
 
             <Button
               type="submit"
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-4"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-4 cursor-pointer"
               disabled={isPending}
             >
               {isPending ? (
