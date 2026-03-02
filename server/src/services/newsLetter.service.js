@@ -43,11 +43,11 @@ export const subscribeToNewsLetterService = async ({ email, req }) => {
         req,
         userId: null,
         role: "guest",
+        isGuest: true,
         action: "NEWSLETTER_SUBSCRIBE",
         message: `Newsletter subscribed: ${email}`,
         metadata: {
             email,
-            source,
             ip: req?.ip
         }
     })
@@ -73,6 +73,7 @@ export const unsubscribeToNewsletterService = async ({ token, req }) => {
         req,
         userId: null,
         role: "guest",
+        isGuest: true,
         action: "NEWSLETTER_UNSUBSCRIBE",
         message: `Newsletter unsubscribed: ${subscriber.email}`,
         metadata: {

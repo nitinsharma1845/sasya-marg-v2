@@ -4,14 +4,20 @@ const activityLogSchema = new mongoose.Schema(
     {
         userId: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
+            required: false,
             refPath: "role",
         },
         role: {
             type: String,
-            enum: ["farmer", "buyer", "admin", "superadmin"],
-            required: true,
+            enum: ["farmer", "buyer", "admin", "superadmin", "guest"],
+            required: false,
         },
+
+        isGuest: {
+            type: Boolean,
+            default: false
+        },
+
         action: {
             type: String,
             required: true,
