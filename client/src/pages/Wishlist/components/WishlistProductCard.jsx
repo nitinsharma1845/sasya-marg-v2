@@ -80,7 +80,7 @@ const WishlistProductCard = ({ wishlist }) => {
 
       <CardFooter className='p-4 pt-0'>
         <Button
-          className='flex-1 bg-primary text-primary-foreground hover:bg-primary/90 gap-2'
+          className='flex-1 bg-primary text-primary-foreground hover:bg-primary/90 gap-2 cursor-pointer'
           onClick={handleNavigateProduct}
         >
           <ShoppingCart size={16} />

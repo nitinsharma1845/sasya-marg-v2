@@ -17,7 +17,7 @@ const QueryFilterTabs = ({ activeTab, onTabChange }) => {
           variant="ghost"
           onClick={() => onTabChange(tab.id)}
           className={`
-            h-9 rounded-full px-4 text-sm font-medium transition-all
+            h-9 rounded-full px-4 text-sm font-medium transition-all cursor-pointer
             ${activeTab === tab.id 
               ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
               : 'bg-secondary text-muted-foreground hover:bg-secondary/80'

@@ -24,7 +24,7 @@ const EmptyFarmlandState = () => {
 
         <Button 
           onClick={() => navigate("/farmer/farmland/add")}
-          className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground group"
+          className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground group cursor-pointer"
         >
           <MapPinPlus className="mr-2 h-5 w-5" />
           Register New Farmland

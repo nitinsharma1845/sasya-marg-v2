@@ -67,7 +67,8 @@ export const getPreHarvestListingService = async (query) => {
         minPrice,
         maxPrice,
         sort,
-        category
+        category,
+        search
     } = query
 
 
@@ -138,6 +139,10 @@ export const getPreHarvestListingService = async (query) => {
 
     if (category) {
         filter.category = category
+    }
+
+    if (search) {
+        filter.title = { $regex: search, $options: "i" }
     }
 
     const skip = (Number(page) - 1) * Number(limit)
@@ -333,7 +338,7 @@ export const getSinglePreHarvestProductForBuyer = async (listingId, buyerId) => 
                             isContactVisible: 1,
                             isActive: 1,
                             email: 1,
-                            createdAt : 1
+                            createdAt: 1
 
                         }
                     }

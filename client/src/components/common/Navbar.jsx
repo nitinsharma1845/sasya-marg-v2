@@ -17,6 +17,7 @@ import LogoutButton from './LogoutButton'
 import LogoutConfirmDialog from './LogoutDialog'
 import LanguageProvider from './LanguageProvider'
 import { useTranslation } from 'react-i18next'
+import { useLogoutBuyer } from '@/hooks/buyer.hooks'
 
 const Navbar = () => {
   const { isAuthenticated, role } = useAuthStore()
@@ -50,10 +51,16 @@ const Navbar = () => {
   ]
 
   const isActive = path => location.pathname === path
-  const { mutate } = useLogoutFarmer()
+  const { mutate: logoutFarmer } = useLogoutFarmer()
+  const { mutate: logoutBuyer } = useLogoutBuyer()
 
   function handleLogout () {
-    mutate()
+    if (role === 'farmer') {
+      logoutFarmer()
+    }
+    if (role === 'buyer') {
+      logoutBuyer()
+    }
   }
 
   return (

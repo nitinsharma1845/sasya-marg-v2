@@ -151,7 +151,7 @@ const CropSuggestionPage = () => {
               size="lg"
               onClick={handleGetSuggestion}
               disabled={!selectedFarmId || isLimitReached}
-              className={`w-full h-12 shadow-md transition-all ${
+              className={`w-full h-12 shadow-md transition-all cursor-pointer ${
                 isLimitReached
                   ? "bg-muted text-muted-foreground cursor-not-allowed"
                   : "bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-[1.02]"

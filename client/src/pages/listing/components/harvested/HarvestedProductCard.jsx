@@ -156,7 +156,7 @@ const HarvestedProductCard = ({ product }) => {
 
       <CardFooter className="p-4 pt-0 flex gap-2">
         <Button
-          className="flex-1 border-primary/20 hover:bg-primary/90 hover:text-primary-foreground"
+          className="flex-1 border-primary/20 hover:bg-primary/90 hover:text-primary-foreground cursor-pointer"
           onClick={() => navigate(`harvested-product/${product._id}`)}
         >
           <Edit className="mr-2 h-4 w-4" />

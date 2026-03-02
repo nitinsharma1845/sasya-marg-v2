@@ -118,8 +118,7 @@ const ToolBar = () => {
       if (selectedDistrict) newParams.set('district', selectedDistrict)
       else newParams.delete('district')
 
-      if (qualityGarde)
-        newParams.set('qualityGrade', qualityGarde)
+      if (qualityGarde) newParams.set('qualityGrade', qualityGarde)
       else newParams.delete('qualityGrade')
 
       newParams.set('page', '1')
@@ -142,6 +141,12 @@ const ToolBar = () => {
       <div className='flex flex-col sm:flex-row gap-3 justify-between items-center'>
         <div className='relative w-full sm:max-w-xs group'>
           <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors' />
+          {searchTerm && (
+            <X
+              className='absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors cursor-pointer'
+              onClick={() => setSearchTerm('')}
+            />
+          )}
           <Input
             placeholder='Search products...'
             value={searchTerm}
@@ -157,7 +162,7 @@ const ToolBar = () => {
               updateParam('category', val === 'all' ? '' : val)
             }
           >
-            <SelectTrigger className='w-35 bg-background'>
+            <SelectTrigger className='w-35 bg-background cursor-pointer'>
               <SelectValue placeholder='Category' />
             </SelectTrigger>
             <SelectContent>
@@ -176,7 +181,7 @@ const ToolBar = () => {
             value={params.get('sort') || 'newest'}
             onValueChange={val => updateParam('sort', val)}
           >
-            <SelectTrigger className='w-35 bg-background'>
+            <SelectTrigger className='w-35 bg-background cursor-pointer'>
               <SelectValue placeholder='Sort By' />
             </SelectTrigger>
             <SelectContent>
@@ -188,7 +193,10 @@ const ToolBar = () => {
 
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant='outline' className='relative gap-2'>
+              <Button
+                variant='outline'
+                className='relative gap-2 cursor-pointer'
+              >
                 <SlidersHorizontal className='w-4 h-4' />
                 Filters
                 {activeFiltersCount > 0 && (

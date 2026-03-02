@@ -1,244 +1,277 @@
-import React from "react";
+import React from 'react'
 import {
   Tractor,
   Sprout,
   Leaf,
   MapPin,
-  Thermometer,
-  Calendar,
-  CheckCircle,
   Clock,
   Layers,
   CloudSun,
-  Wind,
-  Droplets,
-} from "lucide-react";
+  CheckCircle,
+  TrendingUp,
+  Zap
+} from 'lucide-react'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+  CardDescription
+} from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Progress } from '@/components/ui/progress'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+  TableRow
+} from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
+import { useNavigate } from 'react-router-dom'
+import { Skeleton } from '@/components/ui/skeleton'
 
-export const StatsOverview = ({ stats }) => {
+export const StatsOverview = ({ stats = {}, isLoading }) => {
   const items = [
     {
-      label: "Farmlands",
-      value: stats.farmlandCount,
+      label: 'Assets',
+      value: stats.farmlandCount || 0,
+      sub: 'Registered Land',
       icon: MapPin,
-      color: "text-accent",
-      bg: "bg-accent/20",
+      color: 'text-primary',
+      bg: 'bg-primary/10'
     },
     {
-      label: "Predictions",
-      value: stats.predictionCount,
+      label: 'AI Intel',
+      value: stats.predictionCount || 0,
+      sub: 'Predictions',
       icon: Sprout,
-      color: "text-chart-2",
-      bg: "bg-chart-2/20",
+      color: 'text-chart-2',
+      bg: 'bg-chart-2/10'
     },
     {
-      label: "Harvests",
-      value: stats.preHarvestCount,
+      label: 'Cycles',
+      value: stats.preHarvestCount || 0,
+      sub: 'Pre-Harvests',
       icon: Tractor,
-      color: "text-chart-1",
-      bg: "bg-chart-1/20",
+      color: 'text-chart-1',
+      bg: 'bg-chart-1/10'
     },
     {
-      label: "Products",
-      value: stats.productCount,
+      label: 'Mandi',
+      value: stats.productCount || 0,
+      sub: 'Live Products',
       icon: Leaf,
-      color: "text-destructive",
-      bg: "bg-destructive/20",
-    },
-  ];
+      color: 'text-accent',
+      bg: 'bg-accent/10'
+    }
+  ]
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
       {items.map((item, idx) => (
         <Card
           key={idx}
-          className="border border-border shadow-sm rounded-lg overflow-hidden"
+          className='border-none shadow-sm bg-card rounded-3xl overflow-hidden group'
         >
-          <CardContent className="p-3 md:p-4 flex items-center gap-3">
-            <div
-              className={`h-8 w-8 md:h-10 md:w-10 rounded-md flex items-center justify-center border border-transparent shrink-0 ${item.bg} ${item.color}`}
-            >
-              <item.icon className="h-4 w-4 md:h-5 md:w-5" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[10px] md:text-xs font-medium text-muted-foreground uppercase truncate">
+          <CardContent className='p-6 flex items-center justify-between'>
+            <div className='space-y-1'>
+              <p className='text-[10px] font-black text-muted-foreground uppercase tracking-widest'>
                 {item.label}
               </p>
-              <h3 className="text-lg md:text-xl font-bold text-foreground">
-                {item.value}
-              </h3>
+              {isLoading ? (
+                <Skeleton className='h-8 w-12 bg-secondary' />
+              ) : (
+                <h3 className='text-3xl font-black text-foreground tracking-tighter'>
+                  {item.value}
+                </h3>
+              )}
+              <p className='text-[10px] font-bold text-muted-foreground/60'>
+                {item.sub}
+              </p>
+            </div>
+            <div
+              className={`h-14 w-14 rounded-2xl flex items-center justify-center ${item.bg} ${item.color}`}
+            >
+              <item.icon className='h-7 w-7' />
             </div>
           </CardContent>
         </Card>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export const DetailedPredictionReport = ({ predictions }) => {
-  const navigate = useNavigate();
-  if (!predictions || predictions.length === 0)
+export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
+  const navigate = useNavigate()
+
+  if (isLoading)
     return (
-      <Card className="h-full flex items-center justify-center p-8 text-muted-foreground border-dashed">
-        No predictions available.
+      <Skeleton className='h-150 w-full rounded-[2.5rem] bg-secondary' />
+    )
+
+  if (!predictions?.length)
+    return (
+      <Card className='h-96 flex flex-col items-center justify-center p-8 bg-transparent border-2 border-dashed border-border rounded-[2.5rem] text-center'>
+        <div className='h-16 w-16 bg-muted rounded-full flex items-center justify-center mb-4'>
+          <Zap className='h-8 w-8 text-muted-foreground/30' />
+        </div>
+        <p className='text-lg font-black text-foreground mb-1 tracking-tight'>
+          No Active Intel
+        </p>
         <Button
-          size={"sm"}
-          variant={"secondary"}
-          onClick={() => navigate("/farmer/get-suggestion")}
+          size='sm'
+          className='rounded-xl font-black uppercase text-[10px] tracking-widest h-10 px-6 mt-4'
+          onClick={() => navigate('/farmer/get-suggestion')}
         >
-          Get you first suggestion
+          Get Suggestion
         </Button>
       </Card>
-    );
+    )
 
-  const data = predictions[0];
-  const { weatherSnapshot: weather, factsSnapshot: facts, result } = data;
+  const data = predictions[0] || {}
+  const weather = data.weatherSnapshot || {}
+  const facts = data.factsSnapshot || {}
+  const result = data.result || []
 
   return (
-    <Card className="col-span-1 lg:col-span-2 border border-border shadow-sm rounded-lg flex flex-col h-full overflow-hidden">
-      <CardHeader className="border-b border-border bg-muted/20 px-4 py-3 md:px-6 md:py-4">
-        <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-          <div>
-            <CardTitle className="text-base md:text-lg font-bold text-primary flex items-center gap-2">
-              <Sprout className="h-4 w-4 md:h-5 md:w-5" /> Crop Advisory
-            </CardTitle>
-            <CardDescription className="mt-1 text-xs md:text-sm">
-              For: <strong>{data.farmLandSnapshot?.name}</strong>
+    <Card className='border-none shadow-sm rounded-[2.5rem] overflow-hidden bg-card transition-all'>
+      <CardHeader className='border-b border-border/50 bg-secondary/10 p-8'>
+        <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
+          <div className='space-y-1'>
+            <div className='flex items-center gap-2'>
+              <TrendingUp className='h-5 w-5 text-primary' />
+              <CardTitle className='text-xl font-black tracking-tight'>
+                Cultivation Strategy
+              </CardTitle>
+            </div>
+            <CardDescription className='font-bold text-muted-foreground/80 truncate max-w-[63 sm:max-w-none'>
+              Intel for{' '}
+              <span className='text-primary font-black uppercase tracking-tighter'>
+                {data.farmLandSnapshot?.name || 'Plot'}
+              </span>
             </CardDescription>
           </div>
-          <Badge
-            variant="outline"
-            className="w-fit bg-background text-[10px] font-mono"
-          >
-            {new Date(data.weatherSnapshot.fetchedAt).toLocaleDateString()}
+          <Badge className='bg-background text-foreground border-border px-4 py-1.5 rounded-full font-black text-[10px] tracking-tighter uppercase shadow-sm shrink-0'>
+            {weather.fetchedAt
+              ? new Date(weather.fetchedAt).toLocaleDateString()
+              : 'Live'}
           </Badge>
         </div>
       </CardHeader>
 
-      <CardContent className="p-0">
-        <div className="flex flex-col md:flex-row md:divide-x border-b border-border">
-          <div className="p-4 md:p-6 space-y-3 flex-1">
-            <h4 className="text-xs md:text-sm font-semibold text-foreground flex items-center gap-2">
-              <CloudSun className="h-4 w-4 text-muted-foreground" /> Weather
+      <CardContent className='p-0'>
+        <div className='grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x border-b border-border/50'>
+          <div className='p-8 space-y-6'>
+            <h4 className='text-[10px] font-black text-primary uppercase tracking-[0.2em] flex items-center gap-2'>
+              <CloudSun className='h-4 w-4' /> Environmental
             </h4>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-secondary/20 p-2 rounded">
-                <p className="text-[10px] text-muted-foreground">Temp</p>
-                <p className="font-medium text-sm">
-                  {Math.round(weather.temperature)}°C
-                </p>
-              </div>
-              <div className="bg-secondary/20 p-2 rounded">
-                <p className="text-[10px] text-muted-foreground">Wind</p>
-                <p className="font-medium text-sm">{weather.windSpeed} km/h</p>
-              </div>
-              <div className="bg-secondary/20 p-2 rounded">
-                <p className="text-[10px] text-muted-foreground">Humidity</p>
-                <p className="font-medium text-sm">{weather.humidity}%</p>
-              </div>
-              <div className="bg-secondary/20 p-2 rounded">
-                <p className="text-[10px] text-muted-foreground">Condition</p>
-                <p className="font-medium text-sm truncate">
-                  {weather.condition}
-                </p>
-              </div>
+            <div className='grid grid-cols-2 gap-4'>
+              {[
+                {
+                  label: 'Temp',
+                  val: `${Math.round(weather.temperature || 0)}°C`
+                },
+                { label: 'Humidity', val: `${weather.humidity || 0}%` },
+                { label: 'Wind', val: `${weather.windSpeed || 0} km/h` },
+                { label: 'Condition', val: weather.condition || 'N/A' }
+              ].map(i => (
+                <div
+                  key={i.label}
+                  className='bg-secondary/30 p-4 rounded-2xl border border-border/10'
+                >
+                  <p className='text-[10px] text-muted-foreground font-black uppercase mb-1'>
+                    {i.label}
+                  </p>
+                  <p className='text-lg font-black text-foreground'>{i.val}</p>
+                </div>
+              ))}
             </div>
           </div>
-
-          <div className="p-4 md:p-6 space-y-3 flex-1 border-t md:border-t-0 border-border">
-            <h4 className="text-xs md:text-sm font-semibold text-foreground flex items-center gap-2">
-              <Layers className="h-4 w-4 text-muted-foreground" /> Soil Data
+          <div className='p-8 space-y-4 bg-secondary/5'>
+            <h4 className='text-[10px] font-black text-primary uppercase tracking-[0.2em] flex items-center gap-2'>
+              <Layers className='h-4 w-4' /> Land Metrics
             </h4>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <p className="text-[10px] text-muted-foreground">Type</p>
-                <span className="text-xs font-medium capitalize">
-                  {facts.soilType}
+            {[
+              { label: 'Soil Type', val: facts.soilType },
+              { label: 'Active Season', val: facts.season },
+              { label: 'Irrigation', val: facts.irrigationLevel },
+              { label: 'History', val: facts.previousCrop }
+            ].map(i => (
+              <div
+                key={i.label}
+                className='flex items-center justify-between p-3.5 bg-card border border-border/50 rounded-xl shadow-sm'
+              >
+                <span className='text-[11px] font-bold text-muted-foreground uppercase'>
+                  {i.label}
+                </span>
+                <span className='text-xs font-black capitalize text-foreground'>
+                  {i.val || 'N/A'}
                 </span>
               </div>
-              <div>
-                <p className="text-[10px] text-muted-foreground">Season</p>
-                <span className="text-xs font-medium capitalize">
-                  {facts.season}
-                </span>
-              </div>
-              <div>
-                <p className="text-[10px] text-muted-foreground">Irrigation</p>
-                <span className="text-xs font-medium capitalize">
-                  {facts.irrigationLevel}
-                </span>
-              </div>
-              <div>
-                <p className="text-[10px] text-muted-foreground">History</p>
-                <span className="text-xs font-medium capitalize truncate">
-                  {facts.previousCrop || "-"}
-                </span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="p-4 md:p-6">
-          <h4 className="text-sm font-semibold text-foreground mb-3">
-            Strategy
+        <div className='p-8'>
+          <h4 className='text-sm font-black mb-6 uppercase tracking-[0.2em] text-foreground flex items-center gap-2'>
+            Proprietary Suggestions
           </h4>
-          <div className="rounded-md border border-border overflow-x-auto">
-            <Table className="min-w-150">
-              <TableHeader className="bg-muted/30">
-                <TableRow>
-                  <TableHead className="w-37.5">Crop</TableHead>
-                  <TableHead className="w-25">Score</TableHead>
-                  <TableHead className="w-30">Time</TableHead>
-                  <TableHead>Factors</TableHead>
+          <div className='rounded-2xl border border-border/50 overflow-hidden shadow-sm'>
+            <Table>
+              <TableHeader className='bg-muted/50'>
+                <TableRow className='border-border/50'>
+                  <TableHead className='text-[10px] font-black uppercase py-4'>
+                    Crop
+                  </TableHead>
+                  <TableHead className='text-[10px] font-black uppercase text-center'>
+                    Compatibility
+                  </TableHead>
+                  <TableHead className='text-[10px] font-black uppercase'>
+                    Drivers
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {result.map((crop) => (
-                  <TableRow key={crop._id}>
-                    <TableCell className="font-medium text-primary py-3">
-                      {crop.cropId.name}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <span className="font-bold text-xs">{crop.score}%</span>
-                        <Progress value={crop.score} className="h-1 w-12" />
+                {result.map(crop => (
+                  <TableRow
+                    key={crop._id}
+                    className='border-border/50 hover:bg-secondary/10 transition-colors'
+                  >
+                    <TableCell className='py-5'>
+                      <div className='font-black text-sm text-foreground'>
+                        {crop.cropId?.name || 'Crop'}
+                      </div>
+                      <div className='flex items-center text-[10px] text-muted-foreground font-bold mt-1'>
+                        <Clock className='mr-1 h-3 w-3' />{' '}
+                        {crop.durationRange?.min || 0}-
+                        {crop.durationRange?.max || 0} Days
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center text-xs text-muted-foreground whitespace-nowrap">
-                        <Clock className="mr-1 h-3 w-3" />
-                        {crop.durationRange.min}-{crop.durationRange.max} d
+                      <div className='flex flex-col items-center gap-1.5'>
+                        <span className='font-black text-xs text-primary'>
+                          {crop.score || 0}%
+                        </span>
+                        <Progress
+                          value={crop.score || 0}
+                          className='h-1.5 w-16 bg-secondary'
+                        />
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {crop.reasons.slice(0, 2).map((reason, i) => (
-                          <span
+                      <div className='flex flex-wrap gap-1.5'>
+                        {(crop.reasons || []).slice(0, 2).map((reason, i) => (
+                          <Badge
                             key={i}
-                            className="inline-flex items-center rounded-sm bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-secondary-foreground whitespace-nowrap"
+                            variant='outline'
+                            className='bg-background text-[9px] font-black uppercase py-0.5 border-primary/20 text-primary/80 whitespace-nowrap'
                           >
-                            <CheckCircle className="mr-1 h-2 w-2 text-primary" />
+                            <CheckCircle className='mr-1 h-2.5 w-2.5' />{' '}
                             {reason}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </TableCell>
@@ -250,145 +283,90 @@ export const DetailedPredictionReport = ({ predictions }) => {
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export const FarmlandTable = ({ farmlands }) => {
-  const navigate = useNavigate();
-  if (!farmlands || farmlands.length < 1) {
-    return (
-      <Card className="h-full flex items-center justify-center p-8 text-muted-foreground border-dashed">
-        No registered farmland.
-        <Button
-          size={"sm"}
-          variant={"secondary"}
-          onClick={() => navigate("/farmer/farmland/add")}
-        >
-          Add Farmland
-        </Button>
-      </Card>
-    );
-  }
+export const FarmlandTable = ({ farmlands = [], isLoading }) => {
+  if (isLoading)
+    return <Skeleton className='h-105 w-full rounded-3xl bg-secondary' />
   return (
-    <Card className="border border-border shadow-sm rounded-lg h-full flex flex-col overflow-hidden">
-      <CardHeader className="border-b border-border bg-muted/20 px-4 py-3 shrink-0">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-bold">Farmlands</CardTitle>
-          <Badge className="bg-primary text-primary-foreground text-[10px]">
-            {farmlands.length}
-          </Badge>
-        </div>
-      </CardHeader>
-
-      <CardContent className="p-0 flex-1 min-h-75 relative">
-        <ScrollArea className="h-full w-full whitespace-nowrap">
-          <Table className="min-w-100 w-full">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-35">Name</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead className="text-right pr-6">Size</TableHead>
-              </TableRow>
-            </TableHeader>
+    <Card className='border-none shadow-sm rounded-3xl overflow-hidden h-105 flex flex-col bg-card'>
+      <CardContent className='p-0 flex-1 overflow-hidden relative'>
+        <ScrollArea className='h-full w-full'>
+          <Table>
             <TableBody>
-              {farmlands.map((land) => (
-                <TableRow key={land._id}>
-                  <TableCell className="py-3">
-                    <div
-                      className="font-medium text-sm truncate max-w-30"
-                      title={land.name}
-                    >
-                      {land.name}
+              {farmlands.map(land => (
+                <TableRow
+                  key={land._id}
+                  className='border-border/50 hover:bg-secondary/10 transition-colors cursor-default'
+                >
+                  <TableCell className='py-5 pl-6'>
+                    <div className='font-black text-sm text-foreground truncate max-w-30'>
+                      {land.name || 'Land'}
                     </div>
-                    <div className="text-[10px] text-muted-foreground">
-                      {land.soilType}
+                    <div className='text-[10px] font-bold text-muted-foreground uppercase tracking-tighter mt-1'>
+                      {land.soilType || 'Clay'} Soil
                     </div>
                   </TableCell>
-                  <TableCell className="text-xs">
-                    {land.location.district}
-                  </TableCell>
-                  <TableCell className="text-right text-xs pr-6">
-                    {land.size.value} {land.size.unit}
+                  <TableCell className='text-right pr-6 shrink-0'>
+                    <div className='text-xs font-black text-foreground whitespace-nowrap'>
+                      {land.size?.value || 0} {land.size?.unit || 'Unit'}
+                    </div>
+                    <div className='text-[9px] font-bold text-muted-foreground uppercase mt-1'>
+                      {land.location?.district || 'N/A'}
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-
-          <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export const HarvestActivityLog = ({ listings }) => {
-  const navigate = useNavigate();
-  if (!listings || listings.length === 0)
-    return (
-      <Card className="h-full flex items-center justify-center p-8 text-muted-foreground border-dashed">
-        No Listings available.
-        <Button
-          size={"sm"}
-          variant={"secondary"}
-          onClick={() => navigate("/farmer/mandi")}
-        >
-          List product to mandi
-        </Button>
-      </Card>
-    );
+export const HarvestActivityLog = ({ listings = [], isLoading }) => {
+  if (isLoading)
+    return <Skeleton className='h-105 w-full rounded-3xl bg-secondary' />
   return (
-    <Card className="border border-border shadow-sm rounded-lg h-full flex flex-col overflow-hidden">
-      <CardHeader className="border-b border-border bg-muted/20 px-4 py-3 shrink-0">
-        <CardTitle className="text-base font-bold">Activity</CardTitle>
-      </CardHeader>
-      <CardContent className="p-0 flex-1 min-h-75">
-        <ScrollArea className="h-full w-full">
-          <div className="overflow-x-auto">
-            <Table className="min-w-87.5">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Status</TableHead>
+    <Card className='border-none shadow-sm rounded-3xl overflow-hidden h-105 flex flex-col bg-card'>
+      <CardContent className='p-0 flex-1 overflow-hidden relative'>
+        <ScrollArea className='h-full w-full'>
+          <Table>
+            <TableBody>
+              {listings.map(item => (
+                <TableRow
+                  key={item._id}
+                  className='border-border/50 hover:bg-secondary/10 transition-colors'
+                >
+                  <TableCell className='py-5 pl-6'>
+                    <div className='font-black text-sm text-foreground whitespace-nowrap'>
+                      {item.expectedHarvest
+                        ? new Date(item.expectedHarvest).toLocaleDateString(
+                            undefined,
+                            { day: 'numeric', month: 'short' }
+                          )
+                        : 'N/A'}
+                    </div>
+                    <div className='text-[9px] font-black text-muted-foreground uppercase tracking-widest mt-1'>
+                      Expected
+                    </div>
+                  </TableCell>
+                  <TableCell className='text-right pr-6'>
+                    <Badge
+                      className='text-[9px] font-black uppercase h-6 rounded-full'
+                      variant='outline'
+                    >
+                      {item.status || 'Open'}
+                    </Badge>
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {listings.map((item) => {
-                  const harvest = new Date(
-                    item.expectedHarvest
-                  ).toLocaleDateString(undefined, {
-                    day: "numeric",
-                    month: "short",
-                  });
-
-                  return (
-                    <TableRow key={item._id}>
-                      <TableCell className="py-3">
-                        <div className="font-medium text-sm">{harvest}</div>
-                        <div className="text-[10px] text-muted-foreground">
-                          Exp. Harvest
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Badge
-                          className={`text-[10px] h-5 ${
-                            item.status === "harvested"
-                              ? "bg-primary/10 text-primary dark:text-accent"
-                              : "bg-accent/10 text-destructive dark:text-accent"
-                          }`}
-                          variant="outline"
-                        >
-                          {item.status}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
         </ScrollArea>
       </CardContent>
     </Card>
-  );
-};
+  )
+}

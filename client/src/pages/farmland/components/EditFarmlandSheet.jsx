@@ -278,7 +278,7 @@ const EditFarmlandSheet = ({ isOpen, onClose, farmland }) => {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full bg-primary py-6 text-primary-foreground shadow-lg hover:bg-primary/90"
+            className="w-full bg-primary py-6 text-primary-foreground shadow-lg hover:bg-primary/90 cursor-pointer"
           >
             {isPending ? (
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />

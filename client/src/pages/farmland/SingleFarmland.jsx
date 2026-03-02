@@ -36,7 +36,7 @@ const FarmlandDetailsPage = () => {
         <Button
           variant="outline"
           onClick={() => navigate(-1)}
-          className="border-destructive text-destructive hover:bg-destructive/10"
+          className="border-destructive text-destructive hover:bg-destructive/10 cursor-pointer"
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Go Back
         </Button>

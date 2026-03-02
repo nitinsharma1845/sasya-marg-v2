@@ -321,3 +321,23 @@ export const getAdminLogsSchema = z.object({
       message: "Invalid endDate format"
     })
 })
+
+export const getNewsletterSubscribers = z.object({
+  page: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : 1))
+    .refine((val) => val > 0, {
+      message: "Page must be greater than 0"
+    }),
+
+  limit: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : 20))
+    .refine((val) => val > 0 && val <= 100, {
+      message: "Limit must be between 1 and 100"
+    }),
+  isActive: z.boolean().optional(),
+  search: z.string().optional()
+})

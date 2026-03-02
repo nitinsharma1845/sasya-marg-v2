@@ -331,7 +331,7 @@ const CreateQuerySheet = ({
           <Button
             type='submit'
             disabled={isPending}
-            className='w-full bg-primary text-primary-foreground hover:bg-primary/90 py-6 '
+            className='w-full bg-primary text-primary-foreground hover:bg-primary/90 py-6 cursor-pointer'
           >
             {isPending ? (
               <Loader2 className='mr-2 h-5 w-5 animate-spin' />

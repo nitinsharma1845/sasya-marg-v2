@@ -1,12 +1,13 @@
 import { Router } from "express"
 import { validate } from "../middleware/validate.middleware.js"
-import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, changeEmailSchema, changeNameSchema, changePasswordSchema, changePhoneNumberSchema, getAdminByIdSchema, getAdminLogsSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getAllReportsSchema, getBuyerByIdSchema, getFarmerByIdSchema, getSingleListing, getSingleReportSchema, globalSearchSchema, moderateListingSchema, registerAdminSchema, replyQuerySchema, replyReportSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
+import { adminLoginSchema, blockBuyerSchema, blockFarmerSchema, bootstrapSuperAdminSchema, changeEmailSchema, changeNameSchema, changePasswordSchema, changePhoneNumberSchema, getAdminByIdSchema, getAdminLogsSchema, getAllAdminSchema, getAllBuyerSchema, getAllFarmerSchema, getAllListingSchema, getAllQuerySchema, getAllReportsSchema, getBuyerByIdSchema, getFarmerByIdSchema, getNewsletterSubscribers, getSingleListing, getSingleReportSchema, globalSearchSchema, moderateListingSchema, registerAdminSchema, replyQuerySchema, replyReportSchema, revokeInviteSchema, unBlockBuyerSchema, unBlockFarmerSchema, updateQuerySchema } from "../validator/admin.validator.js"
 import { blockBuyer, blockFarmer, bootstrapSuperAdmin, bootStrapSuperAdminLogin, bootstrapSuperAdminLogout, changeEmail, changeFullname, changePassword, changePhone, changeQueryPriority, changeQueryStatus, createAdminInvite, getAdminById, getAdminDashboard, getAdminProfile, getAllAdmins, getAllBuyer, getAllFarmer, getAllPreHarvestedListing, getAllProductListing, getAllQuery, getAllReports, getBuyerById, getFarmerById, getInvites, getSinglePreHarvestedListing, getSingleProductListing, getSingleQuery, getSingleReport, globalSearchForAdmin, globalSerachForSuperAdmin, loginAdmin, logoutAdmin, moderatePreHarvestListing, moderateProductListing, registerAdminWithInviteToken, replyToQuery, replyToReport, revokeInvite, superAdminDashboard, unBlockBuyer, unBlockFarmer } from "../controllers/admin.controller.js"
 import { requireAdmin, requireSuperAdmin } from "../middleware/adminRole.middleware.js"
 import { authLayer } from "../middleware/auth.middleware.js"
 import { viewSingleQuerySchema } from "../validator/query.validator.js"
 import { authorize } from "../middleware/role.middleware.js"
 import { getLogs } from "../controllers/activityLog.controller.js"
+import { getAllSubscribers } from "../controllers/newsletter.controller.js"
 
 export const adminRoutes = Router()
 
@@ -31,7 +32,7 @@ adminRoutes.get("/super-admin/admin/:adminId", validate(getAdminByIdSchema), aut
 
 adminRoutes.get("/super-admin/search", validate(globalSearchSchema), authLayer, requireSuperAdmin, globalSerachForSuperAdmin)
 
-adminRoutes.get("/super-admin/logs", authLayer, requireSuperAdmin , validate(getAdminLogsSchema), getLogs)
+adminRoutes.get("/super-admin/logs", authLayer, requireSuperAdmin, validate(getAdminLogsSchema), getLogs)
 
 //register Admin via inviteToken
 
@@ -91,6 +92,8 @@ adminRoutes.get("/buyer/:buyerId", authLayer, requireAdmin, validate(getBuyerByI
 adminRoutes.patch("/buyer/:buyerId/block", authLayer, requireAdmin, validate(blockBuyerSchema), blockBuyer)
 
 adminRoutes.patch("/buyer/:buyerId/unblock", authLayer, requireAdmin, validate(unBlockBuyerSchema), unBlockBuyer)
+
+adminRoutes.get("/newsletter", authLayer, requireAdmin, validate(getNewsletterSubscribers), getAllSubscribers)
 
 adminRoutes.get("/dashboard", authLayer, requireAdmin, getAdminDashboard)
 

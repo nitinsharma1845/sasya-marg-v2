@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from './Logo'
 import { Link } from 'react-router-dom'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useTranslation } from 'react-i18next'
+import { useSubscribeToNewsletter } from '@/hooks/public.hooks'
+import { Loader2 } from 'lucide-react'
 
 const Footer = () => {
   const { authStatus, role } = useAuthStore()
+  const [email, setEmail] = useState('')
   const { t } = useTranslation()
+  const subscribe = useSubscribeToNewsletter()
 
   const isAuthenticated = authStatus === 'authenticated' || authStatus === true
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    subscribe.mutate({ email }, { onSuccess: () => setEmail('') })
+  }
 
   return (
     <footer className='w-full bg-background border-t border-border'>
@@ -32,22 +41,31 @@ const Footer = () => {
                 : t('footer.description.default')}
             </p>
 
-            <form
-              className='flex w-full max-w-sm items-center space-x-2 mb-6'
-              onSubmit={e => e.preventDefault()}
-            >
-              <input
-                type='email'
-                placeholder={t('footer.newsletter.placeholder')}
-                className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50'
-              />
-              <button
-                type='submit'
-                className='inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2'
+            {!isAuthenticated && (
+              <form
+                className='flex w-full max-w-sm items-center space-x-2 mb-6'
+                onSubmit={handleSubmit}
               >
-                {t('footer.newsletter.subscribe')}
-              </button>
-            </form>
+                <input
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  type='email'
+                  placeholder={t('footer.newsletter.placeholder')}
+                  className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50'
+                />
+                <button
+                  disabled={subscribe.isPending}
+                  type='submit'
+                  className='inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 cursor-pointer'
+                >
+                  {subscribe.isPending ? (
+                    <Loader2 className='w-4 h-4 animate-spin' />
+                  ) : (
+                    t('footer.newsletter.subscribe')
+                  )}
+                </button>
+              </form>
+            )}
           </div>
 
           <div>

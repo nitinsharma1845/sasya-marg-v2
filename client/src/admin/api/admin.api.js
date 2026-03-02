@@ -60,3 +60,8 @@ export const changeEmail = async (payload) => {
     const { data } = await api.patch("/admin/change-email", payload)
     return data
 }
+
+export const getNewsletterSubscribers = async (searchParams) => {
+    const { data } = await api.get("/admin/newsletter", { params: Object.fromEntries(searchParams.entries()) })
+    return data
+}

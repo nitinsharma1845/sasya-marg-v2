@@ -41,7 +41,7 @@ export default function UpdateProfileDialog({ user }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2 shadow-sm border-primary/20 hover:bg-primary/5">
+        <Button variant="outline" className="gap-2 shadow-sm border-primary/20 hover:bg-primary/5 cursor-pointer">
           <Pencil className="h-4 w-4 text-primary" /> 
           Edit Profile
         </Button>

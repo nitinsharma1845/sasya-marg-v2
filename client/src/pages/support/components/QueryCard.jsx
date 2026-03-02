@@ -68,7 +68,7 @@ const QueryCard = ({ query, onEdit }) => {
 
   return (
     <>
-      <Card className="overflow-hidden border-border bg-card shadow-sm transition-all hover:border-primary/30">
+      <Card className="overflow-hidden border-border bg-card shadow-sm transition-all hover:border-primary/30 my-2">
         <div
           onClick={() => setIsExpanded(!isExpanded)}
           className="flex cursor-pointer items-center justify-between bg-secondary/20 p-4 transition-colors hover:bg-secondary/40"
