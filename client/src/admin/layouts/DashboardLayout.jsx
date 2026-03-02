@@ -15,7 +15,8 @@ import {
   Flower2,
   CircleQuestionMark,
   MessageCircleWarning,
-  UserRoundPen
+  UserRoundPen,
+  UserStar
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -179,10 +180,16 @@ function SidebarContent ({ onItemClick }) {
           label='Queries'
           onClick={onItemClick}
         />
-         <NavItem
+        <NavItem
           to='/admin/dashboard/reports'
           icon={<MessageCircleWarning size={20} />}
           label='Reports'
+          onClick={onItemClick}
+        />
+        <NavItem
+          to='/admin/dashboard/subscribers'
+          icon={<UserStar size={20} />}
+          label='Subscribers'
           onClick={onItemClick}
         />
         <div className='pt-4 mt-4 border-t border-sidebar-border/50'>

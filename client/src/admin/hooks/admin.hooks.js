@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { blockBuyer, blockFarmer, changeEmail, changeName, changePassword, changePhone, getAdminDasboard, getInvites, getProfile, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
+import { blockBuyer, blockFarmer, changeEmail, changeName, changePassword, changePhone, getAdminDasboard, getInvites, getNewsletterSubscribers, getProfile, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
 import { useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 import { queryClient } from "@/lib/queryClient"
@@ -165,5 +165,14 @@ export const useChangEmail = () => {
         onError: (error) => {
             toast.error(error.response?.data?.message || "Failed to change email")
         }
+    })
+}
+
+export const useGetNewsletterSubscribers = () => {
+    const [searchParams] = useSearchParams()
+
+    return useQuery({
+        queryKey: ["subscribers", Object.fromEntries(searchParams.entries())],
+        queryFn: ()=>getNewsletterSubscribers(searchParams)
     })
 }

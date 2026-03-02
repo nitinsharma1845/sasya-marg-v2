@@ -37,6 +37,8 @@ import BuyerReports from '@/admin/pages/buyerReports/BuyerReports'
 import SingleReport from '@/admin/pages/buyerReports/SingleReport'
 import AdminProfile from '@/admin/pages/profile/Profile'
 import Logs from '@/admin/pages/Logs/Logs'
+import Unsubscribe from '@/pages/Unsubscribe'
+import Subscribers from '@/admin/pages/subscribers/Subscribers'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -360,6 +362,10 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <AdminProfile />
+      },
+      {
+        path: 'subscribers',
+        element: <Subscribers />
       }
     ]
   },
@@ -417,7 +423,8 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: '/unauthorized', element: <UnauthorizedPage /> },
-      { path: '*', element: <NotFoundPage /> }
+      { path: '*', element: <NotFoundPage /> },
+      { path: '/public/unsubscribe/:token', element: <Unsubscribe /> }
     ]
   }
 ])

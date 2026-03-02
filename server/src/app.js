@@ -21,6 +21,7 @@ import { schemeRouter } from './routes/governmentScheme.routes.js';
 import { authRouter } from './routes/auth.routes.js';
 import { reportRouter } from './routes/productReport.route.js';
 import { activityLogger } from './middleware/logActivity.middleware.js';
+import { publicRoutes } from './routes/public.routes.js';
 
 
 
@@ -87,6 +88,9 @@ app.use('/api/v2/buyer/wishlist', wishListRouter)
 
 //scheme routes
 app.use("/api/v2", schemeRouter)
+
+//Public Routes
+app.use("/api/v2/public", publicRoutes)
 
 
 
