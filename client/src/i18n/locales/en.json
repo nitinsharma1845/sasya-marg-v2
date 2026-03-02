@@ -218,6 +218,70 @@
           "description": "Stay informed about the latest subsidies, insurance plans, and financial aid available for farmers."
         }
       }
+    },
+
+    "work": {
+      "heading": "From Data to Harvest.",
+      "subheading": "Get accurate crop suggestions in just three simple steps.",
+      "button": "Try it Now",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Enter Farm Details",
+          "description": "Input your region, soil type (e.g., Black, Alluvial), and water availability to help us understand your land."
+        },
+        {
+          "number": "02",
+          "title": "AI Analysis",
+          "description": "Our rule-based AI cross-references your data with weather forecasts and historical crop patterns."
+        },
+        {
+          "number": "03",
+          "title": "Get Recommendations",
+          "description": "Receive a tailored list of crops with high success rates, estimated yield, and market price potential."
+        }
+      ]
+    },
+
+    "cta": {
+      "heading": "Find Your Place in the Agri-Chain.",
+      "subheading": "Connect directly. Whether you are growing the future or sourcing the best produce, Sasya-Marg bridges the gap.",
+
+      "farmer": {
+        "title": "I am a Farmer",
+        "description": "Register your land, get AI-driven crop suggestions for the next season, and list your harvest directly for buyers to see. Increase your profits with smart decisions.",
+        "button": "Start Selling Crop"
+      },
+
+      "buyer": {
+        "title": "I am a Buyer",
+        "description": "Create a wishlist of crops you need. Get notified when farmers in your desired regions are ready to harvest. Source fresh directly from the farm.",
+        "button": "Start Sourcing"
+      }
+    }
+  },
+  "service": {
+    "hero": {
+      "badge": "AI-Powered Agricultural Suite",
+      "titleLine1": "Smart Tools for",
+      "titleHighlight": "Great Harvests",
+      "description": "Access our complete range of farming services. From crop suggestion to online market insights, everything you need to grow better is right here.",
+      "popularLabel": "Popular:",
+      "popularItems": ["Crop Prediction", "Mandi"],
+      "features": [
+        {
+          "title": "Agri-AI",
+          "icon": "Sprout"
+        },
+        {
+          "title": "Market",
+          "icon": "TrendingUp"
+        },
+        {
+          "title": "Schemes",
+          "icon": "Book"
+        }
+      ]
     }
   }
 }
