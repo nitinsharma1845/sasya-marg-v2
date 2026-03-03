@@ -46,6 +46,8 @@ app.use(
     })
 );
 
+app.set("trust proxy", 1);
+
 app.use(urlencoded({ extended: true }))
 app.use(json())
 app.use(cookieParser())
