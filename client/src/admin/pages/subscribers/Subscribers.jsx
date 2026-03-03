@@ -62,7 +62,7 @@ const Subscribers = () => {
               >
                 <CardContent className='p-0 flex flex-col md:flex-row items-center justify-between'>
                   <div className='flex items-center p-4 md:p-6 flex-1 min-w-0 w-full'>
-                    <div className='h-12 w-12 rounded-[var(--radius)] bg-secondary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors'>
+                    <div className='h-12 w-12 rounded-(--radius) bg-secondary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors'>
                       <Mail className='h-6 w-6' />
                     </div>
                     <div className='ml-4 truncate'>
@@ -122,7 +122,7 @@ const Subscribers = () => {
       </div>
 
       {!isLoading && subscribers.length === 0 && (
-        <div className='mt-10 flex flex-col items-center justify-center py-20 bg-muted/20 rounded-[var(--radius)] border-2 border-dashed border-border'>
+        <div className='mt-10 flex flex-col items-center justify-center py-20 bg-muted/20 rounded-(--radius) border-2 border-dashed border-border'>
           <UserMinus className='h-12 w-12 text-muted-foreground mb-4 opacity-20' />
           <p className='text-muted-foreground font-medium'>
             No Subscriber found!

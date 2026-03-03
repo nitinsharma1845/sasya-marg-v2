@@ -24,10 +24,7 @@ import {
   useUpdatePrHarvestedProduct
 } from '@/hooks/listing.hooks'
 import AppLoader from '@/components/common/AppLoader'
-import UpdateStockDialog from './components/harvested/UpdateStockDialog'
-import UpdateProductDialog from './components/harvested/UpdateProductDialog'
 import UpdateExpectedPriceDialog from './components/pre-harvested/UpdateExpectedPriceDialog'
-import UpdatePriceDialog from './components/harvested/UpdatePriceDialog'
 import UpdateExpectedYeildDialog from './components/pre-harvested/UpdateExpectYeildDialog'
 import UpdateSowingDate from './components/pre-harvested/UpdateShowingDate'
 import UpdateHarvestDate from './components/pre-harvested/UpdateHarvestDate'
