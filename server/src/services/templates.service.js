@@ -217,3 +217,187 @@ export const registrationTemplate = ({ userName, loginUrl, websiteUrl }) => {
 </body>
 </html>`;
 };
+
+export const contactUsAutoResponseTemplate = ({ userName, ticketId, websiteUrl }) => {
+  const colors = {
+    background: "#fafaf9", // Pale Cream
+    foreground: "#364219", // Deep Moss
+    primary: "#5c6f2b",    // Olive
+    muted: "#6b7750",      // Lighter Moss
+    border: "#d6dbc8",     // Soft border
+    white: "#ffffff"
+  };
+
+  const logoUrl = "https://res.cloudinary.com/dq0ltmja4/image/upload/v1772435826/sasyamarg_logo_wtzjzu.png";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We've Received Your Message - Sasya Marg</title>
+</head>
+<body style="margin:0; padding:0; background-color:${colors.background}; font-family: 'Inter', sans-serif; color: ${colors.foreground};">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${colors.background}; padding: 40px 10px;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:${colors.white}; border: 1px solid ${colors.border}; border-radius:12px; overflow:hidden;">
+        
+        <tr>
+          <td align="center" style="padding: 30px 20px; border-bottom: 1px solid ${colors.background};">
+            <img src="${logoUrl}" alt="Sasya Marg Logo" width="160" style="display: block;">
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 40px;">
+            <h1 style="margin:0 0 20px 0; font-size:22px; color:${colors.foreground};">Hi ${userName || 'there'},</h1>
+            <p style="margin:0 0 15px 0; font-size:16px; line-height:1.6;">
+              Thank you for reaching out to <strong>Sasya Marg</strong>. We’ve received your message and our team is already looking into it.
+            </p>
+            <p style="margin:0 0 30px 0; font-size:16px; line-height:1.6;">
+              Whether you have a question about our AI crop suggestions, market prices, or technical support, we’re here to help you grow better.
+            </p>
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: ${colors.background}; border-radius: 8px; border: 1px dashed ${colors.primary};">
+              
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 0 40px 40px 40px;">
+            <p style="margin:0 0 15px 0; font-size:14px; font-weight: bold;">While you wait, you might find these helpful:</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="padding-bottom: 10px;">
+                  <a href="${websiteUrl}/faq" style="color:${colors.primary}; text-decoration:none; font-size:14px;">• Frequently Asked Questions</a>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding-bottom: 10px;">
+                  <a href="${websiteUrl}/schemes" style="color:${colors.primary}; text-decoration:none; font-size:14px;">• Browse Government Schemes</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="background-color: ${colors.foreground}; padding: 30px;">
+            <p style="margin:0 0 10px 0; font-size:12px; color:${colors.white};">
+              This is an automated response. Please do not reply directly to this email.
+            </p>
+            <p style="margin:0; font-size:11px; color:${colors.white}; opacity: 0.6;">
+              © 2026 Sasya Marg. Empowering the roots of our nation.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>`;
+};
+
+
+export const publicQueryReplyTemplate = ({ userName, querySubject, adminMessage, ticketId, websiteUrl }) => {
+  const colors = {
+    background: "#fafaf9", // Pale Cream
+    foreground: "#364219", // Deep Moss
+    primary: "#5c6f2b",    // Olive
+    muted: "#6b7750",      // Lighter Moss
+    border: "#d6dbc8",     // Soft border
+    white: "#ffffff",
+    accent: "#eab308"      // Sun Yellow
+  };
+
+  const logoUrl = "https://res.cloudinary.com/dq0ltmja4/image/upload/v1772435826/sasyamarg_logo_wtzjzu.png";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Response to Your Inquiry - Sasya Marg</title>
+</head>
+<body style="margin:0; padding:0; background-color:${colors.background}; font-family: 'Inter', -apple-system, sans-serif; color: ${colors.foreground};">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${colors.background}; padding: 40px 10px;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:${colors.white}; border: 1px solid ${colors.border}; border-radius:12px; overflow:hidden; box-shadow: 0 4px 6px rgba(54,66,25,0.03);">
+        
+        <tr>
+          <td align="center" style="padding: 30px 20px; border-bottom: 1px solid ${colors.background};">
+            <img src="${logoUrl}" alt="Sasya Marg Logo" width="150" style="display: block;">
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 40px;">
+            <p style="margin:0 0 10px 0; font-size:14px; color:${colors.muted}; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+              Support Response • #${ticketId || 'SM-QUERY'}
+            </p>
+            <h1 style="margin:0 0 25px 0; font-size:24px; color:${colors.foreground};">Hi ${userName || 'User'},</h1>
+            
+            <p style="margin:0 0 20px 0; font-size:16px; line-height:1.6; color:${colors.foreground};">
+              Thank you for reaching out to us regarding <strong>"${querySubject || 'your inquiry'}"</strong>. Our team has reviewed your message, and we have the following update for you:
+            </p>
+
+            <div style="background-color: ${colors.background}; border-left: 4px solid ${colors.primary}; padding: 25px; margin-bottom: 30px; border-radius: 0 8px 8px 0;">
+              <p style="margin:0; font-size:16px; line-height:1.7; color:${colors.foreground}; white-space: pre-wrap;">${adminMessage}</p>
+            </div>
+
+            <p style="margin:0 0 30px 0; font-size:16px; line-height:1.6;">
+              We hope this addresses your concerns. If you need further clarification or have more questions, simply reply to this email or visit our help center.
+            </p>
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td align="left">
+                  <a href="${websiteUrl}/dashboard" style="display:inline-block; padding:14px 30px; background-color:${colors.primary}; color:${colors.white}; text-decoration:none; font-size:15px; border-radius:6px; font-weight:600;">
+                    Visit Dashboard
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 0 40px 40px 40px;">
+            <p style="margin:0; font-size:15px; color:${colors.foreground};">
+              Best regards,<br>
+              <strong style="color:${colors.primary};">The Sasya Marg Team</strong>
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="background-color: ${colors.foreground}; padding: 30px;">
+            <p style="margin:0 0 15px 0; font-size:12px; color:${colors.white}; opacity: 0.8;">
+              Sasya Marg — Agri-Intelligence & Smart Farming Portal
+            </p>
+            <div style="margin-bottom: 15px;">
+              <a href="${websiteUrl}" style="color:${colors.white}; text-decoration:none; font-size:12px; margin: 0 10px;">Home</a>
+              <a href="${websiteUrl}/help" style="color:${colors.white}; text-decoration:none; font-size:12px; margin: 0 10px;">Help Center</a>
+              <a href="${websiteUrl}/privacy" style="color:${colors.white}; text-decoration:none; font-size:12px; margin: 0 10px;">Privacy</a>
+            </div>
+            <p style="margin:0; font-size:11px; color:${colors.white}; opacity: 0.5;">
+              © 2026 Sasya Marg. All Rights Reserved.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>`;
+};

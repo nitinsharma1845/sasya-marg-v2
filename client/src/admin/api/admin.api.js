@@ -65,3 +65,13 @@ export const getNewsletterSubscribers = async (searchParams) => {
     const { data } = await api.get("/admin/newsletter", { params: Object.fromEntries(searchParams.entries()) })
     return data
 }
+
+export const getAllPublicQueries = async (searchParams) => {
+    const { data } = await api.get("/admin/public-queries", { params: Object.fromEntries(searchParams.entries()) })
+    return data
+}
+
+export const replyToPublicQuery = async ({ queryId, reply }) => {
+    const { data } = await api.post(`/admin/public-queries/${queryId}/reply`, { reply })
+    return data
+}

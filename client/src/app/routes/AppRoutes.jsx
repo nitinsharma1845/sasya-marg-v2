@@ -39,6 +39,7 @@ import AdminProfile from '@/admin/pages/profile/Profile'
 import Logs from '@/admin/pages/Logs/Logs'
 import Unsubscribe from '@/pages/Unsubscribe'
 import Subscribers from '@/admin/pages/subscribers/Subscribers'
+import PublicQueries from '@/admin/pages/publicQueries/PublicQueries'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -366,6 +367,10 @@ const router = createBrowserRouter([
       {
         path: 'subscribers',
         element: <Subscribers />
+      },
+      {
+        path: 'contacts',
+        element: <PublicQueries />
       }
     ]
   },

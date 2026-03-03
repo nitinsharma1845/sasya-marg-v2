@@ -1,4 +1,4 @@
-import { subscribeToNewsletter, unSubscribeToNewsletter } from "@/api/public.api"
+import { contactQuery, subscribeToNewsletter, unSubscribeToNewsletter } from "@/api/public.api"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
 
@@ -18,5 +18,17 @@ export const useUnSubscribeToNewsletter = (token) => {
     return useQuery({
         queryKey: ['newsletter', 'unsubscribe'],
         queryFn: () => unSubscribeToNewsletter(token)
+    })
+}
+
+export const useAskContactQuery = () => {
+    return useMutation({
+        mutationFn: contactQuery,
+        onSuccess: () => {
+            toast.success("Your Query is sent to admins , you suerly get reponse after some time")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to send query");
+        },
     })
 }

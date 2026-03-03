@@ -9,3 +9,8 @@ export const unSubscribeToNewsletter = async (token) => {
     const { data } = await api.post(`/public/newsletter/unsubscribe/${token}`)
     return data
 }
+
+export const contactQuery = async (payload) => {
+    const { data } = await api.post('/public/query', payload)
+    return data
+}

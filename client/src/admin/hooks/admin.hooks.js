@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { blockBuyer, blockFarmer, changeEmail, changeName, changePassword, changePhone, getAdminDasboard, getInvites, getNewsletterSubscribers, getProfile, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
+import { blockBuyer, blockFarmer, changeEmail, changeName, changePassword, changePhone, getAdminDasboard, getAllPublicQueries, getInvites, getNewsletterSubscribers, getProfile, replyToPublicQuery, revokeInvite, unblockBuyer, unBlockFarmer } from "../api/admin.api"
 import { useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 import { queryClient } from "@/lib/queryClient"
@@ -173,6 +173,28 @@ export const useGetNewsletterSubscribers = () => {
 
     return useQuery({
         queryKey: ["subscribers", Object.fromEntries(searchParams.entries())],
-        queryFn: ()=>getNewsletterSubscribers(searchParams)
+        queryFn: () => getNewsletterSubscribers(searchParams)
+    })
+}
+
+export const useGetPublicQueries = () => {
+    const [searchParams] = useSearchParams()
+
+    return useQuery({
+        queryKey: ["public-queries", Object.fromEntries(searchParams.entries())],
+        queryFn: () => getAllPublicQueries(searchParams)
+    })
+}
+
+export const useReplyToPublicQuery = () => {
+    return useMutation({
+        mutationFn: replyToPublicQuery,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["public-queries"])
+            toast.success("A reponse email will be send to the user")
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to change email")
+        }
     })
 }

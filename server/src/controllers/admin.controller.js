@@ -5,6 +5,7 @@ import { getProductByIdService } from '../services/product.service.js'
 import { getSinglePreharvestListingService } from '../services/preHarvestListing.service.js'
 import { viewSingleQueryService } from '../services/query.service.js'
 import { getBuyerReports, getReportById, replyReport } from '../services/productReport.service.js'
+import { getPublicQueries, replyToPublicQueryService } from '../services/publicQuery.service.js'
 
 
 //Admin Invite Token Controller
@@ -275,7 +276,7 @@ export const replyToQuery = asyncHandler(async (req, res) => {
         action: "RESPONSE",
         message: "Query response done.",
         metadata: {
-            adminId : req.user._id,
+            adminId: req.user._id,
             queryId,
             reply
         }
@@ -318,7 +319,7 @@ export const changeQueryStatus = asyncHandler(async (req, res) => {
         action: "MODERATION",
         message: "Farmer Query status changed.",
         metadata: {
-            adminId : req.user._id,
+            adminId: req.user._id,
             queryId,
             status
         }
@@ -340,7 +341,7 @@ export const changeQueryPriority = asyncHandler(async (req, res) => {
         action: "MODERATION",
         message: "Farmer Query priority changed.",
         metadata: {
-            adminId : req.user._id,
+            adminId: req.user._id,
             queryId,
             priority
         }
@@ -463,6 +464,33 @@ export const getAdminDashboard = asyncHandler(async (req, res) => {
     return res
         .status(200)
         .json(new ApiResponse(200, dashboard, "Admin dashboard fetched successfully"))
+})
+
+export const getAllPublicQueries = asyncHandler(async (req, res) => {
+    const { queries, pagination } = await getPublicQueries({ query: req.query })
+    return res.status(200).json(new ApiResponse(200, { queries, pagination }, "Queries fetched successfully"))
+})
+
+export const replyToPublicQuery = asyncHandler(async (req, res) => {
+
+    const { queryId } = req.params
+    const { reply } = req.body
+
+    const query = await replyToPublicQueryService({ reply, queryId })
+
+    req.activityLog = {
+        userId: req.user._id,
+        role: "admin",
+        action: "RESPONSE",
+        message: "Public Contact Query response done.",
+        metadata: {
+            adminId: req.user._id,
+            queryId,
+            reply
+        }
+    }
+
+    return res.status(200).json(new ApiResponse(200, query, "Replied to query successfully"))
 })
 
 //profile controllers

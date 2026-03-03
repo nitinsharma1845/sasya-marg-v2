@@ -16,7 +16,8 @@ import {
   CircleQuestionMark,
   MessageCircleWarning,
   UserRoundPen,
-  UserStar
+  UserStar,
+  Contact
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -135,8 +136,16 @@ function SidebarContent ({ onItemClick }) {
     logout.mutate()
   }
   return (
-    <div className='flex flex-col h-full'>
-      <nav className='flex-1 px-4 space-y-1.5 pt-4 overflow-y-auto min-h-0 scrollbar-hide'>
+    <div className='flex flex-col h-full min-h-0'>
+      <nav
+        className='flex-1 px-4 space-y-1.5 pt-4 overflow-y-auto 
+        [&::-webkit-scrollbar]:w-1.5
+        [&::-webkit-scrollbar-track]:bg-transparent
+        [&::-webkit-scrollbar-thumb]:bg-sidebar-border
+        [&::-webkit-scrollbar-thumb]:rounded-full
+        hover:[&::-webkit-scrollbar-thumb]:bg-sidebar-primary/50
+        transition-colors'
+      >
         <NavItem
           to='/admin/dashboard'
           icon={<LayoutDashboard size={20} />}
@@ -184,6 +193,12 @@ function SidebarContent ({ onItemClick }) {
           to='/admin/dashboard/reports'
           icon={<MessageCircleWarning size={20} />}
           label='Reports'
+          onClick={onItemClick}
+        />
+        <NavItem
+          to='/admin/dashboard/contacts'
+          icon={<Contact size={20} />}
+          label='Contacts'
           onClick={onItemClick}
         />
         <NavItem
