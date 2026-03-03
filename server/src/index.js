@@ -3,7 +3,7 @@ import { app } from './app.js'
 import { connect } from './config/dbConnection.js'
 config()
 
-const port = process.env.PORT
+const port = process.env.PORT || 3000
 
 
 connect().then(() => {
