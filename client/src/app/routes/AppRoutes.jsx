@@ -104,7 +104,7 @@ const BuyerLogin = lazy(() => import('@/pages/buyerLogin/BuyerLogin'))
 
 const ComingSoon = lazy(() => import('@/pages/CommingSoon'))
 const BlockedUser = lazy(() => import('@/pages/BlockedUser'))
-const WishlistPage = lazy(() => import('@/pages/wishlist/WishlistPage'))
+const WishlistPage = lazy(() => import('@/pages/Wishlist/WishlistPage'))
 
 const router = createBrowserRouter([
   //Public Routes
