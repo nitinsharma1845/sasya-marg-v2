@@ -15,7 +15,8 @@ import {
   AlertCircle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import ReplyDialog from './replyDialog'
+import ReplyDialog from './ReplyDialog'
+
 
 const QuerySkeleton = () => (
   <div className='p-6 max-w-5xl mx-auto space-y-6'>
