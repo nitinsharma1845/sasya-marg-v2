@@ -149,7 +149,7 @@ const Navbar = () => {
               </div>
             )}
             <ThemeToggle />
-            <LanguageProvider />
+            {/* <LanguageProvider /> */}
           </div>
 
           <div className='md:hidden flex items-center gap-2'>

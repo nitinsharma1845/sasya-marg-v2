@@ -110,7 +110,7 @@ const DashboardHeader = () => {
           </div>
         )}
         <ThemeToggle />
-        <LanguageProvider />
+        {/* <LanguageProvider /> */}
       </div>
     </header>
   )

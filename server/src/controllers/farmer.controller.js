@@ -22,7 +22,7 @@ export const register = asyncHandler(async (req, res) => {
     }
 
     res
-        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite : "none", maxAge: 100 * 60 * 60 * 24 * 7 })
+        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(200)
         .json(new ApiResponse(201, farmer, "Farmer registered successfully"))
 })
@@ -47,7 +47,7 @@ export const loginFarmerUsingOtp = asyncHandler(async (req, res) => {
     }
 
     res
-        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite : "none", maxAge: 100 * 60 * 60 * 24 * 7 })
+        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(200)
         .json(new ApiResponse(200, farmer, "Login successfully"))
 
@@ -73,7 +73,7 @@ export const loginFarmerUsingPassword = asyncHandler(async (req, res) => {
     }
 
     res
-        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite : "none", maxAge: 100 * 60 * 60 * 24 * 7 })
+        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(200)
         .json(new ApiResponse(201, farmer, "Login successfully"))
 
@@ -116,7 +116,7 @@ export const logoutFarmer = asyncHandler(async (req, res) => {
         .clearCookie("token",
             {
                 httpOnly: true,
-                sameSite : "none",
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
                 secure: process.env.NODE_ENV === "production"
             }
         )

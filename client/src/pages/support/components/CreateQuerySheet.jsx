@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Sheet,
@@ -32,13 +32,17 @@ import { toast } from 'sonner'
 import { usePostQuery, useUpdateQuery } from '@/hooks/query.hooks'
 import { useAuthStore } from '@/store/useAuthStore'
 
-const CreateQuerySheet = ({
-  isOpen,
-  onClose,
-  editData = null,
-  forBlock = false
-}) => {
-  const { user } = useAuthStore.getState()
+const CreateQuerySheet = ({ isOpen, onClose, editData = null }) => {
+  const user = useAuthStore(state => state.user)
+
+  const isBlocked = useMemo(() => {
+    return (
+      user?.isBlocked === true ||
+      user?.isActive === false ||
+      user?.status === 'blocked'
+    )
+  }, [user])
+
   const updateMutation = useUpdateQuery()
   const { mutate, isPending: isCreatePending } = usePostQuery()
 
@@ -65,22 +69,28 @@ const CreateQuerySheet = ({
   const watchedInquiry = watch('inquiry')
 
   useEffect(() => {
-    if (isOpen) {
-      if (editData) {
-        setValue('subject', editData.subject)
-        setValue('message', editData.message)
-        setValue('inquiry', editData.inquiry)
-        setValue('priority', editData.priority)
-      } else {
-        reset({
-          inquiry: 'crop',
-          priority: 'medium',
-          subject: '',
-          message: ''
-        })
-      }
+    if (!isOpen) return
+
+    if (editData) {
+      setValue('subject', editData.subject)
+      setValue('message', editData.message)
+      setValue('inquiry', editData.inquiry)
+      setValue('priority', editData.priority)
+    } else {
+      reset({
+        inquiry: isBlocked ? 'account' : 'crop',
+        priority: 'medium',
+        subject: '',
+        message: ''
+      })
     }
-  }, [isOpen, editData, setValue, reset])
+  }, [isOpen, editData, setValue, reset, isBlocked])
+
+  useEffect(() => {
+    if (isBlocked) {
+      setValue('inquiry', 'account')
+    }
+  }, [isBlocked, setValue])
 
   const onSubmit = data => {
     if (isEditMode) {
@@ -104,7 +114,7 @@ const CreateQuerySheet = ({
     } else {
       const payload = {
         ...data,
-        fullname: user?.fullname || 'Farmer',
+        fullname: user?.fullname || 'User',
         email: user?.email || 'N/A',
         phone: user?.phone || 'N/A'
       }
@@ -145,15 +155,18 @@ const CreateQuerySheet = ({
       color: 'text-chart-5'
     }
   ]
+
   const blockedInquiryTypes = [
     { id: 'account', label: 'Account', icon: User, color: 'text-chart-1' }
   ]
+
+  const visibleInquiryTypes = isBlocked ? blockedInquiryTypes : inquiryTypes
 
   return (
     <Sheet open={isOpen} onOpenChange={open => !open && onClose()}>
       <SheetContent
         side='bottom'
-        className='h-[90vh] rounded-t-xl sm:h-full sm:max-w-md sm:rounded-none sm:side-right overflow-y-auto px-5'
+        className='h-[90vh] rounded-t-xl sm:h-full sm:max-w-md sm:rounded-none overflow-y-auto px-5'
       >
         <SheetHeader className='mb-6 text-left'>
           <SheetTitle className='text-2xl font-bold text-foreground'>
@@ -162,75 +175,30 @@ const CreateQuerySheet = ({
           <SheetDescription>
             {isEditMode
               ? 'You can update the Subject and Message while the query is Open.'
+              : isBlocked
+              ? 'Your account is blocked. You can only submit an account-related query.'
               : 'Describe your issue clearly. Our experts will get back to you shortly.'}
-
-            {forBlock &&
-              'Describe your issue clearly, paste exact issue posted on the block page, and also clearify your point regarding the the action of admin'}
           </SheetDescription>
         </SheetHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-6 pb-8 p-1'>
-          {!isEditMode && !forBlock && (
+          {!isEditMode && (
             <div className='space-y-3'>
               <label className='text-sm font-medium text-foreground'>
                 Inquiry Type
               </label>
               <div className='grid grid-cols-2 gap-3'>
-                {inquiryTypes.map(type => (
+                {visibleInquiryTypes.map(type => (
                   <div
                     key={type.id}
                     onClick={() => setValue('inquiry', type.id)}
                     className={`
-                        cursor-pointer flex flex-col items-center justify-center rounded-lg border p-4 transition-all
-                        ${
-                          watchedInquiry === type.id
-                            ? 'border-primary bg-primary/5 shadow-sm ring-1 ring-primary'
-                            : 'border-border bg-card hover:bg-secondary/50'
-                        }
-                    `}
-                  >
-                    <type.icon
-                      className={`mb-2 h-6 w-6 ${
-                        watchedInquiry === type.id ? 'text-primary' : type.color
-                      }`}
-                    />
-                    <span
-                      className={`text-xs font-semibold ${
+                      cursor-pointer flex flex-col items-center justify-center rounded-lg border p-4 transition-all relative
+                      ${
                         watchedInquiry === type.id
-                          ? 'text-foreground'
-                          : 'text-muted-foreground'
-                      }`}
-                    >
-                      {type.label}
-                    </span>
-                    {watchedInquiry === type.id && (
-                      <div className='absolute top-2 right-2'>
-                        <CheckCircle2 className='h-3 w-3 text-primary' />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {forBlock && (
-            <div className='space-y-3'>
-              <label className='text-sm font-medium text-foreground mb-3'>
-                Inquiry Type
-              </label>
-              <div className='grid grid-cols-2 gap-3 mt-3'>
-                {blockedInquiryTypes.map(type => (
-                  <div
-                    key={type.id}
-                    onClick={() => setValue('inquiry', type.id)}
-                    className={`
-                        cursor-pointer flex flex-col items-center justify-center rounded-lg border p-4 transition-all
-                        ${
-                          watchedInquiry === type.id
-                            ? 'border-primary bg-primary/5 shadow-sm ring-1 ring-primary'
-                            : 'border-border bg-card hover:bg-secondary/50'
-                        }
+                          ? 'border-primary bg-primary/5 shadow-sm ring-1 ring-primary'
+                          : 'border-border bg-card hover:bg-secondary/50'
+                      }
                     `}
                   >
                     <type.icon
@@ -296,7 +264,7 @@ const CreateQuerySheet = ({
             )}
           </div>
 
-          {!isEditMode && !forBlock && (
+          {!isEditMode && !isBlocked && (
             <div className='space-y-1.5'>
               <label className='text-sm font-medium text-foreground'>
                 Priority

@@ -5,8 +5,9 @@
 
 @theme {
   /* This overrides the default 'font-sans' utility */
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    "Poppins", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /* =========================================================
@@ -98,7 +99,7 @@
   --muted-foreground: #c8d1b0;
 
   /* Accent – CTA */
-  --accent: #eab308;; /* softer yellow for dark */
+  --accent: #eab308; /* softer yellow for dark */
   --accent-foreground: #1f2612;
 
   /* Destructive */
@@ -191,5 +192,38 @@
   *::selection {
     background-color: var(--primary);
     color: var(--primary-foreground);
+  }
+}
+
+@layer base {
+  :root {
+    --sb-track: transparent;
+    --sb-thumb: var(--border);
+    --sb-thumb-hover: var(--primary);
+    --sb-size: 8px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+  }
+
+  *::-webkit-scrollbar {
+    width: var(--sb-size);
+    height: var(--sb-size);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--sb-track);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb);
+    border-radius: 10px;
+    border: 2px solid var(--background);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
   }
 }
