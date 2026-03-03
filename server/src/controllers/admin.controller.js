@@ -51,7 +51,7 @@ export const bootStrapSuperAdminLogin = asyncHandler(async (req, res) => {
     const { superAdmin, token } = await loginSuperAdminService({ identifier, password })
 
     return res
-        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 100 * 60 * 60 * 24 * 7 })
+        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite : "none", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(200)
         .json(new ApiResponse(200, superAdmin, "Super Admin loggedin successfully"))
 })
@@ -60,7 +60,7 @@ export const bootstrapSuperAdminLogout = asyncHandler(async (req, res) => {
     return res
         .clearCookie("token", {
             httpOnly: true,
-            sameSite: "strict",
+            sameSite : "none",
             secure: process.env.NODE_ENV === 'production'
         })
         .status(200)
@@ -130,7 +130,7 @@ export const loginAdmin = asyncHandler(async (req, res) => {
         .cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV,
-            sameSite: "strict"
+            sameSite : "none"
         })
         .status(200)
         .json(new ApiResponse(200, admin, "Admin logged In successfully"))
@@ -150,7 +150,7 @@ export const logoutAdmin = asyncHandler(async (req, res) => {
     return res
         .clearCookie("token", {
             httpOnly: true,
-            sameSite: "strict",
+            sameSite : "none",
             secure: process.env.NODE_ENV
         })
         .status(200)

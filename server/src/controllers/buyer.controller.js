@@ -24,7 +24,7 @@ export const registerBuyer = asyncHandler(async (req, res) => {
     }
 
     res
-        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 100 * 60 * 60 * 24 * 7 })
+        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite : "none", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(201)
         .json(new ApiResponse(201, buyer, "Buyer registered successfully"))
 })
@@ -48,7 +48,7 @@ export const loginBuyerWithPassword = asyncHandler(async (req, res) => {
     }
 
     res
-        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 100 * 60 * 60 * 24 * 7 })
+        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite : "none", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(200)
         .json(new ApiResponse(200, buyer, "Buyer loggedin successfully"))
 
@@ -73,7 +73,7 @@ export const loginBuyerWithOtp = asyncHandler(async (req, res) => {
     }
 
     res
-        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 100 * 60 * 60 * 24 * 7 })
+        .cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite : "none", maxAge: 100 * 60 * 60 * 24 * 7 })
         .status(200)
         .json(new ApiResponse(200, buyer, "Buyer loggedin successfully"))
 })
@@ -187,7 +187,7 @@ export const logoutBuyer = asyncHandler(async (req, res) => {
         .clearCookie("token",
             {
                 httpOnly: true,
-                sameSite: "strict",
+                sameSite : "none",
                 secure: process.env.NODE_ENV === "production"
             }
         )
