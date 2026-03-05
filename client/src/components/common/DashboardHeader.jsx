@@ -28,7 +28,7 @@ import LanguageProvider from './LanguageProvider'
 import Logo from './Logo'
 
 const DashboardHeader = () => {
-  const { user, isAuthenticated, role, logout } = useAuthStore()
+  const { user, isAuthenticated, role } = useAuthStore()
   const { t } = useTranslation()
   const location = useLocation()
 
@@ -142,7 +142,7 @@ const DashboardHeader = () => {
                   </div>
                 </DropdownMenuLabel>
 
-                <DropdownMenuSeparator className='my-2 xl:hidden' />
+                <DropdownMenuSeparator className='my-2 xl:hidd' />
 
                 <DropdownMenuGroup className='space-y-1 xl:hidden'>
                   {isAuthenticated &&
@@ -189,14 +189,14 @@ const DashboardHeader = () => {
 
                 <DropdownMenuGroup className='space-y-1'>
                   <Link to={`/${role}`}>
-                    <DropdownMenuItem className='h-11 rounded-xl cursor-pointer flex items-center gap-3 focus:bg-primary/5'>
+                    <DropdownMenuItem className='h-11 rounded-xl cursor-pointer flex items-center gap-3 focus:bg-secondary hover:text-primary'>
                       <Settings size={18} className='text-muted-foreground' />
-                      <span className='font-medium'>Account Settings</span>
+                      <span className='font-medium hover:text-primary'>Account Settings</span>
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
 
-                <DropdownMenuSeparator className='my-2' />
+                {/* <DropdownMenuSeparator className='my-2' />
 
                 <DropdownMenuItem
                   className='h-11 rounded-xl text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer flex items-center gap-3'
@@ -204,7 +204,7 @@ const DashboardHeader = () => {
                 >
                   <LogOut size={18} />
                   <span className='font-bold'>Sign Out</span>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

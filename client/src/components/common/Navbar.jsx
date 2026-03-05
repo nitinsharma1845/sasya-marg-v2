@@ -152,32 +152,8 @@ const Navbar = () => {
                     ))}
 
                     <div className='mt-4 pt-4 border-t space-y-3'>
-                      {isAuthenticated ? (
-                        <div className='p-5 flex flex-col gap-3'>
-                          <Button
-                            className='w-full justify-start h-12 rounded-xl gap-3'
-                            asChild
-                            onClick={() => setIsOpen(false)}
-                          >
-                            <Link to={`/${role}/dashboard`}>
-                              <LayoutDashboard size={18} />
-                              {t('navbar.dashboard')}
-                            </Link>
-                          </Button>
-                          <Button
-                            variant='destructive'
-                            className='w-full justify-start h-12 rounded-xl gap-3'
-                            onClick={() => {
-                              setIsOpen(false)
-                              setShowLogoutDialog(true)
-                            }}
-                          >
-                            <LogOut size={18} />
-                            Sign Out
-                          </Button>
-                        </div>
-                      ) : (
-                        <>
+                      {!isAuthenticated && (
+                        <div className='p-5 space-y-3'>
                           <Button
                             variant='secondary'
                             className='w-full justify-start h-12 rounded-xl'
@@ -197,7 +173,7 @@ const Navbar = () => {
                               {t('auth.login.buyerTitle')}
                             </Link>
                           </Button>
-                        </>
+                        </div>
                       )}
                     </div>
                   </div>

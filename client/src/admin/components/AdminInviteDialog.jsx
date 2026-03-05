@@ -64,7 +64,7 @@ export default function AdminInviteDialog ({ open, setOpen }) {
                   id='inviteLink'
                   name='invite_link'
                   readOnly
-                  value={`http://localhost:5173/admin/signup?token=${token}`}
+                  value={`https://sasya-marg-v2.vercel.app/admin/signup?token=${token}`}
                 />
 
                 <Button onClick={handleCopy}>Copy</Button>
