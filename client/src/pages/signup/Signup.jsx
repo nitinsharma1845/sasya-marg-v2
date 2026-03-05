@@ -11,7 +11,7 @@ const FarmerSignup = () => {
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
 
-      <div className="relative z-10 w-full md:w-96 bg-card text-card-foreground rounded-xl overflow-hidden shadow-xl">
+      <div className="relative z-10 w-full md:w-xl bg-card text-card-foreground rounded-xl overflow-hidden shadow-xl">
         <div className="p-8 md:p-10 bg-linear-to-br from-primary/10 via-card to-accent/50">
           <FarmerSignupForm />
         </div>

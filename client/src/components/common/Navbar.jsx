@@ -327,6 +327,7 @@ const Navbar = () => {
                 >
                   <Link to='/buyer/login'>{t('auth.login.buyerTitle')}</Link>
                 </Button>
+                <ThemeToggle />
               </div>
             )}
           </div>
