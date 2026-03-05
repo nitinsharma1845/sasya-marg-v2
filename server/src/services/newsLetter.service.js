@@ -37,7 +37,10 @@ export const subscribeToNewsLetterService = async ({ email, req }) => {
             unSubscribeUrl: `${process.env.CLIENT_URL}/public/unsubscribe/${token}`
         })
 
-    await sendEmail({ to: email, subject: "Welcome to Sasyamarg", html })
+    sendEmail({ to: email, subject: "Welcome to Sasyamarg", html })
+        .catch(err => {
+            console.error("Background Email Error:", err.message);
+        });
 
     await logActivity({
         req,

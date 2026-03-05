@@ -16,7 +16,11 @@ export const createQueryService = async ({ firstname, email, lastname, phone, me
     })
     const html = contactUsAutoResponseTemplate({ userName: `${firstname} ${lastname}`, websiteUrl: process.env.CLIENT_URL })
 
-    await sendEmail({ to: email, subject: "We Received Your Message | SasyaMarg", html })
+    sendEmail({ to: email, subject: "We Received Your Message | SasyaMarg", html })
+        .catch(err => {
+            console.error("Background Email Error:", err.message);
+        });
+
     await logActivity({ userId: null, role: "guest", action: "QUERY_RAISED", message: "A pubic query raised by guest user", metadata: { firstname, lastname, email, phone, message, role }, req })
 
     return query
@@ -65,7 +69,10 @@ export const replyToPublicQueryService = async ({ reply, queryId }) => {
 
     const html = publicQueryReplyTemplate({ username: `${query.firstname} ${query.lastname}`, querySubject: "General Query", ticketId: query._id, websiteUrl: process.env.CLIENT_URL, adminMessage: reply })
 
-    await sendEmail({ to: query.email, subject: "Email regarding the query raised by you.", html })
+    sendEmail({ to: query.email, subject: "Email regarding the query raised by you.", html })
+        .catch(err => {
+            console.error("Background Email Error:", err.message);
+        });
 
     return query
 }

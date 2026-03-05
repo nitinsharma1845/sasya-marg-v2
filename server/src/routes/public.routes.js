@@ -7,7 +7,7 @@ import { queryLimiter, subscribeToNewsletterLimiter } from "../middleware/rate l
 
 export const publicRoutes = Router()
 
-publicRoutes.post("/newsletter/subscribe", validate(subscribeToNewsletterSchema), subscribeToNewsletterLimiter, subscribeToNewsLetter)
+publicRoutes.post("/newsletter/subscribe", validate(subscribeToNewsletterSchema), subscribeToNewsLetter)
 
 publicRoutes.post("/newsletter/unsubscribe/:token", validate(unSubscribeToNewsletterSchema), unSubscribeToNewsletter)
 
