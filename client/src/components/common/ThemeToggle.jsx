@@ -1,17 +1,31 @@
-import { Sun, Moon } from "lucide-react";
-import { useThemeStore } from "@/store/useThemeStrore";
+import { Sun, Moon } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
+import { useThemeStore } from '@/store/useThemeStrore'
 
 const ThemeToggle = () => {
-  const { toggleTheme, theme } = useThemeStore();
-  return (
-    <button
-      onClick={toggleTheme}
-      className="md:p-2 p-1 rounded-full border cursor-pointer
-      hover:scale-105 transition"
-    >
-      {theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}
-    </button>
-  );
-};
+  const { toggleTheme, theme } = useThemeStore()
 
-export default ThemeToggle;
+  const isDark = theme === 'dark'
+
+  return (
+    <div className='flex items-center gap-2'>
+      <Sun
+        size={16}
+        className={`transition cursor-pointer ${
+          !isDark ? 'text-accent' : 'text-muted-foreground'
+        }`}
+      />
+
+      <Switch checked={isDark} onCheckedChange={toggleTheme} />
+
+      <Moon
+        size={16}
+        className={`transition ${
+          isDark ? 'text-chart-2' : 'text-muted-foreground'
+        }`}
+      />
+    </div>
+  )
+}
+
+export default ThemeToggle

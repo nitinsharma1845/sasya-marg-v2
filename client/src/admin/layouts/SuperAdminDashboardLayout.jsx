@@ -14,7 +14,8 @@ import {
   X,
   FileBadge,
   User,
-  Logs
+  Logs,
+  Moon
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -114,7 +115,7 @@ export default function SuperAdminLayout () {
               <span>Invite Admin</span>
             </Button>
             <AdminInviteDialog open={open} setOpen={setOpen} />
-            <div className='h-8 w-px bg-border mx-1 md:mx-2'></div>
+            <div className='h-8 w-px bg-border mx-1 md:mx-2 hidden sm:block'></div>
             <div className='flex items-center gap-3'>
               <div className='text-right hidden sm:block'>
                 <p className='text-sm font-semibold leading-none text-foreground'>
@@ -134,8 +135,6 @@ export default function SuperAdminLayout () {
                 </AvatarFallback>
               </Avatar>
             </div>
-            <div className='h-8 w-px bg-border mx-1 md:mx-2'></div>
-            <ThemeToggle />
           </div>
         </header>
 
@@ -153,9 +152,10 @@ function SuperSidebarContent ({ onItemClick }) {
   const handleLogout = () => {
     logout.mutate()
   }
+
   return (
     <div className='flex flex-col h-full'>
-      <nav className='flex-1 px-4 space-y-1.5 pt-4 overflow-y-auto min-h-0'>
+      <nav className='flex-1 px-4 space-y-1.5 pt-4 overflow-y-auto min-h-0 custom-scrollbar'>
         <NavItem
           to='/super_admin/dashboard'
           icon={<LayoutDashboard size={20} />}
@@ -213,16 +213,25 @@ function SuperSidebarContent ({ onItemClick }) {
         />
       </nav>
 
-      <div className='p-4 border-t border-sidebar-border/50 shrink-0 bg-sidebar'>
+      <div className='p-4 border-t border-sidebar-border/50 shrink-0 bg-sidebar space-y-2'>
+        <div className='flex items-center justify-between px-3 py-2 rounded-md hover:bg-accent/10 transition-colors'>
+          <div className='flex items-center gap-3 text-sidebar-foreground/70'>
+            <Moon size={20} />
+            <span className='text-sm font-medium'>Theme</span>
+          </div>
+          <ThemeToggle />
+        </div>
+
         <Button
           onClick={() => setOpen(true)}
           variant='ghost'
-          className='w-full justify-start gap-3 text-destructive hover:bg-destructive/10'
+          className='w-full justify-start gap-3 text-destructive hover:bg-destructive/10 px-3'
         >
           <LogOut size={20} />
           <span className='text-sm font-medium'>Terminate Session</span>
         </Button>
       </div>
+
       <LogoutConfirmDialog
         open={open}
         onClose={() => setOpen(false)}

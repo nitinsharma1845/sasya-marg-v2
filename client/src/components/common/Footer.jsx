@@ -120,11 +120,11 @@ const Footer = () => {
               {isAuthenticated && role === 'buyer' && (
                 <>
                   <FooterLink
-                    href='/buyer/product/harvested-products'
+                    href='/buyer/product/harvested'
                     label={t('footer.links.harvestedProduct')}
                   />
                   <FooterLink
-                    href='/buyer/product/pre-harvested-products'
+                    href='/buyer/product/pre-harvested'
                     label={t('footer.links.preHarvestedProduct')}
                   />
                   <FooterLink
@@ -152,7 +152,7 @@ const Footer = () => {
                   {role === 'farmer' && (
                     <>
                       <FooterLink
-                        href='/support'
+                        href='/farmer/support'
                         label={t('footer.links.helpSupport')}
                       />
                       <FooterLink

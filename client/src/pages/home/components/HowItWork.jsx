@@ -54,7 +54,7 @@ const HowItWorks = () => {
 
         <div className="mt-16 flex justify-center">
           <Link
-            to="/crop-suggestion"
+            to="/farmer/login"
             className="inline-flex h-11 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-transform hover:scale-105 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           >
             {t("home.work.button")}

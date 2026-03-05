@@ -267,7 +267,12 @@
       "titleHighlight": "Great Harvests",
       "description": "Access our complete range of farming services. From crop suggestion to online market insights, everything you need to grow better is right here.",
       "popularLabel": "Popular:",
-      "popularItems": ["Crop Prediction", "Mandi"],
+      "popularItems": [
+        "Crop Prediction",
+        "Mandi",
+        "Government Schemes",
+        "Buyer Wishlist"
+      ],
       "features": [
         {
           "title": "Agri-AI",

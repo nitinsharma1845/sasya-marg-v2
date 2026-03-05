@@ -237,7 +237,10 @@ const AboutPage = () => {
               'Tailwind CSS v4',
               'Shadcn UI',
               'OpenWeather API',
-              'Govt. Data (myScheme.gov)'
+              'Govt. Data (myScheme.gov)',
+              'Brevo',
+              'Railway',
+              'Vercel'
             ].map((tech, i) => (
               <span
                 key={i}
