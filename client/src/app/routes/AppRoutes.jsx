@@ -40,6 +40,7 @@ import Logs from '@/admin/pages/Logs/Logs'
 import Unsubscribe from '@/pages/Unsubscribe'
 import Subscribers from '@/admin/pages/subscribers/Subscribers'
 import PublicQueries from '@/admin/pages/publicQueries/PublicQueries'
+import BuyerBlockedPage from '@/pages/BuyerBlockedPage'
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -166,6 +167,17 @@ const router = createBrowserRouter([
       {
         path: 'support',
         element: <SupportPage />
+      }
+    ]
+  },
+
+  {
+    path: '/buyer/blocked',
+    element: <BlockedUserLayout />,
+    children: [
+      {
+        element: <BuyerBlockedPage />,
+        index: true
       }
     ]
   },

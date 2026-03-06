@@ -27,7 +27,7 @@ export const registerBuyerService = async ({ fullname, phone, otp, password, ema
 
     if (existing) throw new ApiError(409, "Buyer already registered")
 
-    await verifyOtpService({ phone, otp, purpose: "register" })
+    await verifyOtpService({ phone, otp, purpose: "register", })
 
     const buyer = await Buyer.create({
         fullname,
@@ -36,7 +36,7 @@ export const registerBuyerService = async ({ fullname, phone, otp, password, ema
         email: email ? email.toLowerCase() : undefined
     })
 
-    const token = generateToken({ _id: buyer._id, role: "buyer" })
+    const token = generateToken({ _id: buyer._id, role: "buyer", isActive: !buyer.isBlocked })
 
     return { buyer, token }
 }
@@ -46,16 +46,17 @@ export const loginBuyerUsingOtpService = async ({ phone, otp }) => {
 
     if (!buyer) throw new ApiError(404, "Buyer is not registered yet")
 
-    if (buyer.isBlocked) {
-        throw new ApiError(403, "Buyer account is blocked")
-    }
+    // if (buyer.isBlocked) {
+    //     throw new ApiError(403, "Buyer account is blocked")
+    // }
 
     await verifyOtpService({ otp, purpose: "login", phone })
 
-    const token = generateToken({ _id: buyer._id, role: "buyer" })
+    const token = generateToken({ _id: buyer._id, role: "buyer", isActive: !buyer.isBlocked })
 
-    return { buyer, token }
-
+    const buyerObj = buyer.toObject()
+    buyerObj.isActive = !buyer.isBlocked
+    return { buyer: buyerObj, token }
 
 }
 
@@ -76,15 +77,16 @@ export const loginBuyerUsingPasswordService = async ({ identifier, password }) =
 
     if (!buyer) throw new ApiError(404, "Buyer is not registered yet")
 
-    if (buyer.isBlocked) throw new ApiError(403, "Buyer Account is blocked")
+    // if (buyer.isBlocked) throw new ApiError(403, "Buyer Account is blocked")
 
     const isVarified = await buyer.comparePassword(password)
 
     if (!isVarified) throw new ApiError(401, "Invalid credentials")
 
-    const token = generateToken({ _id: buyer._id, role: "buyer" })
+    const token = generateToken({ _id: buyer._id, role: "buyer", isActive: !buyer.isBlocked })
 
     const buyerObj = buyer.toObject()
+    buyerObj.isActive = !buyer.isBlocked
     delete buyerObj.password
     return { buyer: buyerObj, token }
 }

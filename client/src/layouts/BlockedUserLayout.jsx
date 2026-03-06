@@ -9,14 +9,24 @@ import LogoutButton from '@/components/common/LogoutButton'
 import { useLogoutFarmer } from '@/hooks/auth.hooks'
 import clsx from 'clsx'
 import ThemeToggle from '@/components/common/ThemeToggle'
+import { useLogoutBuyer } from '@/hooks/buyer.hooks'
+import { useAuthStore } from '@/store/useAuthStore'
 
 const BlockedUserLayout = () => {
   const [open, setOpen] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const { mutate } = useLogoutFarmer()
+  const { mutate: logoutFarmer } = useLogoutFarmer()
+  const { mutate: logoutBuyer } = useLogoutBuyer()
+  const { role } = useAuthStore.getState(s => s.user)
+  console.log(role)
 
   function handleLogout () {
-    mutate()
+    if (role === 'farmer') {
+      logoutFarmer()
+    }
+    if (role === 'buyer') {
+      logoutBuyer()
+    }
   }
 
   return (
@@ -31,77 +41,96 @@ const BlockedUserLayout = () => {
               </span>
             </Link>
 
-            <div className='hidden md:flex absolute left-1/2 -translate-x-1/2 gap-8 text-sm font-medium'>
-              <NavLink
-                to='/'
-                className={({ isActive }) =>
-                  clsx(
-                    'text-muted-foreground hover:text-primary transition',
-                    isActive && 'border-b-2 border-primary'
-                  )
-                }
-              >
-                Home
-              </NavLink>
+            {role === 'farmer' && (
+              <div className='hidden md:flex absolute left-1/2 -translate-x-1/2 gap-8 text-sm font-medium'>
+                <NavLink
+                  to='/'
+                  className={({ isActive }) =>
+                    clsx(
+                      'text-muted-foreground hover:text-primary transition',
+                      isActive && 'border-b-2 border-primary'
+                    )
+                  }
+                >
+                  Home
+                </NavLink>
 
-              <NavLink
-                to='/blocked/support'
-                className={({ isActive }) =>
-                  clsx(
-                    'text-muted-foreground hover:text-primary transition',
-                    isActive && 'border-b-2 border-primary'
-                  )
-                }
-              >
-                Contact
-              </NavLink>
-            </div>
+                <NavLink
+                  to='/blocked/support'
+                  className={({ isActive }) =>
+                    clsx(
+                      'text-muted-foreground hover:text-primary transition',
+                      isActive && 'border-b-2 border-primary'
+                    )
+                  }
+                >
+                  Contact
+                </NavLink>
+              </div>
+            )}
 
-            <div className='hidden md:flex items-center gap-3'>
-              <LogoutButton onClick={() => setIsDialogOpen(true)} />
-              <ThemeToggle />
-            </div>
-
-            <div className='md:hidden'>
-              <Sheet open={open} onOpenChange={setOpen}>
-                <SheetTrigger asChild>
-                  <Button size='icon' variant='ghost'>
-                    <Menu className='h-5 w-5' />
-                  </Button>
-                </SheetTrigger>
+            {role === 'farmer' && (
+              <div className='hidden md:flex items-center gap-3'>
+                <LogoutButton
+                  onClick={() => setIsDialogOpen(true)}
+                  className='cursor-pointer'
+                />
                 <ThemeToggle />
+              </div>
+            )}
 
-                <SheetContent side='right' className='w-64'>
-                  <div className='mt-8 flex flex-col items-start px-3 gap-6 text-sm font-medium'>
-                    <Link
-                      to='/'
-                      onClick={() => setOpen(false)}
-                      className='text-muted-foreground hover:text-primary'
-                    >
-                      Home
-                    </Link>
+            {role === 'buyer' && (
+              <div className='flex items-center gap-3'>
+                <LogoutButton
+                  onClick={() => setIsDialogOpen(true)}
+                  className='cursor-pointer'
+                />
+              </div>
+            )}
 
-                    <Link
-                      to='/blocked/support'
-                      onClick={() => setOpen(false)}
-                      className='text-muted-foreground hover:text-primary'
-                    >
-                      Contact
-                    </Link>
+            {role === 'farmer' && (
+              <div className='md:hidden'>
+                <Sheet open={open} onOpenChange={setOpen}>
+                  <SheetTrigger asChild>
+                    <Button size='icon' variant='ghost'>
+                      <Menu className='h-5 w-5' />
+                    </Button>
+                  </SheetTrigger>
 
-                    <LogoutButton
-                      onClick={() => {
-                        setOpen(false)
-                        setIsDialogOpen(true)
-                      }}
-                      className='w-full'
-                    >
-                      Logout
-                    </LogoutButton>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
+                  <SheetContent side='right' className='w-64'>
+                    <div className='mt-8 flex flex-col items-start px-3 gap-6 text-sm font-medium'>
+                      <Link
+                        to='/'
+                        onClick={() => setOpen(false)}
+                        className='text-muted-foreground hover:text-primary'
+                      >
+                        Home
+                      </Link>
+
+                      <Link
+                        to='/blocked/support'
+                        onClick={() => setOpen(false)}
+                        className='text-muted-foreground hover:text-primary'
+                      >
+                        Contact
+                      </Link>
+
+                      <LogoutButton
+                        onClick={() => {
+                          setOpen(false)
+                          setIsDialogOpen(true)
+                        }}
+                        className='w-full cursor-pointer'
+                      >
+                        Logout
+                      </LogoutButton>
+
+                      <ThemeToggle />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
+            )}
           </div>
         </div>
       </nav>

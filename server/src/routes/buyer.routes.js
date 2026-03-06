@@ -32,6 +32,7 @@ import { authLayer } from "../middleware/auth.middleware.js"
 import { authorize } from "../middleware/role.middleware.js"
 import { getPreHarvestListingQuerySchema } from "../validator/preHarvestListing.validator.js"
 import { getProductByIdSchema, getProductListingSchema } from "../validator/product.validator.js"
+import { activeBuyer } from "../middleware/activeBuyer.middleware.js"
 
 export const buyerRouter = Router()
 
@@ -66,10 +67,13 @@ buyerRouter.put(
 
 
 
-buyerRouter.use(authLayer, authorize("buyer"))
+buyerRouter.post("/logout", authLayer, authorize("buyer"), logoutBuyer)
+
+buyerRouter.get("/me", authLayer, authorize("buyer"), currentUser)
+
+buyerRouter.use(authLayer, authorize("buyer"), activeBuyer)
 
 
-buyerRouter.get("/me", currentUser)
 
 
 buyerRouter.put(
@@ -87,7 +91,6 @@ buyerRouter.patch(
     updateBuyerAddress
 )
 
-buyerRouter.post("/logout", logoutBuyer)
 buyerRouter.get("/dashboard", buyerDashbord)
 
 

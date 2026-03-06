@@ -19,6 +19,7 @@ const AuthProvider = ({ children }) => {
       })
       .then((res) => {
         const payload = res.data.data;
+        console.log("AUTH PROVIDER : ", payload)
         setUser(payload);
       })
       .catch(() => {
