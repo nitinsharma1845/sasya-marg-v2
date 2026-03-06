@@ -401,3 +401,92 @@ export const publicQueryReplyTemplate = ({ userName, querySubject, adminMessage,
 </body>
 </html>`;
 };
+
+export const userBlockTemplate = ({ userName, reason, supportEmail, websiteUrl }) => {
+  const colors = {
+    background: "#fafaf9", // Pale Cream
+    foreground: "#364219", // Deep Moss
+    primary: "#5c6f2b",    // Olive
+    destructive: "#c2410c", // Earthy Orange/Red
+    muted: "#6b7750",      // Lighter Moss
+    border: "#d6dbc8",     // Soft border
+    white: "#ffffff"
+  };
+
+  const logoUrl = "https://res.cloudinary.com/dq0ltmja4/image/upload/v1772435826/sasyamarg_logo_wtzjzu.png";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Status Update - Sasya Marg</title>
+</head>
+<body style="margin:0; padding:0; background-color:${colors.background}; font-family: 'Inter', -apple-system, sans-serif; color: ${colors.foreground};">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${colors.background}; padding: 40px 10px;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:${colors.white}; border: 1px solid ${colors.border}; border-radius:12px; overflow:hidden; box-shadow: 0 4px 15px rgba(54,66,25,0.05);">
+        
+        <tr>
+          <td align="center" style="padding: 30px 20px; border-bottom: 1px solid ${colors.background};">
+            <img src="${logoUrl}" alt="Sasya Marg Logo" width="150" style="display: block;">
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="background-color: ${colors.destructive}; padding: 12px; color: ${colors.white}; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+            Important Account Notice
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 40px;">
+            <h1 style="margin:0 0 20px 0; font-size:22px; color:${colors.foreground};">Hello ${userName || 'User'},</h1>
+            
+            <p style="margin:0 0 20px 0; font-size:16px; line-height:1.6;">
+              We are writing to inform you that your <strong>Sasya Marg</strong> account has been <strong>suspended</strong> effective immediately.
+            </p>
+
+            <div style="background-color: #fff7ed; border: 1px solid #ffedd5; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <p style="margin:0 0 8px 0; font-size:13px; font-weight: bold; color:${colors.destructive}; text-transform: uppercase;">Reason for Suspension:</p>
+              <p style="margin:0; font-size:15px; line-height:1.5; color:${colors.foreground};">
+                ${reason || 'Violation of our Terms of Service or community guidelines.'}
+              </p>
+            </div>
+
+            <p style="margin:0 0 20px 0; font-size:15px; line-height:1.6; color:${colors.muted};">
+              While your account is suspended, you will not be able to log in, access your farm data, or interact with the marketplace. If you believe this was a mistake or would like to appeal this decision, please contact our administrative team.
+            </p>
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 30px;">
+              <tr>
+                <td align="center">
+                  <a href="mailto:${supportEmail || 'support@sasyamarg.com'}" style="display:inline-block; padding:14px 30px; border: 2px solid ${colors.destructive}; color:${colors.destructive}; text-decoration:none; font-size:15px; border-radius:6px; font-weight:700;">
+                    Contact Support Team
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="background-color: ${colors.foreground}; padding: 30px;">
+            <p style="margin:0 0 10px 0; font-size:12px; color:${colors.white};">
+              Sasya Marg — Agri-Intelligence Platform
+            </p>
+            <p style="margin:0; font-size:11px; color:${colors.white}; opacity: 0.6;">
+              This is a system-generated notification regarding your account status.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>`;
+};

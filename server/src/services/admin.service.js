@@ -15,6 +15,8 @@ import { FarmLand } from '../models/farmLand.model.js'
 import mongoose from "mongoose"
 import { verifyPassword } from "../utils/verifyPassword.js"
 import { verifyOtpService } from "./otp.service.js"
+import { sendEmail } from "./email.service.js"
+import { userBlockTemplate } from "./templates.service.js"
 
 //InviteToken service
 
@@ -930,12 +932,22 @@ export const blockFarmerService = async ({ adminId, farmerId, reason }) => {
 
     if (!farmer) throw new ApiError(404, "farmer not found")
 
+
+
     farmer.isActive = false
     farmer.blockedBy = adminId
     farmer.blockedAt = new Date()
     farmer.blockReason = reason || "Policy violation"
-
     await farmer.save()
+
+    if (farmer?.email) {
+        const html = userBlockTemplate({ userName: farmer.fullname, reason, supportEmail: "sasyamarg@gmail.com", websiteUrl: process.env.CLIENT_URL })
+        sendEmail({ to: farmer.email, subject: "Your account is suspended | SasyaMarg", html })
+            .catch(err => {
+                console.error("Background Email Error:", err.message);
+            });
+    }
+    
     return farmer
 }
 
@@ -1007,6 +1019,14 @@ export const blockBuyerService = async ({ adminId, buyerId, reason }) => {
     buyer.blockReason = reason || "Policy violation"
 
     await buyer.save()
+
+    if (buyer?.email) {
+        const html = userBlockTemplate({ userName: buyer.fullname, reason, supportEmail: "sasyamarg@gmail.com", websiteUrl: process.env.CLIENT_URL })
+        sendEmail({ to: buyer.email, subject: "Your account is suspended | SasyaMarg", html })
+            .catch(err => {
+                console.error("Background Email Error:", err.message);
+            });
+    }
     return buyer
 }
 

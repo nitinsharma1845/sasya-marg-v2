@@ -71,7 +71,6 @@ const SingleBuyerPage = () => {
 
   return (
     <div className='p-6 md:p-10 min-h-screen bg-background text-foreground max-w-6xl mx-auto space-y-8'>
-      
       <div className='relative overflow-hidden bg-card p-5 sm:p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-border shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6'>
         <UserCheck
           size={120}
@@ -160,7 +159,6 @@ const SingleBuyerPage = () => {
             </div>
           </div>
 
-          {/* Activity Log Summary */}
           <Card className='rounded-4xl border-border bg-card shadow-sm overflow-hidden'>
             <CardHeader className='bg-secondary/20 pb-4'>
               <CardTitle className='text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2'>
@@ -191,7 +189,6 @@ const SingleBuyerPage = () => {
           </Card>
         </div>
 
-        {/* 3. Side Column: Security & Moderation */}
         <div className='space-y-6'>
           <h2 className='text-lg font-bold flex items-center gap-2 px-2 text-primary'>
             <ShieldAlert size={20} /> Moderation
@@ -234,7 +231,7 @@ const SingleBuyerPage = () => {
               </div>
 
               {buyer.isBlocked && (
-                <div className='mt-4 p-4 rounded-2xl bg-white border border-destructive/20 shadow-sm'>
+                <div className='mt-4 p-4 rounded-2xl bg-secondary border border-destructive/20 shadow-sm'>
                   <p className='text-[10px] font-bold text-destructive uppercase mb-1'>
                     Block Reason
                   </p>

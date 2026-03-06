@@ -277,8 +277,8 @@ export const replyToQuery = asyncHandler(async (req, res) => {
         message: "Query response done.",
         metadata: {
             adminId: req.user._id,
-            queryId,
-            reply
+            queryId: req.params.queryId,
+            reply: req.body.reply
         }
     }
 
