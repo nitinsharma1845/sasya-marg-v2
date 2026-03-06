@@ -4,7 +4,8 @@ import {
   StatsOverview,
   DetailedPredictionReport,
   FarmlandTable,
-  HarvestActivityLog
+  HarvestActivityLog,
+  RecentQueries
 } from './components/DashboardWidgets'
 import {
   UserCircle,
@@ -90,7 +91,7 @@ const FarmerDashboardPage = () => {
               size='sm'
               className='h-9 rounded-xl font-bold text-xs shadow-none border border-border'
               onClick={() => getDashboard.refetch()}
-              disabled={isLoading}
+              disabled={getDashboard.isFetching}
             >
               <RefreshCcw
                 className={`mr-2 h-3.5 w-3.5 ${
@@ -113,7 +114,7 @@ const FarmerDashboardPage = () => {
         </div>
       </div>
 
-      <div className='p-4 md:p-8 max-w-400 mx-auto space-y-8 mt-4'>
+      <div className='p-4 md:p-8 max-w-7xl mx-auto space-y-8 mt-4'>
         <StatsOverview stats={stats} isLoading={isLoading} />
 
         <div className='grid grid-cols-1 xl:grid-cols-12 gap-8 items-start'>
@@ -156,6 +157,19 @@ const FarmerDashboardPage = () => {
               />
             </div>
           </div>
+          {!recent?.queries?.length === 0 && (
+            <div className='xl:col-span-4 flex flex-col gap-8'>
+              <div className='space-y-4'>
+                <h2 className='text-sm font-black uppercase tracking-[0.2em] text-muted-foreground px-1'>
+                  Help & Supports
+                </h2>
+                <RecentQueries
+                  queries={recent?.queries || []}
+                  isLoading={isLoading}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

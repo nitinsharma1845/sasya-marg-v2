@@ -36,14 +36,16 @@ const predictHistorySchema = new mongoose.Schema({
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "Crop"
                 },
-                name: String,
+                crop: String,
                 durationRange: {
                     min: Number,
                     max: Number
                 },
                 waterRequirement: String,
                 score: Number,
-                reasons: [String]
+                reasons: [String],
+                note: String,
+                missingFactors: [String]
             }
         ],
         required: true

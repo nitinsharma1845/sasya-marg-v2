@@ -60,6 +60,7 @@ const PreHarvestForm = () => {
     formData.append('payload[farmland]', data.farmland)
     formData.append('payload[description]', data.description || '')
     formData.append('payload[qualityGrade]', data.qualityGrade)
+    formData.append('payload[category]', data.category || 'other')
 
     if (data.sowingDate) {
       formData.append('payload[sowingDate]', data.sowingDate.toISOString())
@@ -193,6 +194,39 @@ const PreHarvestForm = () => {
               {errors.sowingDate && (
                 <span className='text-xs text-destructive'>
                   Sowing date is required
+                </span>
+              )}
+            </div>
+
+            <div className='space-y-2'>
+              <Label>Category</Label>
+              <Controller
+                name='category'
+                control={control}
+                rules={{ required: 'Product category is required' }}
+                render={({ field }) => (
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder='Select type...' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='vegetable'>Vegetable</SelectItem>
+                      <SelectItem value='fruit'>Fruit</SelectItem>
+                      <SelectItem value='grain'>Grain</SelectItem>
+                      <SelectItem value='pulse'>Pulse</SelectItem>
+                      <SelectItem value='oilseed'>Oilseed</SelectItem>
+                      <SelectItem value='spice'>Spices</SelectItem>
+                      <SelectItem value='other'>Others</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.category && (
+                <span className='text-destructive text-xs'>
+                  {errors.category.message}
                 </span>
               )}
             </div>

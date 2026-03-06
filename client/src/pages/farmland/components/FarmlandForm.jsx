@@ -63,7 +63,8 @@ const FarmlandForm = ({ onSuccess }) => {
       farmingType: 'conventional',
       size: { unit: 'beegha' },
       location: null
-    }
+    },
+    mode: 'onChange'
   })
 
   const watchedLocation = watch('location')
@@ -114,6 +115,10 @@ const FarmlandForm = ({ onSuccess }) => {
     })
   }
 
+  const handleUpdateLocation = () => {
+    setValue('location', null)
+  }
+
   return (
     <form
       className='space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500'
@@ -152,7 +157,7 @@ const FarmlandForm = ({ onSuccess }) => {
                   <Button
                     type='button'
                     variant='link'
-                    onClick={handleFetchLocation}
+                    onClick={handleUpdateLocation}
                     className='text-xs h-auto p-0 text-muted-foreground cursor-pointer'
                   >
                     Update Location
@@ -386,7 +391,10 @@ const FarmlandForm = ({ onSuccess }) => {
               <Coins className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
               <Input
                 type='number'
-                {...register('budget', { valueAsNumber: true })}
+                {...register('budget', {
+                  valueAsNumber: true,
+                  min: { value: 0.01, message: 'Invalid Budget' }
+                })}
                 placeholder='Optional'
                 className='pl-9'
               />

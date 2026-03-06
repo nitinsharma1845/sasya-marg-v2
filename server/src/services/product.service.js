@@ -14,15 +14,18 @@ export const createProductListing = async ({ farmerId, payload, files }) => {
 
     if (!farmland) throw new ApiError(403, "Invalid or inactive farmland")
 
-    let images = []
-
+    let images;
 
     if (files?.length) {
-        for (const file of files) {
-            const { url, publicId } = await uploadToCloudinary(file.path)
-            images.push({ url, publicId })
-        }
 
+        const uploads = await Promise.all(
+            files.map(file => uploadToCloudinary(file.path))
+        )
+
+        images = uploads.map(img => ({
+            url: img.url,
+            publicId: img.publicId
+        }))
     }
 
 

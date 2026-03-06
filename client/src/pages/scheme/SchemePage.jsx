@@ -82,9 +82,10 @@ const GovernmentSchemesPage = () => {
       setFilters(prev => ({
         ...prev,
         farmlandId: selectedFarmId,
+        state: undefined, 
         page: 1
       }))
-    } else {
+    } else if (viewMode === 'all') {
       setFilters(prev => {
         const { farmlandId, ...rest } = prev
         return { ...rest, page: 1 }
@@ -115,7 +116,7 @@ const GovernmentSchemesPage = () => {
     setSelectedFarmId('')
     setFilters({
       page: 1,
-      limit: 3,
+      limit: 6,
       state: undefined
     })
   }
@@ -124,7 +125,7 @@ const GovernmentSchemesPage = () => {
     setFilters(prev => ({ ...prev, page: newPage }))
   }
 
-  const responseData = getScheme.data?.data
+  const responseData = getScheme.data?.data || {}
   const schemes = responseData?.schemes || []
   const total = responseData?.pagination?.total || 0
   const totalPages = responseData?.pagination?.totalPages || 0

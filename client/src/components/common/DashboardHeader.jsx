@@ -142,7 +142,7 @@ const DashboardHeader = () => {
                   </div>
                 </DropdownMenuLabel>
 
-                <DropdownMenuSeparator className='my-2 xl:hidd' />
+                <DropdownMenuSeparator className='my-2 xl:hidden' />
 
                 <DropdownMenuGroup className='space-y-1 xl:hidden'>
                   {isAuthenticated &&

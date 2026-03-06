@@ -10,6 +10,7 @@ import { PreHarvestListing } from '../models/preHarvetedListing.model.js'
 import { PredictHistory } from "../models/predictHistory.model.js"
 import { Admin } from '../models/admin.model.js'
 import { Buyer } from '../models/buyer.model.js'
+import { Query } from '../models/query.model.js'
 
 export const registerFarmerService = async ({ fullname, phone, otp, password }) => {
     const [farmerExist, AdminExist, buyerExist] = await Promise.all([
@@ -29,7 +30,7 @@ export const registerFarmerService = async ({ fullname, phone, otp, password }) 
         role: "farmer"
     })
 
-    const token = generateToken({ _id: farmer._id, role: "farmer", isActive : farmer.isActive })
+    const token = generateToken({ _id: farmer._id, role: "farmer", isActive: farmer.isActive })
 
     return { farmer, token }
 }
@@ -41,14 +42,14 @@ export const loginFarmerUsingOtpService = async ({ phone, otp }) => {
 
     await verifyOtpService({ otp, purpose: "login", phone })
 
-    const token = generateToken({ _id: farmerDoc._id, role: "farmer", isActive :farmerDoc.isActive })
+    const token = generateToken({ _id: farmerDoc._id, role: "farmer", isActive: farmerDoc.isActive })
 
     const farmer = {
         fullname: farmerDoc.fullname,
         email: farmerDoc.email,
         role: farmerDoc.role,
         phone: farmerDoc.phone,
-        _id : farmerDoc._id
+        _id: farmerDoc._id
 
     }
 
@@ -66,14 +67,14 @@ export const loginFarmerUsingPasswordService = async ({ phone, password }) => {
 
     if (!isVarified) throw new ApiError(401, "Invalid credentials")
 
-    const token = generateToken({ _id: farmerDoc._id, role: "farmer", isActive :farmerDoc.isActive })
+    const token = generateToken({ _id: farmerDoc._id, role: "farmer", isActive: farmerDoc.isActive })
 
     const farmer = {
         fullname: farmerDoc.fullname,
         email: farmerDoc.email,
         role: farmerDoc.role,
         phone: farmerDoc.phone,
-        _id : farmerDoc._id
+        _id: farmerDoc._id
 
     }
 
@@ -184,8 +185,10 @@ export const farmerDashboardService = async (farmerId) => {
         farmlandContext,
         productCount,
         predictionCount,
+        queriesCount,
         recentListings,
-        recentPredictions
+        recentPredictions,
+        recentQueries
     ] = await Promise.all([
 
         FarmLand.aggregate([
@@ -264,6 +267,8 @@ export const farmerDashboardService = async (farmerId) => {
 
         PredictHistory.countDocuments({ farmer: farmerId }),
 
+        Query.countDocuments({ farmer: farmerId }),
+
         PreHarvestListing.find({ farmer: farmerId })
             .sort({ createdAt: -1 })
             .limit(5)
@@ -275,7 +280,12 @@ export const farmerDashboardService = async (farmerId) => {
             .populate({
                 path: "result.cropId",
                 select: "name"
-            })
+            }),
+
+        Query.find({ farmer: farmerId })
+            .sort({ createdAt: -1 })
+            .limit(2)
+            .select("status inquiry subject")
     ])
 
     return {
@@ -285,6 +295,7 @@ export const farmerDashboardService = async (farmerId) => {
             farmlandCount: farmlandContext.length,
             productCount,
             preHarvestCount: recentListings.length,
+            queriesCount,
             predictionCount,
             contactCount: 0 // future
         },
@@ -293,7 +304,8 @@ export const farmerDashboardService = async (farmerId) => {
 
         recent: {
             listings: recentListings,
-            predictions: recentPredictions
+            predictions: recentPredictions,
+            queries: recentQueries
         }
     }
 }

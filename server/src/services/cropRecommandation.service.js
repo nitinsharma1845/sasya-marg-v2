@@ -29,11 +29,11 @@ export const recommendCropsService = async ({ farmerId, farmLandId }) => {
     budget: farmland.budget,
     location: farmland.location
       ? {
-          locality: farmland.location.locality,
-          district: farmland.location.district,
-          state: farmland.location.state,
-          country: farmland.location.country
-        }
+        locality: farmland.location.locality,
+        district: farmland.location.district,
+        state: farmland.location.state,
+        country: farmland.location.country
+      }
       : null
   }
 

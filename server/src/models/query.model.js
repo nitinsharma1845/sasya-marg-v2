@@ -19,7 +19,6 @@ const querySchema = new mongoose.Schema({
         type: String,
         lowercase: true,
         trim: true,
-        required: true
     },
 
     phone: {

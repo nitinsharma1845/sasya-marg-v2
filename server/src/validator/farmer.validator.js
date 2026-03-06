@@ -1,62 +1,89 @@
-import { z } from 'zod'
+import { z } from "zod";
 
+const phoneSchema = z
+    .string()
+    .trim()
+    .regex(/^[6-9]\d{9}$/, "Phone number must be a valid 10-digit Indian mobile number");
+
+const otpSchema = z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, "OTP must be exactly 6 digits");
+
+const passwordSchema = z
+    .string()
+    .min(8, "Password must contain at least 8 characters")
+    .max(100, "Password is too long");
+
+const nameSchema = z
+    .string()
+    .trim()
+    .min(2, "Full name must contain at least 2 characters")
+    .max(100, "Full name is too long");
 
 export const sendOtpSchema = z.object({
     query: z.object({
-        purpose: z.enum(["login", "register", "forgot_password"]),
+        purpose: z.enum(["login", "register", "forgot_password"], {
+            errorMap: () => ({ message: "Purpose must be login, register, or forgot_password" }),
+        }),
     }),
 
     body: z.object({
-        phone: z
-            .string()
-            .regex(/^[6-9]\d{9}$/, "Invalid phone number"),
-
+        phone: phoneSchema,
     }),
 });
 
 export const registerFarmerSchema = z.object({
     body: z.object({
-        fullname: z.string().min(2, "Name too sort"),
-        phone: z.coerce.string().regex(/^[6-9]\d{9}$/, "Invalid phone number"),
-        otp: z.string().length(6, "Otp must be of 6 digits"),
-        password: z.string().min(8, "Password contains at least 8 character")
-    })
-})
-
+        fullname: nameSchema,
+        phone: phoneSchema,
+        otp: otpSchema,
+        password: passwordSchema,
+    }),
+});
 
 export const loginFarmerUsingOtpSchema = z.object({
     body: z.object({
-        phone: z.coerce.string().regex(/^[6-9]\d{9}$/, "Invalid phone number"),
-        otp: z.string().length(6, "Otp must be of 6 digits"),
-    })
-})
+        phone: phoneSchema,
+        otp: otpSchema,
+    }),
+});
 
 export const loginFarmerWithPasswordSchema = z.object({
     body: z.object({
-        phone: z.coerce.string().regex(/^[6-9]\d{9}$/, "Invalid phone number"),
-        password: z.string().min(8, "Password contains at least 8 character")
-    })
-})
+        phone: phoneSchema,
+        password: passwordSchema,
+    }),
+});
 
 export const forgotPasswordSchema = z.object({
     body: z.object({
-        phone: z.coerce.string().regex(/^[6-9]\d{9}$/, "Invalid phone number"),
-        newPassword: z.string().min(8, "Password must contain at least 8 character"),
-        otp: z.string().length(6, "Otp must be of 6 digits")
-    })
-})
+        phone: phoneSchema,
+        newPassword: passwordSchema,
+        otp: otpSchema,
+    }),
+});
 
-
-export const changePasswordSchema = z.object({
-    body: z.object({
-        oldPassword: z.string().min(8, "Password must contain at least 8 character"),
-        newPassword: z.string().min(8, "Password must contain at least 8 character"),
+export const changePasswordSchema = z
+    .object({
+        body: z.object({
+            oldPassword: passwordSchema,
+            newPassword: passwordSchema,
+        }),
     })
-})
+    .refine((data) => data.body.oldPassword !== data.body.newPassword, {
+        message: "New password must be different from the old password",
+        path: ["body", "newPassword"],
+    });
 
 export const changeFarmerDataSchema = z.object({
     body: z.object({
-        email: z.string().email("Invalid email").transform((email) => email.toLowerCase()),
-        fullname: z.string().min(2, "Name too sort"),
-    })
-})
+        email: z
+            .string()
+            .trim()
+            .email("Please enter a valid email address")
+            .transform((email) => email.toLowerCase()),
+
+        fullname: nameSchema,
+    }),
+});

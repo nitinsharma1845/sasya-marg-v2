@@ -15,7 +15,7 @@ const EmptyFarmlandState = () => {
         </div>
         
         <h2 className="mb-3 text-2xl font-bold text-foreground">
-          No Farmland Registered
+          No Active Farmland Registered
         </h2>
         
         <p className="mb-8 text-muted-foreground leading-relaxed">

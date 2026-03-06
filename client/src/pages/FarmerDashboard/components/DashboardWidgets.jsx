@@ -9,7 +9,11 @@ import {
   CloudSun,
   CheckCircle,
   TrendingUp,
-  Zap
+  Zap,
+  Book,
+  ArrowUpRight,
+  CircleQuestionMark,
+  Box
 } from 'lucide-react'
 import {
   Card,
@@ -30,10 +34,12 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Skeleton } from '@/components/ui/skeleton'
+import { MessageSquare, CircleDot, CheckCircle2 } from 'lucide-react'
 
 export const StatsOverview = ({ stats = {}, isLoading }) => {
+  const navigate = useNavigate()
   const items = [
     {
       label: 'Assets',
@@ -41,7 +47,8 @@ export const StatsOverview = ({ stats = {}, isLoading }) => {
       sub: 'Registered Land',
       icon: MapPin,
       color: 'text-primary',
-      bg: 'bg-primary/10'
+      bg: 'bg-primary/10',
+      link: '/farmer/farmland'
     },
     {
       label: 'AI Intel',
@@ -49,23 +56,26 @@ export const StatsOverview = ({ stats = {}, isLoading }) => {
       sub: 'Predictions',
       icon: Sprout,
       color: 'text-chart-2',
-      bg: 'bg-chart-2/10'
+      bg: 'bg-chart-2/10',
+      link: '/farmer/get-suggestion'
     },
     {
-      label: 'Cycles',
-      value: stats.preHarvestCount || 0,
-      sub: 'Pre-Harvests',
-      icon: Tractor,
-      color: 'text-chart-1',
-      bg: 'bg-chart-1/10'
-    },
-    {
-      label: 'Mandi',
-      value: stats.productCount || 0,
-      sub: 'Live Products',
+      label: 'Inventory',
+      value: (stats.preHarvestCount || 0) + (stats.productCount || 0),
+      sub: 'Products in mandi',
       icon: Leaf,
+      color: 'text-chart-1',
+      bg: 'bg-chart-1/10',
+      link: '/farmer/mandi'
+    },
+    {
+      label: 'Queries',
+      value: stats.queriesCount || 0,
+      sub: 'Ticket raised',
+      icon: CircleQuestionMark,
       color: 'text-accent',
-      bg: 'bg-accent/10'
+      bg: 'bg-accent/10',
+      link: '/farmer/support'
     }
   ]
 
@@ -73,6 +83,7 @@ export const StatsOverview = ({ stats = {}, isLoading }) => {
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
       {items.map((item, idx) => (
         <Card
+          onClick={() => navigate(item.link)}
           key={idx}
           className='border-none shadow-sm bg-card rounded-3xl overflow-hidden group'
         >
@@ -108,11 +119,9 @@ export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
   const navigate = useNavigate()
 
   if (isLoading)
-    return (
-      <Skeleton className='h-150 w-full rounded-[2.5rem] bg-secondary' />
-    )
+    return <Skeleton className='h-150 w-full rounded-[2.5rem] bg-secondary' />
 
-  if (!predictions?.length)
+  if (!predictions?.length) {
     return (
       <Card className='h-96 flex flex-col items-center justify-center p-8 bg-transparent border-2 border-dashed border-border rounded-[2.5rem] text-center'>
         <div className='h-16 w-16 bg-muted rounded-full flex items-center justify-center mb-4'>
@@ -123,13 +132,14 @@ export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
         </p>
         <Button
           size='sm'
-          className='rounded-xl font-black uppercase text-[10px] tracking-widest h-10 px-6 mt-4'
+          className='rounded-xl font-black uppercase text-[10px] tracking-widest h-10 px-6 mt-4 cursor-pointer'
           onClick={() => navigate('/farmer/get-suggestion')}
         >
           Get Suggestion
         </Button>
       </Card>
     )
+  }
 
   const data = predictions[0] || {}
   const weather = data.weatherSnapshot || {}
@@ -147,18 +157,24 @@ export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
                 Cultivation Strategy
               </CardTitle>
             </div>
-            <CardDescription className='font-bold text-muted-foreground/80 truncate max-w-[63 sm:max-w-none'>
+            <CardDescription className='font-bold text-muted-foreground/80 truncate max-w-63 sm:max-w-none'>
               Intel for{' '}
               <span className='text-primary font-black uppercase tracking-tighter'>
                 {data.farmLandSnapshot?.name || 'Plot'}
               </span>
             </CardDescription>
           </div>
-          <Badge className='bg-background text-foreground border-border px-4 py-1.5 rounded-full font-black text-[10px] tracking-tighter uppercase shadow-sm shrink-0'>
-            {weather.fetchedAt
-              ? new Date(weather.fetchedAt).toLocaleDateString()
-              : 'Live'}
-          </Badge>
+          <div className='flex items-center gap-2'>
+            <Badge className='bg-background text-foreground border-border px-4 py-1.5 rounded-full font-black text-[10px] uppercase shadow-sm shrink-0 tracking-widest'>
+              {weather.fetchedAt
+                ? new Date(weather.fetchedAt).toLocaleDateString()
+                : 'Live'}
+            </Badge>
+            <ArrowUpRight
+              className='bg-secondary rounded-full p-2 w-10 h-10 cursor-pointer hover:bg-primary hover:text-white transition-colors'
+              onClick={() => navigate(`/farmer/get-suggestion/${data._id}`)}
+            />
+          </div>
         </div>
       </CardHeader>
 
@@ -219,7 +235,7 @@ export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
           <h4 className='text-sm font-black mb-6 uppercase tracking-[0.2em] text-foreground flex items-center gap-2'>
             Proprietary Suggestions
           </h4>
-          <div className='rounded-2xl border border-border/50 overflow-hidden shadow-sm'>
+          <div className='rounded-2xl border border-border/50 overflow-x-auto shadow-sm'>
             <Table>
               <TableHeader className='bg-muted/50'>
                 <TableRow className='border-border/50'>
@@ -235,9 +251,9 @@ export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {result.map(crop => (
+                {result.map((crop, idx) => (
                   <TableRow
-                    key={crop._id}
+                    key={crop._id || idx}
                     className='border-border/50 hover:bg-secondary/10 transition-colors'
                   >
                     <TableCell className='py-5'>
@@ -262,7 +278,7 @@ export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className='flex flex-wrap gap-1.5'>
+                      <div className='flex flex-wrap gap-1.5 min-w-38'>
                         {(crop.reasons || []).slice(0, 2).map((reason, i) => (
                           <Badge
                             key={i}
@@ -287,8 +303,29 @@ export const DetailedPredictionReport = ({ predictions = [], isLoading }) => {
 }
 
 export const FarmlandTable = ({ farmlands = [], isLoading }) => {
+  const navigate = useNavigate()
   if (isLoading)
     return <Skeleton className='h-105 w-full rounded-3xl bg-secondary' />
+
+  if (farmlands.length === 0) {
+    return (
+      <Card className='h-96 flex flex-col items-center justify-center p-8 bg-transparent border-2 border-dashed border-border rounded-[2.5rem] text-center'>
+        <div className='h-16 w-16 bg-muted rounded-full flex items-center justify-center mb-4'>
+          <Tractor className='h-8 w-8 text-muted-foreground/30' />
+        </div>
+        <p className='text-lg font-black text-foreground mb-1 tracking-tight'>
+          No Active Farmland
+        </p>
+        <Button
+          size='sm'
+          className='rounded-xl font-black uppercase text-[10px] tracking-widest h-10 px-6 mt-4 cursor-pointer'
+          onClick={() => navigate('/farmer/farmland/add')}
+        >
+          Add Farmland
+        </Button>
+      </Card>
+    )
+  }
   return (
     <Card className='border-none shadow-sm rounded-3xl overflow-hidden h-105 flex flex-col bg-card'>
       <CardContent className='p-0 flex-1 overflow-hidden relative'>
@@ -297,6 +334,7 @@ export const FarmlandTable = ({ farmlands = [], isLoading }) => {
             <TableBody>
               {farmlands.map(land => (
                 <TableRow
+                  onClick={() => navigate(`/farmer/farmland/${land._id}`)}
                   key={land._id}
                   className='border-border/50 hover:bg-secondary/10 transition-colors cursor-default'
                 >
@@ -327,8 +365,30 @@ export const FarmlandTable = ({ farmlands = [], isLoading }) => {
 }
 
 export const HarvestActivityLog = ({ listings = [], isLoading }) => {
+  const navigate = useNavigate()
   if (isLoading)
     return <Skeleton className='h-105 w-full rounded-3xl bg-secondary' />
+
+  if (listings.length === 0) {
+    return (
+      <Card className='h-96 flex flex-col items-center justify-center p-8 bg-transparent border-2 border-dashed border-border rounded-[2.5rem] text-center'>
+        <div className='h-16 w-16 bg-muted rounded-full flex items-center justify-center mb-4'>
+          <Box className='h-8 w-8 text-muted-foreground/30' />
+        </div>
+        <p className='text-lg font-black text-foreground mb-1 tracking-tight'>
+          No Active Product
+        </p>
+        <Button
+          size='sm'
+          className='rounded-xl font-black uppercase text-[10px] tracking-widest h-10 px-6 mt-4 cursor-pointer'
+          onClick={() => navigate('/farmer/market')}
+        >
+          List a product
+        </Button>
+      </Card>
+    )
+  }
+
   return (
     <Card className='border-none shadow-sm rounded-3xl overflow-hidden h-105 flex flex-col bg-card'>
       <CardContent className='p-0 flex-1 overflow-hidden relative'>
@@ -368,5 +428,98 @@ export const HarvestActivityLog = ({ listings = [], isLoading }) => {
         </ScrollArea>
       </CardContent>
     </Card>
+  )
+}
+
+export const RecentQueries = ({ queries, isLoading }) => {
+  const getStatusStyles = (status = '') => {
+    switch (status.toLowerCase()) {
+      case 'resolved':
+        return 'bg-primary/20 text-primary border-primary'
+      case 'open':
+        return 'bg-accent/20 text-accent border-accent'
+      default:
+        return 'bg-secondary text-primary border-secondary'
+    }
+  }
+
+  const getStatusIcon = (status = '') => {
+    return status.toLowerCase() === 'resolved' ? (
+      <CheckCircle2 size={14} className='mr-1' />
+    ) : (
+      <Clock size={14} className='mr-1' />
+    )
+  }
+
+  return (
+    <div className='w-full bg-card rounded-xl border shadow-sm overflow-hidden'>
+      <div className='px-6 py-4 border-b flex items-center justify-between bg-muted/30'>
+        <h3 className='font-semibold text-lg flex items-center gap-2'>
+          <MessageSquare size={20} className='text-primary' />
+          Recent Queries
+        </h3>
+      </div>
+
+      <div className='divide-y'>
+        {isLoading ? (
+          [1, 2, 3].map(i => (
+            <div key={i} className='p-4 flex flex-col gap-3'>
+              <div className='flex items-center gap-2'>
+                <Skeleton className='w-24 h-5 bg-secondary' />
+                <Skeleton className='w-16 h-4 bg-secondary' />
+              </div>
+              <Skeleton className='w-full h-4 bg-secondary' />
+            </div>
+          ))
+        ) : queries && queries.length > 0 ? (
+          queries.map(query => (
+            <div
+              key={query._id}
+              className='p-4 hover:bg-muted/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4'
+            >
+              <div className='space-y-1 min-w-0 flex-1'>
+                <div className='flex items-center gap-2'>
+                  <span className='text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-primary/10 text-primary tracking-widest border border-primary/20'>
+                    {query.inquiry}
+                  </span>
+                  <span className='text-xs text-muted-foreground font-mono'>
+                    ID: {query._id?.slice(-6).toUpperCase()}
+                  </span>
+                </div>
+                <p className='text-sm font-medium text-foreground leading-snug truncate'>
+                  {query.subject}
+                </p>
+              </div>
+
+              <div className='flex items-center shrink-0'>
+                <div
+                  className={`flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${getStatusStyles(
+                    query.status
+                  )}`}
+                >
+                  {getStatusIcon(query.status)}
+                  <span className='capitalize'>
+                    {query.status || 'Unknown'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className='p-8 text-center text-muted-foreground text-sm'>
+            No recent queries found.
+          </div>
+        )}
+      </div>
+
+      <div className='p-3 bg-muted/10 border-t text-center'>
+        <Link
+          className='text-xs font-bold text-primary hover:underline'
+          to={'/farmer/support'}
+        >
+          View All Support Tickets
+        </Link>
+      </div>
+    </div>
   )
 }

@@ -13,26 +13,31 @@ cloudinary.config({
 
 
 export const uploadToCloudinary = async (localFilePath) => {
+
+    const absolutePath = path.resolve(localFilePath)
+
     try {
-        const upload = await cloudinary.uploader.upload(
-            localFilePath,
-            { resource_type: 'image', }
-        )
-        
-        const absolutePath = path.resolve(localFilePath)
-        await fs.unlink(absolutePath)
-        return { url: upload.secure_url, publicId: upload.public_id }
+
+        const result = await cloudinary.uploader.upload(absolutePath, {
+            resource_type: "image"
+        })
+
+        return {
+            url: result.secure_url,
+            publicId: result.public_id
+        }
 
     } catch (error) {
-        if (localFilePath) {
-            const absolutePath = path.resolve(localFilePath)
+        throw new ApiError(500, "Image upload failed")
+
+    } finally {
+
+        try {
             await fs.unlink(absolutePath)
-        }
-        throw new ApiError(500, "Image upload Failed")
+        } catch { }
 
     }
 }
-
 export const deleteUploadedFile = async (publicId) => {
     try {
         await cloudinary.uploader.destroy(publicId, { resource_type: "image" })

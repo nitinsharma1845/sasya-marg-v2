@@ -68,6 +68,11 @@ const MyPreHarvestedListings = () => {
   const hasNextPage = filters.page < totalPages
   const hasPrevPage = filters.page > 1
 
+  const hasFilters =
+    searchTerm ||
+    filters.moderation !== undefined ||
+    filters.status !== undefined
+
   const PreHarvestSkeleton = () => (
     <div className='rounded-xl border border-border bg-card p-4 space-y-4 shadow-sm'>
       <div className='flex justify-between items-start'>
@@ -190,17 +195,37 @@ const MyPreHarvestedListings = () => {
         </div>
       )}
 
-      {!isLoading && listingItems.length === 0 && (
+      {!isLoading && listingItems.length === 0 && !hasFilters && (
         <div className='flex flex-col items-center justify-center py-16 text-center border-2 border-dashed border-border rounded-xl bg-muted/5'>
           <div className='h-14 w-14 bg-muted/50 rounded-full flex items-center justify-center mb-4'>
             <Sprout className='h-7 w-7 text-muted-foreground' />
           </div>
+
           <h3 className='text-lg font-semibold text-foreground'>
-            No pre-harvest listings found
+            No pre-harvest listings yet
           </h3>
+
           <p className='text-muted-foreground mt-2 text-sm max-w-sm'>
-            We couldn't find any upcoming crops matching your current filters.
+            You haven’t created any pre-harvest bookings yet. Once you list a
+            crop, it will appear here.
           </p>
+        </div>
+      )}
+
+      {!isLoading && listingItems.length === 0 && hasFilters && (
+        <div className='flex flex-col items-center justify-center py-16 text-center border-2 border-dashed border-border rounded-xl bg-muted/5'>
+          <div className='h-14 w-14 bg-muted/50 rounded-full flex items-center justify-center mb-4'>
+            <Sprout className='h-7 w-7 text-muted-foreground' />
+          </div>
+
+          <h3 className='text-lg font-semibold text-foreground'>
+            No listings found
+          </h3>
+
+          <p className='text-muted-foreground mt-2 text-sm max-w-sm'>
+            We couldn't find any listings matching your current filters.
+          </p>
+
           <Button
             variant='link'
             className='mt-2 text-primary font-medium cursor-pointer'

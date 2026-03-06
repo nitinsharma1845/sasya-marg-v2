@@ -68,6 +68,11 @@ const MyHarvestedListings = () => {
   const hasNextPage = filters.page < totalPages
   const hasPrevPage = filters.page > 1
 
+  const hasFilters =
+    searchTerm ||
+    filters.moderation !== undefined ||
+    filters.isActive !== undefined
+
   const ProductSkeleton = () => (
     <div className='rounded-xl border border-border bg-card p-4 space-y-4 shadow-sm'>
       <Skeleton className='h-48 w-full rounded-lg bg-secondary' />
@@ -178,17 +183,37 @@ const MyHarvestedListings = () => {
         </div>
       )}
 
-      {!isLoading && listingItems.length === 0 && (
+      {!isLoading && listingItems.length === 0 && !hasFilters && (
         <div className='flex flex-col items-center justify-center py-16 text-center border-2 border-dashed border-border rounded-xl bg-muted/5'>
           <div className='h-14 w-14 bg-muted/50 rounded-full flex items-center justify-center mb-4'>
             <Tractor className='h-7 w-7 text-muted-foreground' />
           </div>
+
           <h3 className='text-lg font-semibold text-foreground'>
-            No harvested crops found
+            No listings yet
           </h3>
+
+          <p className='text-muted-foreground mt-2 text-sm max-w-sm'>
+            You haven’t listed any harvested crops yet. Once you create a
+            listing, it will appear here.
+          </p>
+        </div>
+      )}
+
+      {!isLoading && listingItems.length === 0 && hasFilters && (
+        <div className='flex flex-col items-center justify-center py-16 text-center border-2 border-dashed border-border rounded-xl bg-muted/5'>
+          <div className='h-14 w-14 bg-muted/50 rounded-full flex items-center justify-center mb-4'>
+            <Tractor className='h-7 w-7 text-muted-foreground' />
+          </div>
+
+          <h3 className='text-lg font-semibold text-foreground'>
+            No listings found
+          </h3>
+
           <p className='text-muted-foreground mt-2 text-sm max-w-sm'>
             We couldn't find any listings matching your current filters.
           </p>
+
           <Button
             variant='link'
             className='mt-2 text-primary font-medium cursor-pointer'

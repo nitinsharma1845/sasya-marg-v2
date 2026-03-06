@@ -115,8 +115,8 @@ const CreateQuerySheet = ({ isOpen, onClose, editData = null }) => {
       const payload = {
         ...data,
         fullname: user?.fullname || 'User',
-        email: user?.email || 'N/A',
-        phone: user?.phone || 'N/A'
+        email: user?.email || undefined,
+        phone: user?.phone || undefined
       }
 
       mutate(payload, {
