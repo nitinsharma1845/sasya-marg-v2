@@ -1,5 +1,6 @@
 import { addPreviousCrop, changeIsContactVisisble, createFarmland, farmerDashboard, fetchFarmer, fetchFarmlands, fetchSingleFarmland, getCropSuggestion, getFarmerDetails, getSingleSuggestion, getSuggestionHisory, toggleFarmActiveStatus, updateFarmerData, updateFarmland } from "@/api/farmer.api"
 import { queryClient } from "@/lib/queryClient"
+import { useAuthStore } from "@/store/useAuthStore"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
 
@@ -19,15 +20,29 @@ export const useChangeContactVisibility = () => {
 }
 
 export const useUpdateFarmerData = () => {
+    const { user, setUser } = useAuthStore()
     return useMutation({
-        mutationFn: updateFarmerData
+        mutationFn: updateFarmerData,
+        onSuccess: (data) => {
+            const updatedName = data?.data?.fullname
+            const updatedEmail = data?.data?.email
+            setUser(
+                {
+                    ...user,
+                    fullname: updatedName,
+                    email: updatedEmail
+                }
+            )
+            queryClient.invalidateQueries(["farmer-profile"])
+        },
+
     })
 }
 
 export const useFetchFarmlands = (params) => {
     return useQuery({
         queryKey: ["farmlands", params],
-        queryFn:()=> fetchFarmlands(params)
+        queryFn: () => fetchFarmlands(params)
     })
 }
 

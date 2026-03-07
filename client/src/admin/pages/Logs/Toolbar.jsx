@@ -102,7 +102,7 @@ const Toolbar = () => {
   }
 
   return (
-    <div className='flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-card/80 backdrop-blur border border-border px-4 py-3 rounded-xl shadow-sm sticky top-18 z-20 mb-10'>
+    <div className='flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-card/80 backdrop-blur border border-border px-4 py-3 rounded-xl shadow-sm sticky top-18 z-10 mb-10'>
       <div className='relative w-full lg:w-72'>
         <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
         <Input

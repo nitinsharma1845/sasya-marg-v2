@@ -84,9 +84,19 @@ export const useGetBuyerProfile = () => {
 }
 
 export const useUpdateBuyerProfile = () => {
+    const { setUser, user } = useAuthStore()
     return useMutation({
         mutationFn: updateBuyerProfile,
         onSuccess: (data) => {
+            const updatedName = data?.data?.fullname
+            const updatedEmail = data?.data?.email
+            setUser(
+                {
+                    ...user,
+                    fullname: updatedName,
+                    email: updatedEmail
+                }
+            )
             queryClient.invalidateQueries(["profile"])
             toast.success(data?.message || "Profile updated")
         },

@@ -228,7 +228,7 @@ const Profile = () => {
                   <div className='md:col-span-2 pt-4'>
                     <Button
                       type='submit'
-                      className='w-full md:w-auto px-12 h-12 rounded-xl bg-primary text-white font-bold transition-all active:scale-95 shadow-lg shadow-primary/20'
+                      className='md:w-xs w-full px-12 h-12 rounded-xl bg-primary text-white font-bold transition-all active:scale-95 shadow-lg shadow-primary/20'
                       disabled={!isDirty || changingData}
                     >
                       {changingData ? (

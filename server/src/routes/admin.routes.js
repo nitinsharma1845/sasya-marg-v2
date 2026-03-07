@@ -80,7 +80,7 @@ adminRoutes.patch("/reports/:reportId/reply", authLayer, requireAdmin, validate(
 
 adminRoutes.get("/farmer", authLayer, requireAdmin, validate(getAllFarmerSchema), getAllFarmer)
 
-adminRoutes.get("/farmer/:farmerId", authLayer, requireAdmin, validate(getFarmerByIdSchema), getFarmerById)
+adminRoutes.get("/farmer/:farmerId", authLayer, authorize("admin", "super_admin"), validate(getFarmerByIdSchema), getFarmerById)
 
 adminRoutes.patch("/farmer/:farmerId/block", authLayer, requireAdmin, validate(blockFarmerSchema), blockFarmer)
 
@@ -88,7 +88,7 @@ adminRoutes.patch("/farmer/:farmerId/unblock", authLayer, requireAdmin, validate
 
 adminRoutes.get("/buyer", authLayer, requireAdmin, validate(getAllBuyerSchema), getAllBuyer)
 
-adminRoutes.get("/buyer/:buyerId", authLayer, requireAdmin, validate(getBuyerByIdSchema), getBuyerById)
+adminRoutes.get("/buyer/:buyerId", authLayer, authorize("admin", "super_admin"), validate(getBuyerByIdSchema), getBuyerById)
 
 adminRoutes.patch("/buyer/:buyerId/block", authLayer, requireAdmin, validate(blockBuyerSchema), blockBuyer)
 

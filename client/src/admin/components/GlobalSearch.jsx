@@ -117,11 +117,19 @@ const GlobalSearch = () => {
   const handleNavigate = (type, id) => {
     switch (type) {
       case 'farmer':
-        navigate(`/admin/dashboard/farmers/${id}`)
+        navigate(
+          role === 'admin'
+            ? `/admin/dashboard/farmers/${id}`
+            : `/super_admin/dashboard/farmers/${id}`
+        )
         break
 
       case 'buyer':
-        navigate(`/admin/dashboard/buyers/${id}`)
+        navigate(
+          role === 'admin'
+            ? `/admin/dashboard/buyers/${id}`
+            : `/super_admin/dashboard/buyers/${id}`
+        )
         break
 
       case 'scheme':
