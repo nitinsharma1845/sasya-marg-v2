@@ -2,45 +2,80 @@ import { createBrowserRouter } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoutes'
 import { Suspense, lazy } from 'react'
 import PageLoader from '@/components/common/PageLoader'
-import BuyerRegister from '@/pages/buyerRegister/BuyerRegister'
-import BuyerForgotPassword from '@/pages/buyerPasswordChange/BuyerForgotPassword'
-import ReturnPolicy from '@/pages/legal/ReturnPolicy'
-import ResolutionCenter from '@/pages/buyerResolution/ResolutionCenter'
-import ProductBrowsePage from '@/pages/ProductBrowse/ProductBrowsePage'
-import SingleProductPage from '@/pages/ProductBrowse/SingleProductPage'
-import BuyerProfilePage from '@/pages/BuyerProfile/BuyerProfilePage'
-import BrowsePreharvestProductPage from '@/pages/browsePreharvestProduct/BrowsePreharvestProductPage'
-import PreHarvestProductPage from '@/pages/browsePreharvestProduct/components/SingleProductPage'
-import Dashboard from '@/pages/buyerDashboard.jsx/Dashboard'
-import LoginPage from '@/admin/pages/LoginPage'
-import SuperAdminLayout from '@/admin/layouts/SuperAdminDashboardLayout'
-import SuperAdminOverview from '@/admin/pages/SuperAdminOverview'
-import AdminSignupPage from '@/admin/pages/AdminSignupPage'
-import Invites from '@/admin/pages/AdminInvites'
-import ManageAdmins from '@/admin/pages/ManageAdmins'
-import AllBuyerPage from '@/admin/pages/AllBuyerPage'
-import AllFarmerPages from '@/admin/pages/AllFarmerPages'
-import SingleFarmerPage from '@/admin/pages/SingleFarmerPage'
-import SingleAdminPage from '@/admin/pages/SingleAdminPage'
-import SingleBuyerPage from '@/admin/pages/SingleBuyerPage'
-import AdminOverviewPage from '@/admin/pages/AdminOverviewPage'
-import HarvestedListingsPage from '@/admin/pages/harvestedListings/HarvestedListingsPage'
-import SingleHarvestedListing from '@/admin/pages/harvestedListings/SingleHarvestedListing'
-import PreHarvestListings from '@/admin/pages/preHarvestListings/PreHarvestListings'
-import SinglePreHarvestListingPage from '@/admin/pages/preHarvestListings/SinglePreHarvestListingPage'
-import GovSchemes from '@/admin/pages/Scheme/GovSchemes'
-import SingleSchemePage from '@/admin/pages/Scheme/SingleSchemePage'
-import AddScheme from '@/admin/pages/Scheme/AddScheme'
-import FarmerQueries from '@/admin/pages/reports/FarmerQueries'
-import SingleQuery from '@/admin/pages/reports/SingleQuery'
-import BuyerReports from '@/admin/pages/buyerReports/BuyerReports'
-import SingleReport from '@/admin/pages/buyerReports/SingleReport'
-import AdminProfile from '@/admin/pages/profile/Profile'
-import Logs from '@/admin/pages/Logs/Logs'
-import Unsubscribe from '@/pages/Unsubscribe'
-import Subscribers from '@/admin/pages/subscribers/Subscribers'
-import PublicQueries from '@/admin/pages/publicQueries/PublicQueries'
-import BuyerBlockedPage from '@/pages/BuyerBlockedPage'
+
+const BuyerRegister = lazy(() => import('@/pages/buyerRegister/BuyerRegister'))
+const BuyerForgotPassword = lazy(() =>
+  import('@/pages/buyerPasswordChange/BuyerForgotPassword')
+)
+const ReturnPolicy = lazy(() => import('@/pages/legal/ReturnPolicy'))
+const ResolutionCenter = lazy(() =>
+  import('@/pages/buyerResolution/ResolutionCenter')
+)
+const ProductBrowsePage = lazy(() =>
+  import('@/pages/ProductBrowse/ProductBrowsePage')
+)
+const SingleProductPage = lazy(() =>
+  import('@/pages/ProductBrowse/SingleProductPage')
+)
+const BuyerProfilePage = lazy(() =>
+  import('@/pages/BuyerProfile/BuyerProfilePage')
+)
+const BrowsePreharvestProductPage = lazy(() =>
+  import('@/pages/browsePreharvestProduct/BrowsePreharvestProductPage')
+)
+const PreHarvestProductPage = lazy(() =>
+  import('@/pages/browsePreharvestProduct/components/SingleProductPage')
+)
+const Dashboard = lazy(() => import('@/pages/buyerDashboard/Dashboard'))
+const LoginPage = lazy(() => import('@/admin/pages/LoginPage'))
+const SuperAdminLayout = lazy(() =>
+  import('@/admin/layouts/SuperAdminDashboardLayout')
+)
+const SuperAdminOverview = lazy(() =>
+  import('@/admin/pages/SuperAdminOverview')
+)
+const AdminSignupPage = lazy(() => import('@/admin/pages/AdminSignupPage'))
+const Invites = lazy(() => import('@/admin/pages/AdminInvites'))
+const ManageAdmins = lazy(() => import('@/admin/pages/ManageAdmins'))
+const AllBuyerPage = lazy(() => import('@/admin/pages/AllBuyerPage'))
+const AllFarmerPages = lazy(() => import('@/admin/pages/AllFarmerPages'))
+const SingleFarmerPage = lazy(() => import('@/admin/pages/SingleFarmerPage'))
+const SingleAdminPage = lazy(() => import('@/admin/pages/SingleAdminPage'))
+const SingleBuyerPage = lazy(() => import('@/admin/pages/SingleBuyerPage'))
+const AdminOverviewPage = lazy(() => import('@/admin/pages/AdminOverviewPage'))
+const HarvestedListingsPage = lazy(() =>
+  import('@/admin/pages/harvestedListings/HarvestedListingsPage')
+)
+const SingleHarvestedListing = lazy(() =>
+  import('@/admin/pages/harvestedListings/SingleHarvestedListing')
+)
+const PreHarvestListings = lazy(() =>
+  import('@/admin/pages/preHarvestListings/PreHarvestListings')
+)
+const SinglePreHarvestListingPage = lazy(() =>
+  import('@/admin/pages/preHarvestListings/SinglePreHarvestListingPage')
+)
+const GovSchemes = lazy(() => import('@/admin/pages/Scheme/GovSchemes'))
+const SingleSchemePage = lazy(() =>
+  import('@/admin/pages/Scheme/SingleSchemePage')
+)
+const AddScheme = lazy(() => import('@/admin/pages/Scheme/AddScheme'))
+const FarmerQueries = lazy(() => import('@/admin/pages/reports/FarmerQueries'))
+const SingleQuery = lazy(() => import('@/admin/pages/reports/SingleQuery'))
+const BuyerReports = lazy(() =>
+  import('@/admin/pages/buyerReports/BuyerReports')
+)
+const SingleReport = lazy(() =>
+  import('@/admin/pages/buyerReports/SingleReport')
+)
+const AdminProfile = lazy(() => import('@/admin/pages/profile/Profile'))
+const Logs = lazy(() => import('@/admin/pages/Logs/Logs'))
+const Unsubscribe = lazy(() => import('@/pages/Unsubscribe'))
+const Subscribers = lazy(() => import('@/admin/pages/subscribers/Subscribers'))
+const PublicQueries = lazy(() =>
+  import('@/admin/pages/publicQueries/PublicQueries')
+)
+const BuyerBlockedPage = lazy(() => import('@/pages/BuyerBlockedPage'))
 
 const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 const AuthLayout = lazy(() => import('@/layouts/AuthLayout'))
@@ -108,8 +143,6 @@ const BlockedUser = lazy(() => import('@/pages/BlockedUser'))
 const WishlistPage = lazy(() => import('@/pages/Wishlist/WishlistPage'))
 
 const router = createBrowserRouter([
-  //Public Routes
-
   {
     element: (
       <ProtectedRoute allowGuest={true}>
@@ -126,29 +159,54 @@ const router = createBrowserRouter([
     ]
   },
 
-  //legal routes
-
   {
     path: '/privacy-policy',
-    element: <PrivacyPolicy />
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <PrivacyPolicy />
+      </Suspense>
+    )
   },
   {
     path: '/terms-of-service',
-    element: <TermsOfService />
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <TermsOfService />
+      </Suspense>
+    )
   },
   {
     path: '/data-usage',
-    element: <DataUsage />
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <DataUsage />
+      </Suspense>
+    )
   },
   {
     path: '/disclaimer',
-    element: <Disclaimer />
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <Disclaimer />
+      </Suspense>
+    )
   },
   {
     path: '/blogs',
-    element: <ComingSoon />
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <ComingSoon />
+      </Suspense>
+    )
   },
-  { path: '/refund-policy', element: <ReturnPolicy /> },
+  {
+    path: '/refund-policy',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <ReturnPolicy />
+      </Suspense>
+    )
+  },
 
   {
     path: '/blocked',
@@ -173,7 +231,11 @@ const router = createBrowserRouter([
 
   {
     path: '/buyer/blocked',
-    element: <BlockedUserLayout />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <BlockedUserLayout />
+      </Suspense>
+    ),
     children: [
       {
         element: <BuyerBlockedPage />,
@@ -182,12 +244,12 @@ const router = createBrowserRouter([
     ]
   },
 
-  //Auth Routes
-
   {
     element: (
       <ProtectedRoute role='buyer' allowGuest>
-        <AuthLayout />
+        <Suspense fallback={<PageLoader />}>
+          <AuthLayout />
+        </Suspense>
       </ProtectedRoute>
     ),
     children: [
@@ -223,13 +285,10 @@ const router = createBrowserRouter([
     children: [
       { path: 'admin/login', element: <LoginPage /> },
       { path: 'admin/signup', element: <AdminSignupPage /> },
-      { path: 'admin/forgot-password', element: 'Forgot password' }
+      { path: 'admin/forgot-password', element: <div>Forgot password</div> }
     ]
   },
 
-  // Main Routes
-
-  //Farmere's routes
   {
     path: '/farmer',
     element: (
@@ -259,8 +318,6 @@ const router = createBrowserRouter([
     ]
   },
 
-  //Buyer's Routes
-
   {
     path: '/buyer',
     element: (
@@ -287,7 +344,6 @@ const router = createBrowserRouter([
     ]
   },
 
-  //Dashboard
   {
     path: 'farmer/dashboard',
     element: (
@@ -429,8 +485,6 @@ const router = createBrowserRouter([
       }
     ]
   },
-
-  //unauthorized
 
   {
     element: (
