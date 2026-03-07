@@ -26,6 +26,7 @@ import {
   getSingleSchemeValidator
 } from "../validator/governmentScheme.validator.js"
 import { activeFarmer } from "../middleware/aciveFarmer.middleware.js"
+import { createApiLimiter, normalApiLimiter, updateApiLimiter } from "../middleware/rate limiter/authRateLimiter.js"
 
 
 export const schemeRouter = Router()
@@ -34,6 +35,7 @@ export const schemeRouter = Router()
 
 schemeRouter.post(
   "/admin/schemes",
+  createApiLimiter,
   authLayer,
   requireAdmin,
   validate(createSchemeSchema),
@@ -42,6 +44,7 @@ schemeRouter.post(
 
 schemeRouter.post(
   "/farmer/schemes",
+  updateApiLimiter,
   authLayer,
   activeFarmer,
   validate(createSchemeSchema),
@@ -52,6 +55,7 @@ schemeRouter.post(
 
 schemeRouter.get(
   "/admin/schemes",
+  normalApiLimiter,
   authLayer,
   requireAdmin,
   validate(getAllSchemesAdminSchema),
@@ -61,6 +65,7 @@ schemeRouter.get(
 
 schemeRouter.patch(
   "/admin/schemes/:id",
+  updateApiLimiter,
   authLayer,
   requireAdmin,
   validate(updateSchemeSchema),
@@ -69,6 +74,7 @@ schemeRouter.patch(
 
 schemeRouter.get(
   "/admin/schemes/:schemeId",
+  normalApiLimiter,
   authLayer,
   requireAdmin,
   validate(getSingleSchemeValidator),
@@ -77,6 +83,7 @@ schemeRouter.get(
 
 schemeRouter.patch(
   "/admin/schemes/:id/toggle",
+  updateApiLimiter,
   authLayer,
   requireAdmin,
   validate(toggleSchemeSchema),
@@ -86,6 +93,7 @@ schemeRouter.patch(
 
 schemeRouter.get(
   "/farmer/schemes",
+  normalApiLimiter,
   authLayer,
   authorize("farmer"),
   activeFarmer,
@@ -95,6 +103,7 @@ schemeRouter.get(
 
 schemeRouter.get(
   "/farmer/schemes/all",
+  normalApiLimiter,
   authLayer,
   authorize("farmer"),
   activeFarmer,
@@ -105,6 +114,7 @@ schemeRouter.get(
 
 schemeRouter.get(
   "/farmer/schemes/:schemeId",
+  normalApiLimiter,
   authLayer,
   authorize("farmer"),
   activeFarmer,

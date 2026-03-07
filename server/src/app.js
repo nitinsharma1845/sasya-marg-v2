@@ -1,6 +1,8 @@
 import express, { urlencoded, json } from 'express'
 import cors from 'cors'
 import cookieParser from "cookie-parser";
+import compression from "compression"
+import helmet from "helmet"
 import { ApiError } from './utils/apiError.js';
 import { ApiResponse } from './utils/apiResponse.js';
 import { errorHandler } from './middleware/error.middleware.js';
@@ -47,7 +49,8 @@ app.use(
 );
 
 app.set("trust proxy", 1);
-
+app.use(helmet())
+app.use(compression())
 app.use(urlencoded({ extended: true }))
 app.use(json())
 app.use(cookieParser())

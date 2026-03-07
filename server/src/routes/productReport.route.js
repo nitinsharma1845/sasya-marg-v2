@@ -5,9 +5,10 @@ import { authLayer } from '../middleware/auth.middleware.js'
 import { upload } from '../middleware/multer.middleware.js'
 import { authorize } from '../middleware/role.middleware.js'
 import { createProductReport, getProductReports } from '../controllers/productReport.controller.js'
+import { createApiLimiter, normalApiLimiter } from '../middleware/rate limiter/authRateLimiter.js'
 
 export const reportRouter = Router()
 
-reportRouter.post("/", authLayer, authorize("buyer"), upload.array("images", 5), validate(createReportSchema), createProductReport)
+reportRouter.post("/", createApiLimiter, authLayer, authorize("buyer"), upload.array("images", 5), validate(createReportSchema), createProductReport)
 
-reportRouter.get("/", authLayer, authorize("buyer", "admin"), validate(getAllReportSchema), getProductReports)
+reportRouter.get("/", normalApiLimiter, authLayer, authorize("buyer", "admin"), validate(getAllReportSchema), getProductReports)

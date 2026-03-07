@@ -23,3 +23,34 @@ export const changeDataLimiter = createLimiter({
     max: 10,
     message: "To many attempts try again later"
 })
+
+
+export const authApiLimiter = createLimiter({
+    windowMs: 1000 * 60 * 5,
+    max: 5,
+    message: "To many requests, try again after some time."
+})
+
+export const normalApiLimiter = createLimiter({
+    windowMs: 1000 * 60 * 15,
+    max: 100,
+    message: "To many requestes, try again after some time."
+})
+
+export const updateApiLimiter = createLimiter({
+    windowMs: 1000 * 60 * 5,
+    max: 8,
+    message: "To many requestes, try again after some time."
+})
+
+export const createApiLimiter = createLimiter({
+    windowMs: 1000 * 60 * 10,
+    max: 4,
+    message: "To many requestes, try again after some time."
+})
+
+export const wishlistApiLimiter = createLimiter({
+    windowMs: 1000 * 60 * 10,
+    max: 20,
+    message: "To many requestes, try again after some time."
+})

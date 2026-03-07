@@ -11,6 +11,6 @@ import { activeFarmer } from '../middleware/aciveFarmer.middleware.js'
 export const suggestionRoutes = Router()
 
 
-suggestionRoutes.get("/:farmLandId", getSuggestionLimiter, validate(getSuggestionSchema), authLayer,activeFarmer, authorize("farmer"), getSuggestion)
+suggestionRoutes.get("/:farmLandId", getSuggestionLimiter, authLayer, activeFarmer, authorize("farmer"), validate(getSuggestionSchema), getSuggestion)
 
 

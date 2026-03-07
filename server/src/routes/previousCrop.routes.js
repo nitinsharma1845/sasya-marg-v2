@@ -9,6 +9,6 @@ import { authorize } from '../middleware/role.middleware.js'
 
 export const previousCropRoutes = Router()
 
-previousCropRoutes.post("/:farmLandId", previousCropLimiter, validate(addPreviousCropValidator), authLayer, authorize("farmer"), addPreviousCrop)
+previousCropRoutes.post("/:farmLandId", previousCropLimiter, authLayer, authorize("farmer"), validate(addPreviousCropValidator), addPreviousCrop)
 
-previousCropRoutes.patch("/:farmLandId", previousCropLimiter, validate(addPreviousCropValidator), authLayer, authorize("farmer"), updatePreviousCrop)
+previousCropRoutes.patch("/:farmLandId", previousCropLimiter, authLayer, authorize("farmer"), validate(addPreviousCropValidator), updatePreviousCrop)

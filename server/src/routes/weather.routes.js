@@ -9,4 +9,4 @@ import { activeFarmer } from '../middleware/aciveFarmer.middleware.js'
 export const weatherRoutes = Router()
 
 
-weatherRoutes.get("/:locationId", validate(getWeatherSchema), authLayer, activeFarmer, getWeather)
+weatherRoutes.get("/:locationId", authLayer, activeFarmer, validate(getWeatherSchema), getWeather)
