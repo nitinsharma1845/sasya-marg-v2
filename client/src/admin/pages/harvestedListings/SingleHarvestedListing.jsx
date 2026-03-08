@@ -142,6 +142,8 @@ const SingleHarvestedListing = () => {
                   <img
                     src={product.images[activeImg]?.url}
                     alt='Product view'
+                    loading='lazy'
+                    decoding='async'
                     className='max-h-120 w-auto object-contain transition-all'
                   />
                 </div>
@@ -157,6 +159,8 @@ const SingleHarvestedListing = () => {
                       }`}
                     >
                       <img
+                        loading='lazy'
+                        decoding='async'
                         src={img.url}
                         className='object-cover w-full h-full'
                         alt={`Thumbnail ${idx}`}

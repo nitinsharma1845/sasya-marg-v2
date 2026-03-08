@@ -36,6 +36,8 @@ const ProductCard = React.memo(({ product }) => {
           <img
             src={product.images[0].url}
             alt={product.title}
+            loading='lazy'
+            decoding='async'
             className='h-full w-full object-cover'
           />
         ) : (

@@ -117,6 +117,8 @@ const SinglePreHarvestedProductPage = () => {
           <div className='lg:col-span-7 space-y-4'>
             <div className='relative aspect-4/3 w-full overflow-hidden rounded-lg border border-border bg-card shadow-sm group'>
               <img
+                loading='lazy'
+                decoding='async'
                 src={currentImage}
                 alt={product?.title}
                 className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-105'
@@ -141,6 +143,8 @@ const SinglePreHarvestedProductPage = () => {
                     }`}
                   >
                     <img
+                      loading='lazy'
+                      decoding='async'
                       src={img.url}
                       alt=''
                       className='h-full w-full object-cover'

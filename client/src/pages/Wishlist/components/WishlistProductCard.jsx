@@ -26,6 +26,8 @@ const WishlistProductCard = React.memo(({ wishlist }) => {
     <div className='w-full max-w-sm overflow-hidden border-border bg-card transition-all hover:shadow-md rounded-md shadow-xl'>
       <div className='relative aspect-video w-full overflow-hidden bg-muted'>
         <img
+          loading='lazy'
+          decoding='async'
           src={mainImage}
           alt={item?.title}
           className='h-full w-full object-cover transition-transform duration-300 hover:scale-105'

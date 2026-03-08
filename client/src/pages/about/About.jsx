@@ -51,6 +51,8 @@ const AboutPage = () => {
               <div className='relative aspect-4/3 rounded-3xl overflow-hidden border border-border/50 shadow-xl'>
                 <div className='absolute inset-0 bg-linear-to-br from-black/30 via-black/20 to-accent/30 z-10'></div>
                 <img
+                  loading='lazy'
+                  decoding='async'
                   src={aboutUs}
                   alt='Farming'
                   className='absolute inset-0 w-full h-full object-cover'

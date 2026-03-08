@@ -218,6 +218,8 @@ const PreHarvestProductPage = () => {
                       )}
                     >
                       <img
+                        loading='lazy'
+                        decoding='async'
                         src={img.url}
                         alt='Thumbnail'
                         className='h-full w-full object-cover'

@@ -128,7 +128,10 @@ const SinglePreHarvestListingPage = () => {
             </CardHeader>
             <CardContent>
               <p className='text-sm font-medium text-foreground'>
-                Reason: <span className='font-normal text-muted-foreground'>{product.rejectionReason}</span>
+                Reason:{' '}
+                <span className='font-normal text-muted-foreground'>
+                  {product.rejectionReason}
+                </span>
               </p>
               {product.reviewedAt && (
                 <p className='text-[10px] text-muted-foreground mt-2 italic'>
@@ -141,12 +144,13 @@ const SinglePreHarvestListingPage = () => {
 
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
           <div className='lg:col-span-8 space-y-6'>
-
             <Card className='overflow-hidden border-border'>
               <div className='grid grid-cols-1 md:grid-cols-5 bg-card'>
                 <div className='md:col-span-4 p-4 flex items-center justify-center border-b md:border-b-0 md:border-r border-border min-h-125 bg-white'>
                   {product.images?.length > 0 ? (
                     <img
+                      loading='lazy'
+                      decoding='async'
                       src={product.images[activeImg]?.url}
                       alt='Crop view'
                       className='max-h-120 w-auto object-contain transition-all'
@@ -170,6 +174,8 @@ const SinglePreHarvestListingPage = () => {
                       }`}
                     >
                       <img
+                        loading='lazy'
+                        decoding='async'
                         src={img.url}
                         className='object-cover w-full h-full'
                         alt={`Thumbnail ${idx}`}
@@ -195,7 +201,6 @@ const SinglePreHarvestListingPage = () => {
             </Card>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-
               <Card className='border-border'>
                 <CardHeader>
                   <CardTitle className='text-lg flex items-center gap-2'>
@@ -313,7 +318,6 @@ const SinglePreHarvestListingPage = () => {
           </div>
 
           <div className='lg:col-span-4 space-y-6'>
-
             <Card className='border-border bg-primary/5'>
               <CardHeader className='pb-2'>
                 <CardDescription className='text-primary font-semibold uppercase text-[10px] tracking-widest'>
@@ -346,7 +350,6 @@ const SinglePreHarvestListingPage = () => {
                 </div>
               </CardContent>
             </Card>
-
 
             <Card className='border-border'>
               <CardHeader>

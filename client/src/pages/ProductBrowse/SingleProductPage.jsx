@@ -150,6 +150,8 @@ const SingleProductPage = () => {
           <div className='lg:col-span-7 space-y-4'>
             <div className='aspect-16/10 w-full overflow-hidden rounded-lg border border-border bg-secondary/10 relative group shadow-sm'>
               <img
+                loading='lazy'
+                decoding='async'
                 src={activeImage}
                 alt={product.title}
                 className='h-full w-full object-cover transition-transform duration-700 group-hover:scale-105'
@@ -183,6 +185,8 @@ const SingleProductPage = () => {
                     }`}
                   >
                     <img
+                      loading='lazy'
+                      decoding='async'
                       src={img.url}
                       alt='Thumbnail'
                       className='h-full w-full object-cover'

@@ -232,6 +232,8 @@ const SingleReport = () => {
                           <img
                             src={getOptimizedImg(img.url)}
                             alt={`Evidence ${index + 1}`}
+                            loading='lazy'
+                            decoding='async'
                             className='object-cover w-full h-full transition-transform duration-300 group-hover:scale-110'
                           />
                           <a

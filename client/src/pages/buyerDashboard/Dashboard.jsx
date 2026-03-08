@@ -222,6 +222,8 @@ const Dashboard = () => {
                   <div className='flex flex-col sm:flex-row h-full'>
                     <div className='sm:w-52 h-56 sm:h-auto overflow-hidden relative'>
                       <img
+                        loading='lazy'
+                        decoding='async'
                         src={item?.item?.images[0]?.url}
                         alt={item?.item?.title}
                         className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'

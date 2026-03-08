@@ -187,6 +187,8 @@ const SuggestionResults = React.memo(({ data, onReset }) => {
               <CardContent className='p-5 flex items-center gap-4'>
                 <div className='h-16 w-16 shrink-0 rounded-lg overflow-hidden bg-muted'>
                   <img
+                    loading='lazy'
+                    decoding='async'
                     src={getImageForCrop(crop.crop)}
                     alt={crop.crop}
                     className='h-full w-full object-cover'

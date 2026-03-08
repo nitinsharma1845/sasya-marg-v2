@@ -36,6 +36,8 @@ const FarmlandCard = React.memo(({ farmland }) => {
       )}
       <div className='absolute top-0 h-32 w-full overflow-hidden'>
         <img
+          loading='eager'
+          decoding='async'
           src='https://res.cloudinary.com/dq0ltmja4/image/upload/f_auto,q_auto/pexels-tkirkgoz-14214360_hfle6x.jpg'
           alt='Farmland'
           className='h-full w-full object-cover object-center'
