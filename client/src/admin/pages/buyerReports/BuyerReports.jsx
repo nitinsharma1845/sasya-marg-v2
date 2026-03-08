@@ -2,14 +2,13 @@ import { useGetAllReports } from '@/admin/hooks/reports.hooks'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Calendar,
-  MessageSquare
-} from 'lucide-react'
+import { Calendar, MessageSquare } from 'lucide-react'
 import PaginationComp from '@/admin/components/Pagination'
 import { useNavigate } from 'react-router-dom'
 import Toolbar from './Toolbar'
+import { createPrefetch } from '@/lib/prefetch'
 
+const SinglePagePrefetch = createPrefetch(() => import('./SingleReport'))
 
 const BuyerReports = () => {
   const { data: response, isLoading } = useGetAllReports()
@@ -75,6 +74,8 @@ const BuyerReports = () => {
         ) : (
           queries.map(item => (
             <Card
+              key={item._id}
+              onMouseEnter={SinglePagePrefetch}
               onClick={() => navigate(`${item._id}`)}
               className='p-4 cursor-pointer border-border hover:border-primary transition-all group bg-card'
             >

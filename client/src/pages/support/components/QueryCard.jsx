@@ -43,7 +43,7 @@ const statusConfig = {
   closed: { color: 'bg-muted text-muted-foreground', label: 'Closed' }
 }
 
-const QueryCard = ({ query, onEdit }) => {
+const QueryCard = React.memo(({ query, onEdit }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [showCloseDialog, setShowCloseDialog] = useState(false)
   const closeMutation = useCloseQuery()
@@ -209,6 +209,6 @@ const QueryCard = ({ query, onEdit }) => {
       </AlertDialog>
     </>
   )
-}
+})
 
 export default QueryCard

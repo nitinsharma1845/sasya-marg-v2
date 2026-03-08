@@ -6,7 +6,7 @@ import Toolbar from '../harvestedListings/Toolbar'
 import { Search } from 'lucide-react'
 
 const ProductCardSkeleton = () => (
-  <div className='w-full max-w-md border border-border rounded-(--radius) overflow-hidden bg-card'>
+  <div className='w-full max-w-md border border-border rounded-lg overflow-hidden bg-card'>
     <Skeleton className='h-48 w-full bg-secondary' />
     <div className='p-4 space-y-4'>
       <div className='flex justify-between'>

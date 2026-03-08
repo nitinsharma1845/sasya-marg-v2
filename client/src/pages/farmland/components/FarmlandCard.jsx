@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { MapPin, Ruler, ArrowUpRight, Sprout, SquareStack } from 'lucide-react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -6,8 +6,15 @@ import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
-const FarmlandCard = ({ farmland }) => {
+const FarmlandCard = React.memo(({ farmland }) => {
   const navigate = useNavigate()
+
+  const handleNavigate = useCallback(
+    id => {
+      navigate(`/farmer/farmland/${id}`)
+    },
+    [navigate]
+  )
 
   const isActive = farmland.isActive
 
@@ -99,7 +106,7 @@ const FarmlandCard = ({ farmland }) => {
       <CardFooter className='border-t border-border bg-muted/30 px-6 py-3'>
         <Button
           variant='outline'
-          onClick={() => navigate(`/farmer/farmland/${farmland._id}`)}
+          onClick={() => handleNavigate(farmland._id)}
           className='w-full justify-between p-0 cursor-pointer dark:hover:text-foreground'
         >
           View Farmland
@@ -108,6 +115,6 @@ const FarmlandCard = ({ farmland }) => {
       </CardFooter>
     </Card>
   )
-}
+})
 
 export default FarmlandCard

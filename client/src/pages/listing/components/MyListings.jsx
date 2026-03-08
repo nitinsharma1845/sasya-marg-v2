@@ -1,8 +1,23 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Sprout, Tractor } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import MyHarvestedListings from './harvested/MyHarvestedListings'
-import MyPreHarvestedListings from './pre-harvested/MyPreHarvestedListings'
+import { createPrefetch } from '@/lib/prefetch'
+
+const MyHarvestedListings = lazy(() =>
+  import('./harvested/MyHarvestedListings')
+)
+
+const MyPreHarvestedListings = lazy(() =>
+  import('./pre-harvested/MyPreHarvestedListings')
+)
+
+const prefetchHravestedListing = createPrefetch(() =>
+  import('./harvested/MyHarvestedListings')
+)
+
+const prefetchPreHravestedListing = createPrefetch(() =>
+  import('./pre-harvested/MyPreHarvestedListings')
+)
 
 const MyListings = () => {
   return (
@@ -17,11 +32,22 @@ const MyListings = () => {
           </div>
 
           <TabsList className='grid w-75 grid-cols-2'>
-            <TabsTrigger value='harvested-list' className='gap-2'>
+            <TabsTrigger
+              value='harvested-list'
+              className='gap-2'
+              onMouseEnter={prefetchHravestedListing}
+              onTouchStart={prefetchHravestedListing}
+            >
               <Tractor className='h-3.5 w-3.5' />
               Harvested
             </TabsTrigger>
-            <TabsTrigger value='pre-harvest-list' className='gap-2'>
+
+            <TabsTrigger
+              value='pre-harvest-list'
+              className='gap-2'
+              onMouseEnter={prefetchPreHravestedListing}
+              onTouchStart={prefetchPreHravestedListing}
+            >
               <Sprout className='h-3.5 w-3.5' />
               Pre-Harvest
             </TabsTrigger>
@@ -29,13 +55,15 @@ const MyListings = () => {
         </div>
 
         <div className='p-4 sm:p-6 min-h-125'>
-          <TabsContent value='harvested-list' className='mt-0'>
-            <MyHarvestedListings />
-          </TabsContent>
+          <Suspense fallback={null}>
+            <TabsContent value='harvested-list' className='mt-0'>
+              <MyHarvestedListings />
+            </TabsContent>
 
-          <TabsContent value='pre-harvest-list' className='mt-0'>
-            <MyPreHarvestedListings />
-          </TabsContent>
+            <TabsContent value='pre-harvest-list' className='mt-0'>
+              <MyPreHarvestedListings />
+            </TabsContent>
+          </Suspense>
         </div>
       </Tabs>
     </div>

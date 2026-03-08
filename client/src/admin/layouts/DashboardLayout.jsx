@@ -26,6 +26,7 @@ import LogoutConfirmDialog from '@/components/common/LogoutDialog'
 import { useLogoutAdmin } from '../hooks/auth.hooks'
 import Logo from '@/components/common/Logo'
 import GlobalSearch from '../components/GlobalSearch'
+import { createPrefetch } from '@/lib/prefetch'
 
 export default function AdminDashboardLayout () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -132,6 +133,40 @@ function SidebarContent ({ onItemClick }) {
     logout.mutate()
   }
 
+  const prefetchOverview = createPrefetch(() =>
+    import('@/admin/pages/AdminOverviewPage')
+  )
+  const prefetchFarmer = createPrefetch(() =>
+    import('@/admin/pages/AllFarmerPages')
+  )
+  const prefetchBuyer = createPrefetch(() =>
+    import('@/admin/pages/AllBuyerPage')
+  )
+  const prefetchHarvestedProducts = createPrefetch(() =>
+    import('@/admin/pages/harvestedListings/HarvestedListingsPage')
+  )
+  const prefetchPreHarvesyedProducts = createPrefetch(() =>
+    import('@/admin/pages/preHarvestListings/PreHarvestListings')
+  )
+  const prefetchScheme = createPrefetch(() =>
+    import('@/admin/pages/Scheme/GovSchemes')
+  )
+  const prefetchQueries = createPrefetch(() =>
+    import('@/admin/pages/reports/FarmerQueries')
+  )
+  const prefetchBuyerReports = createPrefetch(() =>
+    import('@/admin/pages/buyerReports/BuyerReports')
+  )
+  const prefetchContact = createPrefetch(() =>
+    import('@/admin/pages/publicQueries/PublicQueries')
+  )
+  const prefetchSubscriber = createPrefetch(() =>
+    import('@/admin/pages/subscribers/Subscribers')
+  )
+  const prefetchProfile = createPrefetch(() =>
+    import('@/admin/pages/profile/Profile')
+  )
+
   return (
     <div className='flex flex-col h-full min-h-0'>
       <nav className='flex-1 px-4 space-y-1 pt-4 overflow-y-auto custom-scrollbar'>
@@ -146,6 +181,7 @@ function SidebarContent ({ onItemClick }) {
           label='Overview'
           end
           onClick={onItemClick}
+          onMouseEnter={prefetchOverview}
         />
 
         <div className='pt-4 pb-2 px-3'>
@@ -158,12 +194,14 @@ function SidebarContent ({ onItemClick }) {
           icon={<Users size={18} />}
           label='Farmers List'
           onClick={onItemClick}
+          onMouseEnter={prefetchFarmer}
         />
         <NavItem
           to='/admin/dashboard/buyers'
           icon={<UsersRound size={18} />}
           label='Buyers List'
           onClick={onItemClick}
+          onMouseEnter={prefetchBuyer}
         />
 
         <div className='pt-4 pb-2 px-3'>
@@ -176,12 +214,14 @@ function SidebarContent ({ onItemClick }) {
           icon={<Sprout size={18} />}
           label='Harvested Stock'
           onClick={onItemClick}
+          onMouseEnter={prefetchHarvestedProducts}
         />
         <NavItem
           to='/admin/dashboard/product/pre-harvest'
           icon={<Flower2 size={18} />}
           label='Pre-Harvest Deals'
           onClick={onItemClick}
+          onMouseEnter={prefetchPreHarvesyedProducts}
         />
 
         <div className='pt-4 pb-2 px-3'>
@@ -194,30 +234,35 @@ function SidebarContent ({ onItemClick }) {
           icon={<FileText size={18} />}
           label='Govt Schemes'
           onClick={onItemClick}
+          onMouseEnter={prefetchScheme}
         />
         <NavItem
           to='/admin/dashboard/queries'
           icon={<CircleQuestionMark size={18} />}
           label='User Queries'
           onClick={onItemClick}
+          onMouseEnter={prefetchQueries}
         />
         <NavItem
           to='/admin/dashboard/reports'
           icon={<MessageCircleWarning size={18} />}
           label='Incident Reports'
           onClick={onItemClick}
+          onMouseEnter={prefetchBuyerReports}
         />
         <NavItem
           to='/admin/dashboard/contacts'
           icon={<Contact size={18} />}
           label='Contact Leads'
           onClick={onItemClick}
+          onMouseEnter={prefetchContact}
         />
         <NavItem
           to='/admin/dashboard/subscribers'
           icon={<UserStar size={18} />}
           label='Newsletter'
           onClick={onItemClick}
+          onMouseEnter={prefetchSubscriber}
         />
       </nav>
 
@@ -227,6 +272,7 @@ function SidebarContent ({ onItemClick }) {
           icon={<UserRoundPen size={18} />}
           label='My Profile'
           onClick={onItemClick}
+          onMouseEnter={prefetchProfile}
         />
 
         <div className='flex items-center justify-between px-3 py-2 rounded-lg hover:bg-accent/5 transition-colors'>
@@ -258,12 +304,14 @@ function SidebarContent ({ onItemClick }) {
   )
 }
 
-function NavItem ({ icon, label, to, end = false, onClick }) {
+function NavItem ({ icon, label, to, end = false, onClick, onMouseEnter }) {
   return (
     <NavLink
       to={to}
       end={end}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onTouchStart={onMouseEnter}
       className={({ isActive }) => `
         w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
         ${

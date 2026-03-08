@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   MapPin,
-  Leaf,
   Scale,
   Ruler,
   Phone,
@@ -11,8 +10,6 @@ import {
   BadgeCheck,
   CheckCircle2,
   Mail,
-  CalendarDays,
-  Info,
   AlertTriangle,
   Lock,
   DotIcon,
@@ -179,6 +176,8 @@ const PreHarvestProductPage = () => {
                 <img
                   src={activeImage}
                   alt={product.title}
+                  loading='lazy'
+                  decoding='async'
                   className='h-full w-full object-cover transition-transform duration-700 group-hover:scale-105'
                 />
                 <div className='absolute top-4 left-4 flex flex-col gap-2'>

@@ -1,11 +1,19 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { getOptimizedImg } from '@/lib/imageHelper'
+import { createPrefetch } from '@/lib/prefetch'
 import { MapPin } from 'lucide-react'
+import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const PreHarvestProductCard = ({ product }) => {
+const PreHarvestProductCard = React.memo(({ product }) => {
   const navigate = useNavigate()
+
+  const handleClick = useCallback(() => {
+    navigate(product._id)
+  }, [navigate, product._id])
+
+  const prefetchSinglePage = createPrefetch(() => import('./SingleProductPage'))
 
   const displayPrice = product.price ||
     product.expectedPrice || { value: 0, unit: '' }
@@ -22,6 +30,8 @@ const PreHarvestProductCard = ({ product }) => {
         <img
           src={getOptimizedImg(product.images?.[0]?.url)}
           alt={product.title}
+          loading='lazy'
+          decoding='async'
           className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
         />
 
@@ -91,7 +101,9 @@ const PreHarvestProductCard = ({ product }) => {
 
           <Button
             size='sm'
-            onClick={() => navigate(`${product._id}`)}
+            onClick={handleClick}
+            onMouseEnter={prefetchSinglePage}
+            onTouchStart={prefetchSinglePage}
             className='cursor-pointer shadow-sm hover:shadow-md transition-all'
           >
             {isPreHarvest ? 'View Details' : 'Buy Now'}
@@ -100,6 +112,6 @@ const PreHarvestProductCard = ({ product }) => {
       </div>
     </div>
   )
-}
+})
 
 export default PreHarvestProductCard

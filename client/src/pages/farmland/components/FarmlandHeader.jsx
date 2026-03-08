@@ -3,9 +3,11 @@ import { ArrowLeft, Edit2, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useNavigate } from 'react-router-dom'
+import { createPrefetch } from '@/lib/prefetch'
 
 const FarmlandHeader = ({ farmland, onEdit }) => {
   const navigate = useNavigate()
+  const prefetchEdit = createPrefetch(() => import('./EditFarmlandSheet'))
   if (!farmland) return null
 
   return (
@@ -41,6 +43,8 @@ const FarmlandHeader = ({ farmland, onEdit }) => {
 
       <Button
         onClick={onEdit}
+        onMouseEnter={prefetchEdit}
+        onTouchStart={prefetchEdit}
         variant='outline'
         className='border-primary text-primary hover:bg-secondary hover:text-primary cursor-pointer'
       >

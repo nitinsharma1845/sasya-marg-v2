@@ -1,11 +1,20 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { getOptimizedImg } from '@/lib/imageHelper'
+import { createPrefetch } from '@/lib/prefetch'
 import { Heart, MapPin } from 'lucide-react'
+import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const ProductCard = ({ product }) => {
+const ProductCard = React.memo(({ product }) => {
   const navigate = useNavigate()
+  const prefetchSingleProduct = createPrefetch(() =>
+    import('../SingleProductPage')
+  )
+
+  const onClick = useCallback(() => {
+    navigate(product._id)
+  }, [navigate, product._id])
 
   return (
     <div className='group rounded-xl border bg-card overflow-hidden shadow-sm hover:shadow-lg transition-all'>
@@ -81,8 +90,10 @@ const ProductCard = ({ product }) => {
 
           <Button
             size='sm'
-            onClick={() => navigate(`${product._id}`)}
+            onClick={onClick}
             className={'cursor-pointer'}
+            onMouseEnter={prefetchSingleProduct}
+            onTouchStart={prefetchSingleProduct}
           >
             View Details
           </Button>
@@ -90,6 +101,6 @@ const ProductCard = ({ product }) => {
       </div>
     </div>
   )
-}
+})
 
 export default ProductCard

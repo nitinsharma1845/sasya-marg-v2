@@ -174,7 +174,7 @@ const PublicQueries = () => {
       </div>
 
       {!isLoading && queries.length === 0 && (
-        <div className='mt-12 text-center py-20 border-2 border-dashed border-border rounded-(--radius)'>
+        <div className='mt-12 text-center py-20 border-2 border-dashed border-border rounded-lg'>
           <p className='text-muted-foreground font-medium'>
             No public queries available at the moment.
           </p>

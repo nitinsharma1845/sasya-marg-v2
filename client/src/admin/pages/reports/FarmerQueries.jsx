@@ -14,12 +14,15 @@ import PaginationComp from '@/admin/components/Pagination'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { useNavigate } from 'react-router-dom'
 import Toolbar from './Toolbar'
+import { createPrefetch } from '@/lib/prefetch'
 
 const FarmerQueries = () => {
   const { data: response, isLoading } = useGetAllQueries()
   const queries = response?.data?.queries || []
   const pagination = response?.data?.pagination || {}
   const navigate = useNavigate()
+
+  const prefetchSingleQuery = createPrefetch(() => import('./SingleQuery'))
 
   if (isLoading) {
     return (
@@ -90,6 +93,8 @@ const FarmerQueries = () => {
         ) : (
           queries.map(item => (
             <Card
+              onMouseEnter={prefetchSingleQuery}
+              onTouchStart={prefetchSingleQuery}
               onClick={() => navigate(`${item._id}`)}
               className='p-4 cursor-pointer border-border hover:border-primary transition-all group bg-card'
             >
@@ -134,7 +139,6 @@ const FarmerQueries = () => {
           ))
         )}
       </div>
-
 
       {pagination && <PaginationComp pagination={pagination} />}
     </div>

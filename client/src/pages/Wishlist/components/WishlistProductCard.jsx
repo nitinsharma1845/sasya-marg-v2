@@ -1,23 +1,26 @@
-import React from 'react'
-import { Heart, ShoppingCart, MapPin } from 'lucide-react'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import React, { useCallback } from 'react'
+import { ShoppingCart, MapPin } from 'lucide-react'
+import { CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { getOptimizedImg } from '@/lib/imageHelper'
 import { useNavigate } from 'react-router-dom'
 
-const WishlistProductCard = ({ wishlist }) => {
+const WishlistProductCard = React.memo(({ wishlist }) => {
   const navigate = useNavigate()
   const { item } = wishlist
   const mainImage = getOptimizedImg(item.images?.[0]?.url)
 
-  function handleNavigateProduct () {
-    if (item.productType === 'harvested') {
-      navigate(`/buyer/product/harvested/${item._id}`)
-    }else {
-      navigate(`/buyer/product/pre-harvested/${item._id}`)
-    }
-  }
+  const handleNavigateProduct = useCallback(
+    item => {
+      if (item.productType === 'harvested') {
+        navigate(`/buyer/product/harvested/${item._id}`)
+      } else {
+        navigate(`/buyer/product/pre-harvested/${item._id}`)
+      }
+    },
+    [navigate]
+  )
 
   return (
     <div className='w-full max-w-sm overflow-hidden border-border bg-card transition-all hover:shadow-md rounded-md shadow-xl'>
@@ -81,7 +84,7 @@ const WishlistProductCard = ({ wishlist }) => {
       <CardFooter className='p-4 pt-0'>
         <Button
           className='flex-1 bg-primary text-primary-foreground hover:bg-primary/90 gap-2 cursor-pointer'
-          onClick={handleNavigateProduct}
+          onClick={() => handleNavigateProduct(item)}
         >
           <ShoppingCart size={16} />
           View Details
@@ -89,6 +92,6 @@ const WishlistProductCard = ({ wishlist }) => {
       </CardFooter>
     </div>
   )
-}
+})
 
 export default WishlistProductCard

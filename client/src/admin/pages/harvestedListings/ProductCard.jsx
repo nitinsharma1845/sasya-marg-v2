@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { MapPin, User, AlertCircle, ImageOff } from 'lucide-react'
 import { getOptimizedImg } from '@/lib/imageHelper'
 import { useNavigate } from 'react-router-dom'
+import { createPrefetch } from '@/lib/prefetch'
 
-const ProductCard = ({ product }) => {
+const ProductCard = React.memo(({ product }) => {
   const navigate = useNavigate()
+  const prefetchSingleHarvestedPage = createPrefetch(() =>
+    import('./SingleHarvestedListing')
+  )
+
+  const handleClick = useCallback(() => {
+    navigate(product._id)
+  }, [navigate, product._id])
+
   const {
     title = 'Untitled Listing',
     price = { value: 'N/A', unit: '' },
@@ -24,7 +33,9 @@ const ProductCard = ({ product }) => {
 
   return (
     <Card
-      onClick={() => navigate(`${product._id}`)}
+      onClick={handleClick}
+      onMouseEnter={prefetchSingleHarvestedPage}
+      onTouchStart={prefetchSingleHarvestedPage}
       className='cursor-pointer group overflow-hidden border-muted bg-card hover:shadow-2xl transition-all duration-300'
     >
       <div className='relative aspect-4/3 overflow-hidden bg-muted flex items-center justify-center'>
@@ -32,6 +43,8 @@ const ProductCard = ({ product }) => {
           <img
             src={getOptimizedImg(mainImage)}
             alt={title}
+            loading='lazy'
+            decoding='async'
             className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-110'
           />
         ) : (
@@ -129,6 +142,6 @@ const ProductCard = ({ product }) => {
       </CardFooter>
     </Card>
   )
-}
+})
 
 export default ProductCard

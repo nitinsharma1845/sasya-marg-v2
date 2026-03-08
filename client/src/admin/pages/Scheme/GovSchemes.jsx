@@ -8,6 +8,7 @@ import Toolbar from './ToolBar'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { createPrefetch } from '@/lib/prefetch'
 
 const SchemeSkeleton = () => (
   <Card className='h-full border-border bg-card'>
@@ -30,6 +31,7 @@ const SchemeSkeleton = () => (
 const GovSchemes = () => {
   const { data, isLoading } = useGetAllSchemes()
   const navigate = useNavigate()
+  const prefetchAddScheme = createPrefetch(() => import('./AddScheme'))
 
   const schemes = data?.data?.schemes || []
   const pagination = data?.data?.pagination || {}
@@ -41,6 +43,8 @@ const GovSchemes = () => {
 
         <Button
           onClick={() => navigate('/admin/dashboard/schemes/add')}
+          onMouseEnter={prefetchAddScheme}
+          onTouchStart={prefetchAddScheme}
           className='bg-primary text-primary-foreground hover:bg-primary/90'
         >
           <Plus className='mr-2 h-4 w-4' />

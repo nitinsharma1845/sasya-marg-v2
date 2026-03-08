@@ -1,7 +1,5 @@
 import React from 'react'
 import { useGetPreHarvestProducts } from '@/hooks/product.hooks'
-import AppLoader from '@/components/common/AppLoader'
-import ProductToolbar from '../ProductBrowse/components/ProductToolbar'
 import CardSkeleton from '@/components/common/CardSkeleton'
 import EmptyProducts from '../ProductBrowse/components/EmptyProduct'
 import ProductPagination from '../ProductBrowse/components/ProductPagination'

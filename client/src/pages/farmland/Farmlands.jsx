@@ -9,10 +9,14 @@ import FarmlandFilter from './components/Farmlandfillters'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
+import { createPrefetch } from '@/lib/prefetch'
 
 const Farmlands = () => {
   const navigate = useNavigate()
-
+  const prefetchSingleFarmland = createPrefetch(() =>
+    import('./SingleFarmland')
+  )
+  const prefetchAddFarmland = createPrefetch(() => import('./AddFarmland'))
   const [page, setPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
   const [status, setStatus] = useState('active')
@@ -99,7 +103,7 @@ const Farmlands = () => {
               ))}
 
               {status === 'active' && farmlands.length < 9 && (
-                <AddFarmlandCard />
+                <AddFarmlandCard onMouseEnter={prefetchAddFarmland} />
               )}
             </>
           )}
@@ -119,6 +123,8 @@ const Farmlands = () => {
 
               <Button
                 className='mt-6'
+                onMouseEnter={prefetchSingleFarmland}
+                onTouchStart={prefetchSingleFarmland}
                 onClick={() => navigate('/farmer/farmland/add')}
               >
                 Add Farmland

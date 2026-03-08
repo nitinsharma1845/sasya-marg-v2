@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { CalendarDays, MapPin, User, Weight, Tag } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { createPrefetch } from '@/lib/prefetch'
 
-const ProductCard = ({ product }) => {
+const ProductCard = React.memo(({ product }) => {
   const navigate = useNavigate()
+
+  const handleClick = useCallback(() => {
+    navigate(product._id)
+  }, [navigate, product._id])
+
+  const prefetchingleProduct = createPrefetch(() =>
+    import('./SinglePreHarvestListingPage')
+  )
+
   const formatDate = dateString =>
     new Date(dateString).toLocaleDateString('en-IN', {
       day: 'numeric',
@@ -16,7 +26,9 @@ const ProductCard = ({ product }) => {
 
   return (
     <Card
-      onClick={() => navigate(`${product._id}`)}
+      onClick={handleClick}
+      onMouseEnter={prefetchingleProduct}
+      onTouchStart={prefetchingleProduct}
       className='w-full max-w-md overflow-hidden transition-all hover:shadow-lg border-border bg-card text-card-foreground'
     >
       <div className='relative h-48 w-full bg-muted'>
@@ -60,7 +72,7 @@ const ProductCard = ({ product }) => {
       </CardHeader>
 
       <CardContent className='space-y-4 pb-4'>
-        <div className='grid grid-cols-2 gap-4 bg-secondary p-3 rounded-(--radius) border border-border'>
+        <div className='grid grid-cols-2 gap-4 bg-secondary p-3 rounded-lg border border-border'>
           <div className='space-y-1'>
             <span className='text-[10px] uppercase tracking-wider text-muted-foreground font-semibold flex items-center'>
               <Weight className='mr-1 h-3 w-3' /> Yield
@@ -123,6 +135,6 @@ const ProductCard = ({ product }) => {
       </CardFooter>
     </Card>
   )
-}
+})
 
 export default ProductCard

@@ -4,16 +4,10 @@ import {
   Users,
   UserPlus,
   Sprout,
-  ShoppingBag,
   LayoutDashboard,
-  Settings,
   LogOut,
   Menu,
-  Bell,
-  Search,
   X,
-  FileBadge,
-  User,
   Logs,
   Moon
 } from 'lucide-react'
@@ -28,6 +22,31 @@ import { useLogoutAdmin } from '../hooks/auth.hooks'
 import LogoutConfirmDialog from '@/components/common/LogoutDialog'
 import AdminInviteDialog from '../components/AdminInviteDialog'
 import GlobalSearch from '../components/GlobalSearch'
+import { createPrefetch } from '@/lib/prefetch'
+
+const prefetchOverview = createPrefetch(() =>
+  import('@/admin/pages/SuperAdminOverview')
+)
+
+const prefetchManageAdmin = createPrefetch(() =>
+  import('@/admin/pages/ManageAdmins')
+)
+
+const prefetchAdminInvites = createPrefetch(() =>
+  import('@/admin/pages/AdminInvites')
+)
+
+const prefetchAllFarmer = createPrefetch(() =>
+  import('@/admin/pages/AllFarmerPages')
+)
+
+const prefetchAllBuyer = createPrefetch(() =>
+  import('@/admin/pages/AllBuyerPage')
+)
+
+const prefetchActivityLogs = createPrefetch(() =>
+  import('@/admin/pages/Logs/Logs')
+)
 
 export default function SuperAdminLayout () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
@@ -162,6 +181,7 @@ function SuperSidebarContent ({ onItemClick }) {
           label='Global Overview'
           end
           onClick={onItemClick}
+          onMouseEnter={prefetchOverview}
         />
 
         <div className='pt-4 pb-2'>
@@ -174,12 +194,14 @@ function SuperSidebarContent ({ onItemClick }) {
           icon={<ShieldCheck size={20} />}
           label='Manage Admins'
           onClick={onItemClick}
+          onMouseEnter={prefetchManageAdmin}
         />
         <NavItem
           to='/super_admin/dashboard/invites'
           icon={<UserPlus size={20} />}
           label='Admin Invites'
           onClick={onItemClick}
+          onMouseEnter={prefetchAdminInvites}
         />
 
         <div className='pt-4 pb-2'>
@@ -192,12 +214,14 @@ function SuperSidebarContent ({ onItemClick }) {
           icon={<Sprout size={20} />}
           label='All Farmers'
           onClick={onItemClick}
+          onMouseEnter={prefetchAllFarmer}
         />
         <NavItem
           to='/super_admin/dashboard/buyers'
           icon={<Users size={20} />}
           label='All Buyers'
           onClick={onItemClick}
+          onMouseEnter={prefetchAllBuyer}
         />
 
         <div className='pt-4 pb-2'>
@@ -210,6 +234,7 @@ function SuperSidebarContent ({ onItemClick }) {
           icon={<Logs size={20} />}
           label='Activity Logs'
           onClick={onItemClick}
+          onMouseEnter={prefetchActivityLogs}
         />
       </nav>
 
@@ -241,12 +266,14 @@ function SuperSidebarContent ({ onItemClick }) {
   )
 }
 
-function NavItem ({ icon, label, to, end = false, onClick }) {
+function NavItem ({ icon, label, to, end = false, onClick, onMouseEnter }) {
   return (
     <NavLink
       to={to}
       end={end}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onTouchStart={onMouseEnter}
       className={({ isActive }) => `
         w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200
         ${

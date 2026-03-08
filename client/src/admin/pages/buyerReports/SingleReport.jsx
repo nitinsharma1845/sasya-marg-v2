@@ -35,10 +35,10 @@ const QuerySkeleton = () => (
     </div>
     <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
       <div className='space-y-6'>
-        <Skeleton className='h-100 w-full rounded-(--radius) bg-secondary' />
+        <Skeleton className='h-100 w-full rounded-lg bg-secondary' />
       </div>
       <div className='lg:col-span-2'>
-        <Skeleton className='h-150 w-full rounded-(--radius) bg-secondary' />
+        <Skeleton className='h-150 w-full rounded-lg bg-secondary' />
       </div>
     </div>
   </div>
@@ -152,7 +152,7 @@ const SingleReport = () => {
                       Location Details
                     </span>
                   </div>
-                  <div className='bg-muted/50 p-4 rounded-(--radius) border border-border text-sm leading-relaxed'>
+                  <div className='bg-muted/50 p-4 rounded-lg border border-border text-sm leading-relaxed'>
                     <p className='font-bold text-primary mb-1'>
                       {buyer?.address?.label}
                     </p>
@@ -168,7 +168,7 @@ const SingleReport = () => {
               </CardContent>
             </Card>
 
-            <div className='p-5 rounded-(--radius) bg-primary text-primary-foreground shadow-lg'>
+            <div className='p-5 rounded-lg bg-primary text-primary-foreground shadow-lg'>
               <div className='flex items-center gap-3'>
                 <div className='p-2 bg-primary-foreground/10 rounded-lg'>
                   <AlertTriangle className='w-5 h-5 text-accent' />
@@ -227,7 +227,7 @@ const SingleReport = () => {
                       {report.evidence.map((img, index) => (
                         <div
                           key={index}
-                          className='group relative aspect-square rounded-(--radius) overflow-hidden border border-border bg-muted'
+                          className='group relative aspect-square rounded-lg overflow-hidden border border-border bg-muted'
                         >
                           <img
                             src={getOptimizedImg(img.url)}
@@ -246,7 +246,7 @@ const SingleReport = () => {
                       ))}
                     </div>
                   ) : (
-                    <div className='bg-muted/30 border border-border rounded-(--radius) p-8 text-center'>
+                    <div className='bg-muted/30 border border-border rounded-lg p-8 text-center'>
                       <ImageIcon className='w-10 h-10 text-muted-foreground/40 mx-auto mb-3' />
                       <p className='text-muted-foreground text-sm font-medium'>
                         No visual evidence or attachments provided with this
@@ -267,7 +267,7 @@ const SingleReport = () => {
                   </div>
 
                   {report?.adminRemark ? (
-                    <div className='bg-secondary/50 border border-border p-6 rounded-(--radius) space-y-4'>
+                    <div className='bg-secondary/50 border border-border p-6 rounded-lg space-y-4'>
                       <p className='italic leading-relaxed'>
                         "{report.adminRemark}"
                       </p>
@@ -281,7 +281,7 @@ const SingleReport = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className='bg-background border-2 border-dashed border-border rounded-(--radius) p-12 text-center space-y-4'>
+                    <div className='bg-background border-2 border-dashed border-border rounded-lg p-12 text-center space-y-4'>
                       <div className='mx-auto w-16 h-16 bg-muted rounded-2xl flex items-center justify-center mb-4'>
                         <Clock className='w-8 h-8 text-muted-foreground' />
                       </div>

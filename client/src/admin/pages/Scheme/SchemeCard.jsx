@@ -13,15 +13,20 @@ import {
   MapPin,
   UserCircle,
   Maximize2,
-  CheckCircle2,
-  AlertCircle
+  CheckCircle2
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { createPrefetch } from '@/lib/prefetch'
 
-const SchemeCard = ({ scheme }) => {
+const SchemeCard = React.memo(({ scheme }) => {
   const navigate = useNavigate()
+
+  const prefetchSingleScheme = createPrefetch(() =>
+    import('./SingleSchemePage')
+  )
   return (
     <Card
+      onMouseEnter={prefetchSingleScheme}
       onClick={() => navigate(`${scheme._id}`)}
       className='h-full flex flex-col border-border bg-card hover:shadow-md transition-shadow cursor-pointer'
     >
@@ -43,7 +48,7 @@ const SchemeCard = ({ scheme }) => {
       </CardHeader>
 
       <CardContent className='grow space-y-4'>
-        <div className='bg-secondary/50 p-3 rounded-(--radius) space-y-2'>
+        <div className='bg-secondary/50 p-3 rounded-lg space-y-2'>
           <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1'>
             <CheckCircle2 className='w-3 h-3' /> Key Benefits
           </p>
@@ -137,6 +142,6 @@ const SchemeCard = ({ scheme }) => {
       </CardFooter>
     </Card>
   )
-}
+})
 
 export default SchemeCard

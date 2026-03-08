@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { format } from 'date-fns'
 import { Calendar, Hash, MessageSquare, Clock } from 'lucide-react'
+import React from 'react'
 
-const ReportCard = ({ report }) => {
+const ReportCard = React.memo(({ report }) => {
   const getStatusVariant = status => {
     switch (status.toLowerCase()) {
       case 'pending':
@@ -80,6 +81,6 @@ const ReportCard = ({ report }) => {
       </CardContent>
     </Card>
   )
-}
+})
 
 export default ReportCard

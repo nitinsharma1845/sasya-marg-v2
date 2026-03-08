@@ -29,6 +29,7 @@ import {
   Tag
 } from 'lucide-react'
 import ToggleActiveStatusDialog from './ToggleActiveStatusDialog'
+import { createPrefetch } from '@/lib/prefetch'
 
 const SchemeDetailSkeleton = () => (
   <div className='max-w-7xl mx-auto p-4 md:p-8 space-y-8'>
@@ -56,6 +57,7 @@ const SingleSchemePage = () => {
   const { schemeId } = useParams()
   const navigate = useNavigate()
   const { data: response, isLoading } = useGetSingleScheme(schemeId)
+  const prefetchAddScheme = createPrefetch(() => import('./AddScheme'))
 
   const scheme = response?.data
 
@@ -97,7 +99,11 @@ const SingleSchemePage = () => {
 
           <div className='flex gap-3 flex-col md:flex-row'>
             <Button
-              onClick={() => navigate(`/admin/dashboard/schemes/${schemeId}/edit`)}
+              onClick={() =>
+                navigate(`/admin/dashboard/schemes/${schemeId}/edit`)
+              }
+              onMouseEnter={prefetchAddScheme}
+              onTouchStart={prefetchAddScheme}
               variant='outline'
               className='flex items-center gap-2 border-border text-foreground hover:bg-secondary'
             >
@@ -121,7 +127,7 @@ const SingleSchemePage = () => {
                 <p className='text-foreground/90 text-lg leading-relaxed'>
                   {scheme.description}
                 </p>
-                <div className='mt-8 p-6 bg-secondary/30 rounded-(--radius) border border-border/50'>
+                <div className='mt-8 p-6 bg-secondary/30 rounded-lg border border-border/50'>
                   <h4 className='font-bold text-primary flex items-center gap-2 mb-3 uppercase tracking-wider text-[10px]'>
                     <CheckCircle2 className='w-4 h-4' /> Direct Benefits
                   </h4>

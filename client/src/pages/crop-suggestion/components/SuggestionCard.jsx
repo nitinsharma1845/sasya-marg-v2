@@ -29,7 +29,7 @@ const getImageForCrop = cropName => {
   return 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=1000'
 }
 
-const SuggestionResults = ({ data, onReset }) => {
+const SuggestionResults = React.memo(({ data, onReset }) => {
   const { recommendations, weather } = data
   const topPick = recommendations[0]
   const alternatives = recommendations.slice(1)
@@ -69,6 +69,8 @@ const SuggestionResults = ({ data, onReset }) => {
                   'https://res.cloudinary.com/dq0ltmja4/image/upload/jake-gard-CetB-bTDBtY-unsplash_c8vtsd.jpg'
                 )
               }
+              loading='lazy'
+              decoding='async'
               alt={topPick.crop}
               className='h-full w-full object-cover'
             />
@@ -223,7 +225,7 @@ const SuggestionResults = ({ data, onReset }) => {
       )}
     </div>
   )
-}
+})
 
 const WeatherMetric = ({ icon: Icon, label, value }) => (
   <div className='bg-card border border-border/50 rounded-xl p-3 flex items-center gap-3 shadow-sm'>

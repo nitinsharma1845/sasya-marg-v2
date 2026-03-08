@@ -1,16 +1,11 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import {
   Edit,
-  Trash2,
-  Eye,
-  MoreVertical,
   Sprout,
   Calendar,
   MapPin,
   IndianRupee,
-  TrendingUp,
-  Scale,
-  Award
+  Scale
 } from 'lucide-react'
 import { format, differenceInDays } from 'date-fns'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
@@ -21,8 +16,9 @@ import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
 import { useNavigate } from 'react-router-dom'
 import { getOptimizedImg } from '@/lib/imageHelper'
+import { createPrefetch } from '@/lib/prefetch'
 
-const PreHarvestCardFarmer = ({ listing }) => {
+const PreHarvestCardFarmer = React.memo(({ listing }) => {
   const {
     title,
     category,
@@ -39,6 +35,13 @@ const PreHarvestCardFarmer = ({ listing }) => {
   } = listing
 
   const navigate = useNavigate()
+  const onClick = useCallback(() => {
+    navigate(`pre-harvested-product/${listing._id}`)
+  }, [navigate, listing._id])
+
+  const prefetchSingleProduct = createPrefetch(() =>
+    import('../../SinglePreHarvestProductPage')
+  )
 
   const mainImage = getOptimizedImg(images?.[0]?.url)
 
@@ -78,6 +81,8 @@ const PreHarvestCardFarmer = ({ listing }) => {
         <img
           src={mainImage}
           alt={title}
+          loading='lazy'
+          decoding='async'
           className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-105'
         />
 
@@ -195,7 +200,9 @@ const PreHarvestCardFarmer = ({ listing }) => {
 
       <CardFooter className='p-4 pt-0 flex gap-2 mt-auto'>
         <Button
-          onClick={() => navigate(`pre-harvested-product/${listing._id}`)}
+          onMouseEnter={prefetchSingleProduct}
+          onTouchStart={prefetchSingleProduct}
+          onClick={onClick}
           className='flex-1 border-primary/20 hover:bg-primary/90 hover:text-primary-foreground cursor-pointer'
         >
           <Edit className='mr-2 h-4 w-4' />
@@ -204,6 +211,6 @@ const PreHarvestCardFarmer = ({ listing }) => {
       </CardFooter>
     </Card>
   )
-}
+})
 
 export default PreHarvestCardFarmer

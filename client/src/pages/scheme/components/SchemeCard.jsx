@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import {
   Landmark,
   Calendar,
@@ -13,9 +13,17 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useNavigate } from 'react-router-dom'
+import { createPrefetch } from '@/lib/prefetch'
 
-const SchemeCard = ({ scheme }) => {
+const SchemeCard = React.memo(({ scheme }) => {
   const navigate = useNavigate()
+  const prefetchSingleScheme = createPrefetch(() =>
+    import('./SchemeDetailPage')
+  )
+
+  const onClick = useCallback(() => {
+    navigate(scheme._id)
+  }, [navigate, scheme._id])
 
   const formatDate = date => {
     if (!date) return 'N/A'
@@ -107,7 +115,9 @@ const SchemeCard = ({ scheme }) => {
 
       <CardFooter className='p-4 bg-muted/10'>
         <Button
-          onClick={() => navigate(`${scheme._id}`)}
+          onClick={onClick}
+          onMouseEnter={prefetchSingleScheme}
+          onTouchStart={prefetchSingleScheme}
           className='w-full justify-between bg-primary text-primary-foreground hover:bg-primary/90 group-hover:shadow-md cursor-pointer'
         >
           View Full Details
@@ -116,6 +126,6 @@ const SchemeCard = ({ scheme }) => {
       </CardFooter>
     </Card>
   )
-}
+})
 
 export default SchemeCard

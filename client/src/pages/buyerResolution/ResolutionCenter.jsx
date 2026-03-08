@@ -1,11 +1,5 @@
 import React, { useState } from 'react'
-import {
-  AlertTriangle,
-  ShieldCheck,
-  FileText,
-  Send,
-  AlertCircle
-} from 'lucide-react'
+import { AlertTriangle, ShieldCheck, FileText, AlertCircle } from 'lucide-react'
 import SafetyGuide from './components/SafetyGuide'
 import ReportHistory from './components/ReportHistory'
 import ReportIssueForm from './components/ReportIssueForm'
@@ -19,10 +13,23 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { useSearchParams } from 'react-router-dom'
+import { createPrefetch } from '@/lib/prefetch'
 
 const ResolutionCenter = () => {
   const [activeTab, setActiveTab] = useState('report')
   const [param, setParam] = useSearchParams()
+
+  const prefetchSafetyGuide = createPrefetch(() =>
+    import('./components/SafetyGuide')
+  )
+
+  const prefetchHistory = createPrefetch(() =>
+    import('./components/ReportHistory')
+  )
+
+  const prefetchCreateReport = createPrefetch(() =>
+    import('./components/ReportIssueForm')
+  )
 
   const issues = [
     'FAKE_PRODUCT',
@@ -68,18 +75,21 @@ const ResolutionCenter = () => {
               onClick={() => setActiveTab('report')}
               icon={<AlertTriangle className='w-4 h-4' />}
               label='Report an Issue'
+              onMouseEnter={prefetchCreateReport}
             />
             <NavButton
               active={activeTab === 'guide'}
               onClick={() => setActiveTab('guide')}
               icon={<ShieldCheck className='w-4 h-4' />}
               label='Safety Guide'
+              onMouseEnter={prefetchSafetyGuide}
             />
             <NavButton
               active={activeTab === 'history'}
               onClick={() => setActiveTab('history')}
               icon={<FileText className='w-4 h-4' />}
               label='My Reports'
+              onMouseEnter={prefetchHistory}
             />
 
             {activeTab === 'history' && (
@@ -157,9 +167,11 @@ const ResolutionCenter = () => {
   )
 }
 
-const NavButton = ({ active, onClick, icon, label }) => (
+const NavButton = ({ active, onClick, icon, label, onMouseEnter }) => (
   <button
     onClick={onClick}
+    onMouseEnter={onMouseEnter}
+    onTouchStart={onMouseEnter}
     className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-md transition-colors cursor-pointer ${
       active
         ? 'bg-primary/10 text-primary border border-primary/20'
