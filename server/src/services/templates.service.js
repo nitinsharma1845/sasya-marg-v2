@@ -490,3 +490,91 @@ export const userBlockTemplate = ({ userName, reason, supportEmail, websiteUrl }
 </body>
 </html>`;
 };
+
+
+export const campaignEmailTemplate = ({ userName, title, message, subject, redirectUrl, websiteUrl }) => {
+  const colors = {
+    background: "#fafaf9", // Pale Cream
+    foreground: "#364219", // Deep Moss
+    primary: "#5c6f2b",    // Olive
+    accent: "#eab308",     // Sun Yellow
+    muted: "#6b7750",      // Lighter Moss
+    border: "#d6dbc8",     // Soft border
+    white: "#ffffff"
+  };
+
+  const logoUrl = "https://res.cloudinary.com/dq0ltmja4/image/upload/v1772435826/sasyamarg_logo_wtzjzu.png";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${subject || 'Important Update - Sasya Marg'}</title>
+</head>
+<body style="margin:0; padding:0; background-color:${colors.background}; font-family: 'Inter', -apple-system, sans-serif; color: ${colors.foreground};">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${colors.background}; padding: 40px 10px;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:${colors.white}; border: 1px solid ${colors.border}; border-radius:12px; overflow:hidden; box-shadow: 0 4px 15px rgba(54,66,25,0.05);">
+        
+        <tr>
+          <td align="center" style="padding: 30px 20px; border-bottom: 1px solid ${colors.background};">
+            <img src="${logoUrl}" alt="Sasya Marg Logo" width="150" style="display: block;">
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="background-color: ${colors.primary}; padding: 12px; color: ${colors.white}; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+            Platform Announcement
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 40px;">
+            <h1 style="margin:0 0 10px 0; font-size:22px; color:${colors.foreground}; text-align: left;">Hello ${userName || 'User'},</h1>
+            <h2 style="margin:0 0 20px 0; font-size:18px; color:${colors.primary}; line-height:1.4;">${title || 'Important Update for You'}</h2>
+            
+            <p style="margin:0 0 25px 0; font-size:16px; line-height:1.7; color: #4a5568;">
+              ${message || 'We have some interesting updates for you regarding our platform and your activities.'}
+            </p>
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 20px;">
+              <tr>
+                <td align="center">
+                  <a href="${redirectUrl || websiteUrl || '#'}" style="display:inline-block; padding:15px 35px; background-color: ${colors.accent}; color:${colors.foreground}; text-decoration:none; font-size:16px; border-radius:8px; font-weight:800; border: 1px solid #d9a306;">
+                    View Details
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="padding: 0 40px 30px 40px;">
+            <p style="margin:0; font-size:14px; color:${colors.muted}; line-height:1.5;">
+              If you have any questions, feel free to visit our <a href="${websiteUrl}" style="color:${colors.primary}; text-decoration:none; font-weight:600;">website</a> or contact our support team.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="background-color: ${colors.foreground}; padding: 30px;">
+            <p style="margin:0 0 10px 0; font-size:12px; color:${colors.white}; font-weight: 600;">
+              Sasya Marg — Empowering Agriculture through Intelligence
+            </p>
+            <p style="margin:0; font-size:11px; color:${colors.white}; opacity: 0.6;">
+              &copy; 2026 Sasya Marg. All Rights Reserved.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>`;
+};

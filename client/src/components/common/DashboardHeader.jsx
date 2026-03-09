@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/useAuthStore'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,15 +20,21 @@ import {
   Globe,
   Moon,
   Settings,
-  Plus
+  Plus,
+  Loader2,
+  Bell
 } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import { useTranslation } from 'react-i18next'
 import LanguageProvider from './LanguageProvider'
 import Logo from './Logo'
+import { useGetUnreadNotificationCount } from '@/hooks/notification.hooks'
 
 const DashboardHeader = () => {
   const { user, isAuthenticated, role } = useAuthStore()
+  const unreadCount = useGetUnreadNotificationCount(user._id)
+  const navigate = useNavigate()
+  const count = unreadCount?.data?.data
   const { t } = useTranslation()
   const location = useLocation()
 
@@ -90,65 +96,101 @@ const DashboardHeader = () => {
 
         <div className='flex items-center gap-6 z-10'>
           {isAuthenticated ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant='icon'
-                  className='group flex items-center gap-3 h-12 px-2 hover:bg-transparent cursor-pointer outline-none'
-                >
-                  <div className='relative'>
-                    <Avatar className='h-10 w-10 border-2 border-primary/20 transition-transform group-hover:scale-105'>
-                      <AvatarFallback className='bg-primary text-primary-foreground font-bold'>
-                        {user?.fullname?.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className='absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-background rounded-full' />
-                  </div>
-                </Button>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent
-                align='end'
-                className='w-72 p-3 rounded-2xl shadow-2xl border-muted/50'
-                sideOffset={12}
+            <>
+              <Button
+                onClick={() => navigate(`/${role}/notification`)}
+                variant='ghost'
+                size='icon'
+                className='relative h-9 w-9 hover:bg-secondary transition cursor-pointer border rounded-full hidden xl:flex'
               >
-                <DropdownMenuLabel className='px-3 py-4'>
-                  <div className='flex items-center gap-3'>
-                    <Avatar className='h-12 w-12'>
-                      <AvatarFallback className='bg-secondary text-secondary-foreground font-bold text-lg'>
-                        {user?.fullname?.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className='flex flex-col gap-1'>
-                      <p className='text-base font-bold truncate max-w-40'>
-                        {user.fullname}
-                      </p>
-                      {user.email ? (
-                        <p className='text-xs text-muted-foreground truncate max-w-40'>
-                          {user.email}
-                        </p>
-                      ) : (
-                        <Link to={`/${role}`}>
-                          <Button
-                            variant='secondary'
-                            size='sm'
-                            className='h-7 px-2 text-[10px] font-bold uppercase tracking-wider gap-1 rounded-lg hover:bg-primary hover:text-primary-foreground transition-all'
-                          >
-                            <Plus size={12} /> Add Email
-                          </Button>
-                        </Link>
-                      )}
+                <Bell className='w-6 h-6' />
+                <span className='absolute -top-1 -right-1 flex items-center justify-center min-w-4 h-4 text-[10px] font-bold bg-destructive text-white rounded-full px-1'>
+                  {unreadCount.isLoading ? (
+                    <Loader2 className='animate-spin w-3 h-3' />
+                  ) : (
+                    count
+                  )}
+                </span>
+              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant='icon'
+                    className='group flex items-center gap-3 h-12 px-2 hover:bg-transparent cursor-pointer outline-none'
+                  >
+                    <div className='relative'>
+                      <Avatar className='h-10 w-10 border-2 border-primary/20 transition-transform group-hover:scale-105'>
+                        <AvatarFallback className='bg-primary text-primary-foreground font-bold'>
+                          {user?.fullname?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className='absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-background rounded-full' />
                     </div>
-                  </div>
-                </DropdownMenuLabel>
+                  </Button>
+                </DropdownMenuTrigger>
 
-                <DropdownMenuSeparator className='my-2 xl:hidden' />
+                <DropdownMenuContent
+                  align='end'
+                  className='w-72 p-3 rounded-2xl shadow-2xl border-muted/50'
+                  sideOffset={12}
+                >
+                  <DropdownMenuLabel className='px-3 py-4'>
+                    <div className='flex items-center gap-3'>
+                      <Avatar className='h-12 w-12'>
+                        <AvatarFallback className='bg-secondary text-secondary-foreground font-bold text-lg'>
+                          {user?.fullname?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
 
-                <DropdownMenuGroup className='space-y-1 xl:hidden'>
-                  {isAuthenticated &&
-                    links.map(link => {
+                      <div className='flex flex-col gap-1'>
+                        <p className='text-base font-bold truncate max-w-40'>
+                          {user.fullname}
+                        </p>
+
+                        {user.email ? (
+                          <p className='text-xs text-muted-foreground truncate max-w-40'>
+                            {user.email}
+                          </p>
+                        ) : (
+                          <Link to={`/${role}`}>
+                            <Button
+                              variant='secondary'
+                              size='sm'
+                              className='h-7 px-2 text-[10px] font-bold uppercase tracking-wider gap-1 rounded-lg hover:bg-primary hover:text-primary-foreground transition-all'
+                            >
+                              <Plus size={12} /> Add Email
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </DropdownMenuLabel>
+
+                  <DropdownMenuSeparator className='my-2 xl:hidden' />
+
+                  <DropdownMenuItem
+                    onClick={() => navigate(`/${role}/notification`)}
+                    className='flex items-center gap-3 xl:hidden h-11 rounded-xl cursor-pointer'
+                  >
+                    <Bell size={18} />
+                    <span className='font-medium'>Notifications</span>
+                    <span className='ml-auto text-xs bg-destructive text-white px-2 py-0.5 rounded-full'>
+                      {unreadCount.isLoading ? (
+                        <Loader2 className='animate-spin w-3 h-3' />
+                      ) : (
+                        count
+                      )}
+                    </span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className='my-2 xl:hidden' />
+
+                  <DropdownMenuGroup className='space-y-1 xl:hidden'>
+                    {links.map(link => {
                       const Icon = link.icon
                       const active = location.pathname.startsWith(link.href)
+
                       return (
                         <Link
                           key={link.href}
@@ -165,53 +207,49 @@ const DashboardHeader = () => {
                         </Link>
                       )
                     })}
-                </DropdownMenuGroup>
+                  </DropdownMenuGroup>
 
-                <DropdownMenuSeparator className='my-2' />
-                <DropdownMenuGroup className='space-y-1'>
-                  <div className='flex items-center justify-between p-3 rounded-xl hover:bg-secondary transition-colors gap-5'>
-                    <div className='flex items-center gap-3 text-sm font-medium'>
-                      <Globe size={18} className='text-primary' />
-                      <span>Language</span>
+                  <DropdownMenuSeparator className='my-2' />
+
+                  <DropdownMenuGroup className='space-y-1'>
+                    <div className='flex items-center justify-between p-3 rounded-xl hover:bg-secondary transition-colors gap-5'>
+                      <div className='flex items-center gap-3 text-sm font-medium'>
+                        <Globe size={18} className='text-primary' />
+                        <span>Language</span>
+                      </div>
+                      <LanguageProvider />
                     </div>
-                    <LanguageProvider />
-                  </div>
-                  <div className='flex items-center justify-between p-3 rounded-xl hover:bg-secondary transition-colors'>
-                    <div className='flex items-center gap-3 text-sm font-medium'>
-                      <Moon size={18} className='text-primary' />
-                      <span>Appearance</span>
+
+                    <div className='flex items-center justify-between p-3 rounded-xl hover:bg-secondary transition-colors'>
+                      <div className='flex items-center gap-3 text-sm font-medium'>
+                        <Moon size={18} className='text-primary' />
+                        <span>Appearance</span>
+                      </div>
+                      <ThemeToggle />
                     </div>
-                    <ThemeToggle />
-                  </div>
-                </DropdownMenuGroup>
+                  </DropdownMenuGroup>
 
-                <DropdownMenuSeparator className='my-2' />
+                  <DropdownMenuSeparator className='my-2' />
 
-                <DropdownMenuGroup className='space-y-1'>
-                  <Link to={`/${role}`}>
-                    <DropdownMenuItem className='h-11 rounded-xl cursor-pointer flex items-center gap-3 focus:bg-secondary hover:text-primary'>
-                      <Settings size={18} className='text-muted-foreground' />
-                      <span className='font-medium hover:text-primary'>Account Settings</span>
-                    </DropdownMenuItem>
-                  </Link>
-                </DropdownMenuGroup>
-
-                {/* <DropdownMenuSeparator className='my-2' />
-
-                <DropdownMenuItem
-                  className='h-11 rounded-xl text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer flex items-center gap-3'
-                  onClick={() => logout()}
-                >
-                  <LogOut size={18} />
-                  <span className='font-bold'>Sign Out</span>
-                </DropdownMenuItem> */}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuGroup className='space-y-1'>
+                    <Link to={`/${role}`}>
+                      <DropdownMenuItem className='h-11 rounded-xl cursor-pointer flex items-center gap-3 focus:bg-secondary hover:text-primary'>
+                        <Settings size={18} className='text-muted-foreground' />
+                        <span className='font-medium hover:text-primary'>
+                          Account Settings
+                        </span>
+                      </DropdownMenuItem>
+                    </Link>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
             <div className='flex items-center gap-4'>
               <Button variant='ghost' className='font-semibold' asChild>
                 <Link to='/login'>Log in</Link>
               </Button>
+
               <Button
                 className='rounded-xl px-6 shadow-lg shadow-primary/25'
                 asChild

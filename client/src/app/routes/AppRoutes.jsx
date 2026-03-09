@@ -3,6 +3,10 @@ import ProtectedRoute from './ProtectedRoutes'
 import { Suspense, lazy } from 'react'
 import PageLoader from '@/components/common/PageLoader'
 
+const AdminNotificationPage = lazy(() =>
+  import('@/admin/pages/notification/NotificationPage')
+)
+
 const BuyerRegister = lazy(() => import('@/pages/buyerRegister/BuyerRegister'))
 const BuyerForgotPassword = lazy(() =>
   import('@/pages/buyerPasswordChange/BuyerForgotPassword')
@@ -141,6 +145,8 @@ const BuyerLogin = lazy(() => import('@/pages/buyerLogin/BuyerLogin'))
 const ComingSoon = lazy(() => import('@/pages/CommingSoon'))
 const BlockedUser = lazy(() => import('@/pages/BlockedUser'))
 const WishlistPage = lazy(() => import('@/pages/Wishlist/WishlistPage'))
+
+const Notification = lazy(() => import('@/pages/notification/NotificationPage'))
 
 const router = createBrowserRouter([
   {
@@ -314,7 +320,8 @@ const router = createBrowserRouter([
       { path: 'farmland', element: <Farmlands /> },
       { path: 'farmland/:farmlandId', element: <SingleFarmland /> },
       { path: 'farmland/add', element: <AddFarmlandPage /> },
-      { path: 'community', element: <ComingSoon /> }
+      { path: 'community', element: <ComingSoon /> },
+      { path: 'notification', element: <Notification /> }
     ]
   },
 
@@ -340,7 +347,8 @@ const router = createBrowserRouter([
         element: <PreHarvestProductPage />
       },
       { path: 'wishlist', element: <WishlistPage /> },
-      { path: 'disputes', element: <ResolutionCenter /> }
+      { path: 'disputes', element: <ResolutionCenter /> },
+      { path: 'notification', element: <Notification /> }
     ]
   },
 
@@ -482,6 +490,10 @@ const router = createBrowserRouter([
       {
         path: 'logs',
         element: <Logs />
+      },
+      {
+        path: 'notification',
+        element: <AdminNotificationPage />
       }
     ]
   },

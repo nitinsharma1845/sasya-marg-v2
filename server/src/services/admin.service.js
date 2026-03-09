@@ -17,6 +17,7 @@ import { verifyPassword } from "../utils/verifyPassword.js"
 import { verifyOtpService } from "./otp.service.js"
 import { sendEmail } from "./email.service.js"
 import { userBlockTemplate } from "./templates.service.js"
+import { createNotification } from "./notification.service.js"
 
 //InviteToken service
 
@@ -732,6 +733,22 @@ export const ModeratePreHarvestedListingService = async ({
     listing.rejectionReason = action === "rejected" ? reason : null
 
     await listing.save()
+
+    const isApproved = action === "approved"
+
+    await createNotification({
+        userId: listing.farmer,
+        role: "farmer",
+        type: isApproved ? "LISTING_APPROVED" : "LISTING_REJECTED",
+        title: isApproved ? "Listing Approved" : "Listing Rejected",
+        message: isApproved
+            ? `Your ${listing.title} pre-harvest listing has been approved.`
+            : `Your ${listing.title} pre-harvest listing has been rejected. Reason: ${reason}`,
+        entityId: listing._id,
+        entityType: "pre-harvest-listing",
+        redirectUrl: `/farmer/mandi/pre-harvested-product/${listing._id}`
+    })
+
     return listing
 }
 
@@ -775,6 +792,21 @@ export const ModerateProductListingService = async ({
     listing.rejectionReason = action === "rejected" ? reason : null
 
     await listing.save()
+
+    const isApproved = action === "approved"
+
+    await createNotification({
+        userId: listing.farmer,
+        role: "farmer",
+        type: isApproved ? "LISTING_APPROVED" : "LISTING_REJECTED",
+        title: isApproved ? "Listing Approved" : "Listing Rejected",
+        message: isApproved
+            ? `Your ${listing.title} pre-harvest listing has been approved.`
+            : `Your ${listing.title} pre-harvest listing has been rejected. Reason: ${reason}`,
+        entityId: listing._id,
+        entityType: "pre-harvest-listing",
+        redirectUrl: `/farmer/mandi/harvested-product/${listing._id}`
+    })
 
     return listing
 }
@@ -856,6 +888,7 @@ export const updateQueryService = async ({
     status,
     priority
 }) => {
+
     const query = await Query.findById(queryId)
     if (!query) throw new ApiError(404, "Query not found")
 
@@ -875,6 +908,24 @@ export const updateQueryService = async ({
     }
 
     await query.save()
+
+    if (reply) {
+        await createNotification({
+            userId: query.farmer,
+            role: "farmer",
+            type: "QUERY_REPLY",
+            title: "Admin replied to your query",
+            message: "You have received a response to your query.",
+            entityId: query._id,
+            entityType: "query",
+            redirectUrl: `/farmer/support`,
+            meta: {
+                queryTitle: query.subject,
+                priority: query.priority
+            }
+        })
+    }
+
     return query
 }
 
@@ -947,7 +998,7 @@ export const blockFarmerService = async ({ adminId, farmerId, reason }) => {
                 console.error("Background Email Error:", err.message);
             });
     }
-    
+
     return farmer
 }
 

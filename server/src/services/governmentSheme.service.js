@@ -2,6 +2,7 @@ import { GovernmentScheme } from "../models/governmentScheme.model.js"
 import { Farmer } from "../models/farmer.model.js"
 import { FarmLand } from "../models/farmLand.model.js"
 import mongoose from "mongoose"
+import { createBulkNotifications } from "./notification.service.js"
 
 
 const convertToAcre = (value, unit) => {
@@ -15,9 +16,24 @@ const convertToAcre = (value, unit) => {
     }
 }
 
-
 export const createSchemeService = async (payload) => {
-    return await GovernmentScheme.create(payload)
+
+    const scheme = await GovernmentScheme.create(payload)
+
+    const farmers = await Farmer.find({}, "_id")
+
+    await createBulkNotifications({
+        users: farmers,
+        role: "farmer",
+        type: "NEW_SCHEME",
+        title: "New Government Scheme",
+        message: `${scheme.title} scheme is now available for farmers.`,
+        entityId: scheme._id,
+        entityType: "scheme",
+        redirectUrl: `/farmer/schemes/${scheme._id}`
+    })
+
+    return scheme
 }
 
 export const getAllSchemesAdminService = async (query) => {
@@ -76,8 +92,6 @@ export const toggleSchemeService = async (id) => {
     return scheme
 }
 
-
-
 export const getSchemesForFarmerService = async ({ farmerId, farmLandId }) => {
 
     const farmer = await Farmer.findById(farmerId)
@@ -95,8 +109,6 @@ export const getSchemesForFarmerService = async ({ farmerId, farmLandId }) => {
 
     return await GovernmentScheme.find(filter).sort({ createdAt: -1 })
 }
-
-
 
 export const getAllSchemesFarmerService = async (query) => {
     const { page = 1, limit = 10, state, search, farmlandId } = query
@@ -182,7 +194,6 @@ export const getAllSchemesFarmerService = async (query) => {
         }
     }
 }
-
 
 export const getSingleSchemeService = async ({ schemeId, user }) => {
 

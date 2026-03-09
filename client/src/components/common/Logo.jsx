@@ -4,7 +4,7 @@ import logo from '@/assets/sasyamarg_logo.png'
 const Logo = ({ className }) => {
   return (
     <div className={`${className}`}>
-      <im
+      <img
         loading='lazy'
         decoding='async'
         src={logo}

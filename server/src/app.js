@@ -24,6 +24,8 @@ import { authRouter } from './routes/auth.routes.js';
 import { reportRouter } from './routes/productReport.route.js';
 import { activityLogger } from './middleware/logActivity.middleware.js';
 import { publicRoutes } from './routes/public.routes.js';
+import { notificationRoutes } from './routes/notification.routes.js';
+import { campaignRoutes } from './routes/emailCampaign.routes.js';
 
 
 
@@ -81,6 +83,7 @@ app.use('/api/v2/product/', productRouter)
 app.use('/api/v2/product/pre-harvest', preHarvestListingRoute)
 app.use('/api/v2/query', queryRoutes)
 app.use('/api/v2/product-report', reportRouter)
+app.use("/api/v2/notification", notificationRoutes)
 
 
 //Admin Routes
@@ -96,6 +99,9 @@ app.use("/api/v2", schemeRouter)
 
 //Public Routes
 app.use("/api/v2/public", publicRoutes)
+
+//Campaign
+app.use("/api/v2/campaign", campaignRoutes)
 
 
 

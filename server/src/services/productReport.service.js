@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import { ProductReport } from "../models/productReport.model.js"
 import { ApiError } from "../utils/apiError.js"
 import { uploadToCloudinary } from "../utils/upload.cloudinary.js"
+import { createNotification } from "./notification.service.js"
 
 
 export const createReport = async ({ buyerId, payload, files }) => {
@@ -102,13 +103,30 @@ export const getReportById = async (id) => {
 }
 
 export const replyReport = async ({ reportId, reply, adminId }) => {
-    const report = await ProductReport.findById(reportId)
 
+    const report = await ProductReport.findById(reportId)
     if (!report) throw new ApiError(404, "No report found")
 
     report.adminRemark = reply
     report.repliedBy = adminId
+    report.repliedAt = new Date()
     report.status = "reviewed"
+
     await report.save()
+
+    await createNotification({
+        userId: report.buyer,
+        role: "buyer",
+        type: "REPORT_REPLY",
+        title: "Report Reviewed",
+        message: "Admin has reviewed your report.",
+        entityId: report._id,
+        entityType: "report",
+        redirectUrl: `/buyer/disputes`,
+        meta: {
+            reportId: report._id
+        }
+    })
+
     return report
 }

@@ -9,7 +9,8 @@ import {
   Menu,
   X,
   Logs,
-  Moon
+  Moon,
+  BellPlus
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -46,6 +47,10 @@ const prefetchAllBuyer = createPrefetch(() =>
 
 const prefetchActivityLogs = createPrefetch(() =>
   import('@/admin/pages/Logs/Logs')
+)
+
+const prefetchNotification = createPrefetch(() =>
+  import('@/admin/pages/notification/NotificationPage')
 )
 
 export default function SuperAdminLayout () {
@@ -235,6 +240,13 @@ function SuperSidebarContent ({ onItemClick }) {
           label='Activity Logs'
           onClick={onItemClick}
           onMouseEnter={prefetchActivityLogs}
+        />
+        <NavItem
+          to='/super_admin/dashboard/notification'
+          icon={<BellPlus size={20} />}
+          label='Social'
+          onClick={onItemClick}
+          onMouseEnter={prefetchNotification}
         />
       </nav>
 
