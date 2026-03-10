@@ -1,7 +1,10 @@
 import { api } from "@/lib/axios";
 
-export const sendOtp = async ({ phone, purpose }) => {
-    const { data } = await api.post(`/otp/send?purpose=${purpose}`, { phone })
+export const sendOtp = async ({ phone, email, purpose }) => {
+    const payload = phone ? { phone } : { email }
+
+    const { data } = await api.post(`/otp/send?purpose=${purpose}`, payload)
+
     return data
 }
 

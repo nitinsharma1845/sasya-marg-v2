@@ -272,9 +272,17 @@ export const changePhoneNumberSchema = z.object({
 
 export const changeEmailSchema = z.object({
   body: z.object({
-    newEmail: z.email(),
-  })
-})
+    newEmail: z
+      .string()
+      .trim()
+      .email("Invalid email address"),
+
+    otp: z
+      .string()
+      .trim()
+      .length(6, "OTP must be 6 digits"),
+  }),
+});
 
 
 export const getAdminLogsSchema = z.object({

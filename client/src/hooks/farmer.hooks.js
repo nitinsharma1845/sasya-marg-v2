@@ -1,4 +1,4 @@
-import { addPreviousCrop, changeIsContactVisisble, createFarmland, farmerDashboard, fetchFarmer, fetchFarmlands, fetchSingleFarmland, getCropSuggestion, getFarmerDetails, getSingleSuggestion, getSuggestionHisory, toggleFarmActiveStatus, updateFarmerData, updateFarmland } from "@/api/farmer.api"
+import { addPreviousCrop, changeEmail, changeIsContactVisisble, createFarmland, farmerDashboard, fetchFarmer, fetchFarmlands, fetchSingleFarmland, getCropSuggestion, getFarmerDetails, getSingleSuggestion, getSuggestionHisory, toggleFarmActiveStatus, updateFarmerData, updateFarmland } from "@/api/farmer.api"
 import { queryClient } from "@/lib/queryClient"
 import { useAuthStore } from "@/store/useAuthStore"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -35,7 +35,30 @@ export const useUpdateFarmerData = () => {
             )
             queryClient.invalidateQueries(["farmer-profile"])
         },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to update farmland");
+        },
 
+    })
+}
+
+export const useChangeEmail = () => {
+    const { user, setUser } = useAuthStore()
+    return useMutation({
+        mutationFn: changeEmail,
+        onSuccess: (data) => {
+            const updatedEmail = data?.data?.email
+            setUser(
+                {
+                    ...user,
+                    email: updatedEmail
+                }
+            )
+            queryClient.invalidateQueries(["farmer-profile"])
+        },
+        onError: (error) => {
+            toast.error(error.response?.data?.message || "Failed to update farmland");
+        },
     })
 }
 

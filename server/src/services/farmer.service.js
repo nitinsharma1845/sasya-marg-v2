@@ -172,6 +172,24 @@ export const changeFarmerDataService = async ({ fullname, email, _id }) => {
     return farmer
 }
 
+export const changeEmailService = async ({ email, otp, farmerId }) => {
+    const farmer = await Farmer.findById(farmerId)
+    const [existBuyer, existFarmer, existAdmin] = await Promise.all([
+        Buyer.findOne({ email }),
+        Farmer.findOne({ email }),
+        Admin.findOne({ email })
+    ])
+
+    if (existBuyer || existFarmer || existAdmin) {
+        throw new ApiError(402, "Email is already in use")
+    }
+
+    farmer.email = email
+    await farmer.save()
+
+    return farmer
+}
+
 
 export const farmerDashboardService = async (farmerId) => {
     const farmerObjectId = new mongoose.Types.ObjectId(farmerId)

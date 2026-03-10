@@ -5,10 +5,10 @@ import { sendOtpService } from '../services/otp.service.js'
 
 export const sendOtp = asyncHandler(async (req, res) => {
     const { purpose } = req.query
-    const { phone } = req.body
+    const { phone, email } = req.body
 
-    await sendOtpService({ phone, purpose })
+    await sendOtpService({ phone, email, purpose })
 
-    return res.status(200).json(new ApiResponse(200, null, "Otp sent successfully"))
+    return res.status(201).json(new ApiResponse(200, null, "Otp sent successfully"))
 
 })

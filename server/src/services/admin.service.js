@@ -1708,18 +1708,20 @@ export const changePhoneNumber = async ({ adminId, newPhone, otp, purpose }) => 
     return admin
 }
 
-export const changeEmailService = async ({ adminId, newEmail }) => {
+export const changeEmailService = async ({ adminId, newEmail, otp }) => {
     const admin = await Admin.findById(adminId)
 
     if (!admin) throw new ApiError(404, "Admin not found!")
 
     const [farmerExists, buyerExists, adminExists] = await Promise.all([
-        Farmer.findOne({ phone: newEmail }),
-        Buyer.findOne({ phone: newEmail }),
-        Admin.findOne({ phone: newEmail })
+        Farmer.findOne({ email: newEmail }),
+        Buyer.findOne({ email: newEmail }),
+        Admin.findOne({ email: newEmail })
     ])
 
     if (farmerExists || buyerExists || adminExists) throw new ApiError(402, "Email already in use")
+
+    await verifyOtpService({ email: newEmail, otp, purpose: "email_verification" })
 
     admin.email = newEmail
     await admin.save()

@@ -7,7 +7,7 @@ import { Mail, Send, Users, CheckCircle2, Clock, Plus } from 'lucide-react'
 import { useGetCampaign } from '@/admin/hooks/emailCampaign.hooks'
 import { format } from 'date-fns'
 import PaginationComp from '@/admin/components/Pagination'
-import CreateCampaignDialog from './createCampaignDialog'
+import CreateCampaignDialog from './CreateAnnouncementDialog'
 
 const Campaign = () => {
   const [open, setOpen] = useState(false)

@@ -567,9 +567,9 @@ export const changePhone = asyncHandler(async (req, res) => {
 
 export const changeEmail = asyncHandler(async (req, res) => {
     const adminId = req.user._id
-    const { newEmail } = req.body
+    const { newEmail, otp } = req.body
 
-    const admin = await changeEmailService({ adminId, newEmail })
+    const admin = await changeEmailService({ adminId, newEmail, otp })
 
     req.activityLog = {
         userId: req.user._id,

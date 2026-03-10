@@ -1,6 +1,6 @@
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/apiResponse.js'
-import { changeFarmerDataService, changePasswordService, currentUserService, farmerDashboardService, forgotPasswordService, loginFarmerUsingOtpService, loginFarmerUsingPasswordService, registerFarmerService, toggleContactInfoService } from '../services/farmer.service.js'
+import { changeEmailService, changeFarmerDataService, changePasswordService, currentUserService, farmerDashboardService, forgotPasswordService, loginFarmerUsingOtpService, loginFarmerUsingPasswordService, registerFarmerService, toggleContactInfoService } from '../services/farmer.service.js'
 
 
 
@@ -166,7 +166,7 @@ export const changeFarmerData = asyncHandler(async (req, res) => {
     const farmer = await changeFarmerDataService({ _id, fullname, email })
 
     req.activityLog = {
-        userId : _id,
+        userId: _id,
         role: "farmer",
         action: "UPDATE_PROFILE",
         message: "Profile updation request from farmer.",
@@ -178,6 +178,26 @@ export const changeFarmerData = asyncHandler(async (req, res) => {
     }
 
     return res.status(200).json(new ApiResponse(200, farmer, "Data changed successfully"))
+})
+
+export const changeEmail = asyncHandler(async (req, res) => {
+    const farmerId = req.user._id
+    const { email, otp } = req.body
+
+    const farmer = await changeEmailService({ email, otp, farmerId })
+
+    req.activityLog = {
+        userId: _id,
+        role: "farmer",
+        action: "UPDATE_PROFILE",
+        message: "Profile updation request from farmer.",
+        metadata: {
+            id: farmer._id,
+            email: farmer.email,
+            fullname: farmer.fullname
+        }
+    }
+    return res.status(200).json(new ApiResponse(200, farmer, "Email changed successfully"))
 })
 
 export const currentUser = asyncHandler(async (req, res) => {

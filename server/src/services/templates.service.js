@@ -578,3 +578,79 @@ export const campaignEmailTemplate = ({ userName, title, message, subject, redir
 </body>
 </html>`;
 };
+
+export const otpVerificationTemplate = ({ userName, otpCode, expireMinutes = 10 }) => {
+  const colors = {
+    background: "#fafaf9", // Pale Cream
+    foreground: "#364219", // Deep Moss
+    primary: "#5c6f2b",    // Olive
+    accent: "#eab308",     // Sun Yellow
+    muted: "#6b7750",      // Lighter Moss
+    border: "#d6dbc8",     // Soft border
+    white: "#ffffff"
+  };
+
+  const logoUrl = "https://res.cloudinary.com/dq0ltmja4/image/upload/v1772435826/sasyamarg_logo_wtzjzu.png";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Your Account - Sasya Marg</title>
+</head>
+<body style="margin:0; padding:0; background-color:${colors.background}; font-family: 'Inter', -apple-system, sans-serif; color: ${colors.foreground};">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${colors.background}; padding: 40px 10px;">
+  <tr>
+    <td align="center">
+      <table width="500" cellpadding="0" cellspacing="0" border="0" style="background:${colors.white}; border: 1px solid ${colors.border}; border-radius:16px; overflow:hidden; box-shadow: 0 10px 25px rgba(54,66,25,0.08);">
+        
+        <tr>
+          <td align="center" style="padding: 40px 20px 20px 20px;">
+            <img src="${logoUrl}" alt="Sasya Marg Logo" width="160" style="display: block;">
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 20px 40px 40px 40px; text-align: center;">
+            <h1 style="margin:0 0 15px 0; font-size:24px; color:${colors.foreground};">Verify Your Email</h1>
+            <p style="margin:0 0 30px 0; font-size:15px; color:${colors.muted}; line-height:1.5;">
+              Hello ${userName || 'User'},<br>
+              Use the verification code below to complete your registration or login process.
+            </p>
+
+            <div style="background-color: ${colors.background}; border: 2px dashed ${colors.primary}; padding: 25px; border-radius: 12px; margin-bottom: 30px;">
+              <span style="font-size: 36px; font-weight: 800; letter-spacing: 10px; color: ${colors.primary}; display: block;">
+                ${otpCode}
+              </span>
+            </div>
+
+            <p style="margin:0 0 20px 0; font-size:13px; color:${colors.muted};">
+              This code is valid for <strong>${expireMinutes} minutes</strong>. <br>
+              If you didn't request this code, you can safely ignore this email.
+            </p>
+
+            <div style="border-top: 1px solid ${colors.border}; margin-top: 30px; padding-top: 20px;">
+              <p style="margin:0; font-size:12px; color:${colors.muted}; italic">
+                Secure Verification Powered by Sasya Marg AI
+              </p>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="background-color: ${colors.foreground}; padding: 20px;">
+            <p style="margin:0; font-size:11px; color:${colors.white}; opacity: 0.7;">
+              &copy; 2026 Sasya Marg. All Rights Reserved.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>`;
+};

@@ -23,13 +23,22 @@ const nameSchema = z
 
 export const sendOtpSchema = z.object({
     query: z.object({
-        purpose: z.enum(["login", "register", "forgot_password"], {
-            errorMap: () => ({ message: "Purpose must be login, register, or forgot_password" }),
+        purpose: z.enum(["login", "register", "forgot_password", "email_verification"], {
+            errorMap: () => ({ message: "Purpose must be login, register, forgot_password and email_verification" }),
         }),
     }),
 
     body: z.object({
-        phone: phoneSchema,
+        phone: z
+            .string()
+            .trim()
+            .regex(/^[6-9]\d{9}$/, "Phone number must be a valid 10-digit Indian mobile number")
+            .optional(),
+        email: z
+            .string()
+            .trim()
+            .email("Invalid email")
+            .optional(),
     }),
 });
 
@@ -85,5 +94,19 @@ export const changeFarmerDataSchema = z.object({
             .transform((email) => email.toLowerCase()),
 
         fullname: nameSchema,
+    }),
+});
+
+export const changeEmailSchema = z.object({
+    body: z.object({
+        email: z
+            .string()
+            .trim()
+            .email("Invalid email address"),
+
+        otp: z
+            .string()
+            .trim()
+            .length(6, "OTP must be 6 digits"),
     }),
 });

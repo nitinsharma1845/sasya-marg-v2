@@ -70,3 +70,8 @@ export const fetchFarmer = async () => {
     const { data } = await api.get("/farmer/me")
     return data
 }
+
+export const changeEmail = async (payload) => {
+    const { data } = await api.put("/farmer/change/email", payload)
+    return data
+}

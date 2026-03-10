@@ -8,7 +8,6 @@ import {
   Phone,
   ShieldCheck,
   Calendar,
-  Camera,
   CheckCircle2,
   Eye,
   EyeOff,
@@ -29,6 +28,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { format } from 'date-fns'
+import ChangeEmail from './components/ChangeEmailDialog'
 
 const Profile = () => {
   const setUser = useAuthStore(s => s.setUser)
@@ -50,7 +50,6 @@ const Profile = () => {
     if (data?.data) {
       const user = data.data
       setValue('phone', user.phone)
-      setValue('email', user.email)
       setValue('fullname', user.fullname)
       setContactVisible(user.isContactVisible)
     }
@@ -77,16 +76,15 @@ const Profile = () => {
     )
   }
 
-  const onUpdate = payload => {
+  const onUpdateName = payload => {
     changeData(payload, {
       onSuccess: res => {
         const currentUser = useAuthStore.getState().user
         setUser({
           ...currentUser,
-          email: res.data.email,
           fullname: res.data.fullname
         })
-        toast.success('Profile updated successfully')
+        toast.success('Name updated successfully')
       },
       onError: error => {
         toast.error(error.response?.data?.message || 'Update failed')
@@ -97,7 +95,6 @@ const Profile = () => {
   return (
     <div className='min-h-screen bg-background p-4 md:p-8 lg:p-12'>
       <div className='max-w-5xl mx-auto space-y-8'>
-        {/* Header Section */}
         <div className='relative group overflow-hidden rounded-3xl bg-card border shadow-sm p-6 md:p-10'>
           <div className='absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity'>
             <ShieldCheck className='w-32 h-32 text-primary' />
@@ -148,28 +145,22 @@ const Profile = () => {
         </div>
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-          {/* Main Info Card */}
           <Card className='lg:col-span-2 border-none shadow-none bg-transparent'>
             <CardHeader className='px-0'>
-              <CardTitle className='text-xl font-bold flex items-center gap-2'>
+              <CardTitle className='text-xl font-bold'>
                 Personal Information
               </CardTitle>
             </CardHeader>
-            <CardContent className='px-0'>
+
+            <CardContent className='px-0 space-y-6'>
               {isLoading ? (
                 <div className='space-y-6'>
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                    <Skeleton className='h-20 bg-secondary rounded-xl' />
-                    <Skeleton className='h-20 bg-secondary rounded-xl' />
-                  </div>
                   <Skeleton className='h-20 bg-secondary rounded-xl' />
-                  <Skeleton className='h-12 w-40 bg-secondary rounded-xl' />
+                  <Skeleton className='h-20 bg-secondary rounded-xl' />
+                  <Skeleton className='h-20 bg-secondary rounded-xl' />
                 </div>
               ) : (
-                <form
-                  onSubmit={handleSubmit(onUpdate)}
-                  className='grid grid-cols-1 md:grid-cols-2 gap-6'
-                >
+                <>
                   <div className='space-y-2'>
                     <label className='text-xs font-black uppercase tracking-widest text-muted-foreground ml-1'>
                       Full Name
@@ -177,7 +168,7 @@ const Profile = () => {
                     <div className='relative'>
                       <User className='absolute left-3 top-3 w-4 h-4 text-muted-foreground' />
                       <Input
-                        className='pl-10 h-12 bg-card border-border/50 focus-visible:ring-primary transition-all'
+                        className='pl-10 h-12 bg-card border-border/50 focus-visible:ring-primary'
                         {...register('fullname', {
                           required: 'Name is required',
                           minLength: 3
@@ -189,61 +180,59 @@ const Profile = () => {
                         {errors.fullname.message}
                       </span>
                     )}
+                    <Button
+                      onClick={handleSubmit(onUpdateName)}
+                      className='mt-2 h-11 px-8 bg-primary w-35'
+                      disabled={!isDirty || changingData}
+                    >
+                      {changingData ? (
+                        <Loader2 className='w-4 h-4 animate-spin' />
+                      ) : (
+                        'Update Name'
+                      )}
+                    </Button>
                   </div>
 
                   <div className='space-y-2'>
                     <label className='text-xs font-black uppercase tracking-widest text-muted-foreground ml-1'>
                       Email Address
                     </label>
-                    <div className='relative'>
-                      <Mail className='absolute left-3 top-3 w-4 h-4 text-muted-foreground' />
-                      <Input
-                        type='email'
-                        className='pl-10 h-12 bg-card border-border/50 focus-visible:ring-primary transition-all'
-                        {...register('email')}
-                      />
+
+                    <div className='flex gap-2'>
+                      <div className='relative flex-1'>
+                        <Mail className='absolute left-3 top-3 w-4 h-4 text-muted-foreground' />
+                        <Input
+                          disabled
+                          value={farmer?.email || ''}
+                          className='pl-10 h-12 bg-muted border-border'
+                        />
+                      </div>
+                      <ChangeEmail />
                     </div>
                   </div>
 
-                  <div className='space-y-2 md:col-span-2'>
+                  <div className='space-y-2'>
                     <label className='text-xs font-black uppercase tracking-widest text-muted-foreground ml-1'>
                       Phone Number
                     </label>
+
                     <div className='relative'>
                       <Phone className='absolute left-3 top-3 w-4 h-4 text-muted-foreground' />
                       <Input
                         className='pl-10 h-12 bg-muted/50 border-none cursor-not-allowed font-mono'
-                        {...register('phone')}
+                        value={farmer?.phone || ''}
                         disabled
                       />
                       <div className='absolute right-3 top-3'>
                         <CheckCircle2 className='w-5 h-5 text-chart-1' />
                       </div>
                     </div>
-                    <p className='text-[10px] text-muted-foreground italic mt-1'>
-                      * Phone number is verified and linked to your identity.
-                    </p>
                   </div>
-
-                  <div className='md:col-span-2 pt-4'>
-                    <Button
-                      type='submit'
-                      className='md:w-xs w-full px-12 h-12 rounded-xl bg-primary text-white font-bold transition-all active:scale-95 shadow-lg shadow-primary/20'
-                      disabled={!isDirty || changingData}
-                    >
-                      {changingData ? (
-                        <Loader2 className='w-5 h-5 animate-spin' />
-                      ) : (
-                        'Update Profile'
-                      )}
-                    </Button>
-                  </div>
-                </form>
+                </>
               )}
             </CardContent>
           </Card>
 
-          {/* Sidebar Bento */}
           <div className='space-y-6'>
             {isLoading ? (
               <>
@@ -260,17 +249,20 @@ const Profile = () => {
                       <EyeOff className='w-5 h-5 text-muted-foreground' />
                     )}
                   </div>
+
                   <CardHeader className='pb-2'>
                     <CardTitle className='text-sm font-black uppercase tracking-tighter'>
                       Market Presence
                     </CardTitle>
                   </CardHeader>
+
                   <CardContent className='space-y-4'>
                     <div className='flex items-center justify-between gap-4'>
                       <p className='text-xs text-muted-foreground leading-relaxed'>
                         Toggle visibility to allow buyers to contact you
                         directly for listings.
                       </p>
+
                       <Switch
                         checked={contactVisible}
                         onCheckedChange={handleToggle}
@@ -278,6 +270,7 @@ const Profile = () => {
                         className='data-[state=checked]:bg-primary'
                       />
                     </div>
+
                     <div className='bg-background/60 rounded-xl p-3 border border-border/50'>
                       <p className='text-[10px] font-bold text-foreground'>
                         Status:{' '}
@@ -293,6 +286,7 @@ const Profile = () => {
                       Account Status
                     </CardTitle>
                   </CardHeader>
+
                   <CardContent className='space-y-3'>
                     <div className='flex items-center justify-between text-sm'>
                       <span className='text-muted-foreground'>
@@ -303,7 +297,9 @@ const Profile = () => {
                         Online
                       </span>
                     </div>
+
                     <Separator className='bg-border/50' />
+
                     <div className='flex items-center justify-between text-sm'>
                       <span className='text-muted-foreground'>
                         Profile Health
