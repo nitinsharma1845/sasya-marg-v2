@@ -4,30 +4,43 @@ import { verifyOtpService } from "./otp.service.js"
 import { generateToken } from '../utils/generateToken.js'
 import { verifyPassword } from '../utils/verifyPassword.js'
 import { Farmer } from "../models/farmer.model.js"
+import { Admin } from "../models/admin.model.js"
 import { WishList } from '../models/wishList.model.js'
 import { Product } from "../models/product.model.js"
 import mongoose from 'mongoose'
 
-export const registerBuyerService = async ({ fullname, phone, otp, password, email }) => {
-    const existing = await Buyer.findOne({ phone })
+export const registerBuyerService = async ({ fullname, phone, otp, password, email, emailOtp }) => {
 
-    const farmerExists = await Farmer.findOne({
-        $or: [
-            { phone },
-            ...(email ? [{ email: email.toLowerCase() }] : [])
-        ]
-    })
+    const [farmerExists, buyerExists, adminExists] = await Promise.all([
+        Farmer.findOne({
+            $or: [
+                { phone },
+                ...(email ? [{ email: email.toLowerCase() }] : [])
+            ]
+        }),
+        Buyer.findOne({
+            $or: [
+                { phone },
+                ...(email ? [{ email: email.toLowerCase() }] : [])
+            ]
+        }),
+        Admin.findOne({
+            $or: [
+                { phone },
+                ...(email ? [{ email: email.toLowerCase() }] : [])
+            ]
+        })
+    ])
 
-    if (farmerExists) {
+    if (farmerExists || buyerExists || adminExists) {
         throw new ApiError(
             403,
-            "This number is already registered as a Farmer"
+            "This number or Email is already in use"
         )
     }
 
-    if (existing) throw new ApiError(409, "Buyer already registered")
-
     await verifyOtpService({ phone, otp, purpose: "register", })
+    await verifyOtpService({ email, otp: emailOtp, purpose: "email_verification", })
 
     const buyer = await Buyer.create({
         fullname,

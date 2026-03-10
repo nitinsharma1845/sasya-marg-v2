@@ -21,9 +21,14 @@ const BuyerRegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
-  const [timer, setTimer] = useState(0)
+  const [emailOtpSent, setEmailOtpSent] = useState(false)
+  const [phoneTimer, setPhoneTimer] = useState(0)
+  const [emailTimer, setEmailTimer] = useState(0)
 
-  const { mutate: sendOtp, isPending: isSending } = useSendOtp()
+  const { mutate: sendPhoneOtp, isPending: isSendingPhone } = useSendOtp()
+
+  const { mutate: sendEmailOtp, isPending: isSendingEmail } = useSendOtp()
+
   const { mutate: registerUser, isPending: isRegistering } = useRegisterBuyer()
 
   const {
@@ -35,14 +40,20 @@ const BuyerRegisterForm = () => {
   } = useForm({ mode: 'onChange' })
 
   useEffect(() => {
-    let interval
-    if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer(prev => prev - 1)
-      }, 1000)
-    }
+    if (phoneTimer === 0) return
+    const interval = setInterval(() => {
+      setPhoneTimer(prev => prev - 1)
+    }, 1000)
     return () => clearInterval(interval)
-  }, [timer])
+  }, [phoneTimer])
+
+  useEffect(() => {
+    if (emailTimer === 0) return
+    const interval = setInterval(() => {
+      setEmailTimer(prev => prev - 1)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [emailTimer])
 
   const formatTime = seconds => {
     const mins = Math.floor(seconds / 60)
@@ -54,12 +65,28 @@ const BuyerRegisterForm = () => {
     const isPhoneValid = await trigger('phone')
     if (isPhoneValid) {
       const phone = getValues('phone')
-      sendOtp(
+      sendPhoneOtp(
         { phone, purpose: 'register' },
         {
           onSuccess: () => {
             setOtpSent(true)
-            setTimer(120)
+            setPhoneTimer(120)
+          }
+        }
+      )
+    }
+  }
+
+  const handleSendEmailOtp = async () => {
+    const isEmailValid = await trigger('email')
+    if (isEmailValid) {
+      const email = getValues('email')
+      sendEmailOtp(
+        { email, purpose: 'email_verification' },
+        {
+          onSuccess: () => {
+            setEmailOtpSent(true)
+            setEmailTimer(120)
           }
         }
       )
@@ -72,7 +99,8 @@ const BuyerRegisterForm = () => {
       phone: data.phone,
       otp: data.otp,
       password: data.password,
-      email: data.email
+      email: data.email,
+      emailOtp: data.emailOtp
     }
     registerUser(payload)
   }
@@ -114,23 +142,69 @@ const BuyerRegisterForm = () => {
           <div className='relative'>
             <Mail className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
             <Input
+              placeholder='Email'
               type='email'
-              placeholder='Email Address'
-              className={`pl-10 h-11 ${
+              className={`pl-10 pr-24 h-11 ${
                 errors.email ? 'border-destructive' : ''
               }`}
               {...register('email', {
-                required: 'Email is required',
+                required: 'email is required',
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                   message: 'Enter a valid email address'
                 }
               })}
             />
+            <div className='absolute right-2 top-1/2 -translate-y-1/2'>
+              {!emailOtpSent || emailTimer === 0 ? (
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='sm'
+                  className='h-8 text-primary font-bold hover:bg-primary/5'
+                  onClick={handleSendEmailOtp}
+                  disabled={isSendingEmail}
+                >
+                  {isSendingEmail ? (
+                    <Loader2 className='h-3 w-3 animate-spin' />
+                  ) : emailOtpSent ? (
+                    'Resend'
+                  ) : (
+                    'Get OTP'
+                  )}
+                </Button>
+              ) : (
+                <span className='text-xs font-mono text-muted-foreground pr-2'>
+                  {formatTime(emailTimer)}
+                </span>
+              )}
+            </div>
           </div>
           {errors.email && (
             <p className='text-[11px] text-destructive ml-1'>
               {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        <div className='space-y-1'>
+          <div className='relative'>
+            <ShieldCheck className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+            <Input
+              disabled={!emailOtpSent}
+              placeholder='6-digit OTP'
+              className={`pl-10 h-11 tracking-widest ${
+                errors.emailOtp ? 'border-destructive' : ''
+              }`}
+              {...register('emailOtp', {
+                required: 'OTP is required',
+                minLength: { value: 6, message: 'Must be 6 digits' }
+              })}
+            />
+          </div>
+          {errors.emailOtp && (
+            <p className='text-[11px] text-destructive ml-1'>
+              {errors.emailOtp.message}
             </p>
           )}
         </div>
@@ -153,16 +227,16 @@ const BuyerRegisterForm = () => {
               })}
             />
             <div className='absolute right-2 top-1/2 -translate-y-1/2'>
-              {!otpSent || timer === 0 ? (
+              {!otpSent || phoneTimer === 0 ? (
                 <Button
                   type='button'
                   variant='ghost'
                   size='sm'
                   className='h-8 text-primary font-bold hover:bg-primary/5'
                   onClick={handleSendOtp}
-                  disabled={isSending}
+                  disabled={isSendingPhone}
                 >
-                  {isSending ? (
+                  {isSendingPhone ? (
                     <Loader2 className='h-3 w-3 animate-spin' />
                   ) : otpSent ? (
                     'Resend'
@@ -172,7 +246,7 @@ const BuyerRegisterForm = () => {
                 </Button>
               ) : (
                 <span className='text-xs font-mono text-muted-foreground pr-2'>
-                  {formatTime(timer)}
+                  {formatTime(phoneTimer)}
                 </span>
               )}
             </div>

@@ -1,7 +1,6 @@
-import { config } from 'dotenv'
+import "dotenv/config"
 import { app } from './app.js'
 import { connect } from './config/dbConnection.js'
-config()
 import "./utils/createTempDir.js"
 const port = process.env.PORT || 3000
 

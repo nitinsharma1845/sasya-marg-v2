@@ -7,9 +7,9 @@ import { getProductListingService } from '../services/product.service.js'
 
 
 export const registerBuyer = asyncHandler(async (req, res) => {
-    const { fullname, phone, otp, password, email } = req.body
+    const { fullname, phone, otp, password, email, emailOtp } = req.body
 
-    const { buyer, token } = await registerBuyerService({ fullname, phone, otp, password, email })
+    const { buyer, token } = await registerBuyerService({ fullname, phone, otp, password, email , emailOtp})
 
     req.activityLog = {
         userId: buyer._id,

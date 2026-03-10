@@ -6,9 +6,10 @@ export const registerBuyerSchema = z.object({
     phone: z
       .string()
       .regex(/^[6-9]\d{9}$/, "Invalid phone number"),
-    otp: z.string().length(6, "OTP must be 6 digits"),
+    otp: z.string().length(6, "Phone verification code must be 6 digits"),
     password: z.string().min(6, "Password must be at least 6 characters"),
-    email: z.string().email().optional()
+    email: z.string().email().optional(),
+    emailOtp: z.string().length(6, "Email verification code must be 6 digits"),
   })
 })
 

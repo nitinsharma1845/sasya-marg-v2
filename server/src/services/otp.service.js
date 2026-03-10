@@ -4,6 +4,7 @@ import { ApiError } from "../utils/apiError.js"
 import twilio from "twilio"
 import { sendEmail } from "./email.service.js";
 import { otpVerificationTemplate } from "./templates.service.js";
+import twilioClient from "../utils/twillioClient.js";
 
 const generateOtp = (length = 6) => {
   const digits = "0123456789";
@@ -69,7 +70,7 @@ export const sendOtpService = async ({ phone, email, purpose }) => {
 
   await twilioClient.messages.create({
     body: `Your 6 digit verification code for ${purpose} is: ${otp}`,
-    messagingServiceSid: process.env.TWILIO_MESSAGING_SID,
+    messagingServiceSid: process.env.TWILIO_MESSEGING_SID,
     to: formattedPhone
   })
 
