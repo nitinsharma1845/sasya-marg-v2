@@ -22,15 +22,25 @@ export const registerFarmerService = async ({ fullname, phone, otp, password }) 
 
     await verifyOtpService({ phone, otp, purpose: "register" })
 
-    const farmer = await Farmer.create({
+    const farmerDoc = await Farmer.create({
         fullname,
         phone,
         password,
         isVarified: true,
-        role: "farmer"
+        role: "farmer",
     })
 
-    const token = generateToken({ _id: farmer._id, role: "farmer", isActive: farmer.isActive })
+    const token = generateToken({ _id: farmerDoc._id, role: "farmer", isActive: farmerDoc.isActive })
+
+    const farmer = {
+        fullname: farmerDoc.fullname,
+        email: farmerDoc.email,
+        role: farmerDoc.role,
+        phone: farmerDoc.phone,
+        _id: farmerDoc._id,
+        token: token
+
+    }
 
     return { farmer, token }
 }
@@ -49,7 +59,8 @@ export const loginFarmerUsingOtpService = async ({ phone, otp }) => {
         email: farmerDoc.email,
         role: farmerDoc.role,
         phone: farmerDoc.phone,
-        _id: farmerDoc._id
+        _id: farmerDoc._id,
+        token: token
 
     }
 
@@ -74,7 +85,8 @@ export const loginFarmerUsingPasswordService = async ({ phone, password }) => {
         email: farmerDoc.email,
         role: farmerDoc.role,
         phone: farmerDoc.phone,
-        _id: farmerDoc._id
+        _id: farmerDoc._id,
+        token: token
 
     }
 
