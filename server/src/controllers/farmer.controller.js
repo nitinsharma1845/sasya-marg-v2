@@ -162,8 +162,8 @@ export const toggleIsContactVisible = asyncHandler(async (req, res) => {
 
 export const changeFarmerData = asyncHandler(async (req, res) => {
     const _id = req.user._id
-    const { fullname, email } = req.body
-    const farmer = await changeFarmerDataService({ _id, fullname, email })
+    const { fullname } = req.body
+    const farmer = await changeFarmerDataService({ _id, fullname })
 
     req.activityLog = {
         userId: _id,

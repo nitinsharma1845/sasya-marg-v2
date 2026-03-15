@@ -87,12 +87,6 @@ export const changePasswordSchema = z
 
 export const changeFarmerDataSchema = z.object({
     body: z.object({
-        email: z
-            .string()
-            .trim()
-            .email("Please enter a valid email address")
-            .transform((email) => email.toLowerCase()),
-
         fullname: nameSchema,
     }),
 });

@@ -161,19 +161,10 @@ export const toggleContactInfoService = async ({ _id }) => {
 
 }
 
-export const changeFarmerDataService = async ({ fullname, email, _id }) => {
-    const existEmailFarmer = await Farmer.findOne({
-        email,
-        _id: { $ne: _id }
-    })
-
-    if (existEmailFarmer) {
-        throw new ApiError(409, "Email is already in use")
-    }
-
+export const changeFarmerDataService = async ({ fullname, _id }) => {
     const farmer = await Farmer.findByIdAndUpdate(
         _id,
-        { fullname, email },
+        { fullname },
         { new: true }
     )
 
