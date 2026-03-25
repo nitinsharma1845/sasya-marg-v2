@@ -35,7 +35,7 @@ const Invites = () => {
 
   const handleCopy = token => {
     navigator.clipboard.writeText(
-      'http://localhost:5173/admin/signup?token=' + token
+      'https://sasya-marg-v2.vercel.app/admin/signup?token=' + token
     )
     toast.success('Invite link copied!')
   }
